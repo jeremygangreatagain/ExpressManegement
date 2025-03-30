@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("store")
 public class Store {
-  @TableId(type = IdType.ASSIGN_ID)
+  @TableId(type = IdType.AUTO)
   private Long id;
 
   private String name; // 快递点名称

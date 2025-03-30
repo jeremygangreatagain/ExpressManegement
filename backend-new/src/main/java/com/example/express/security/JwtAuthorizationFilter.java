@@ -20,21 +20,24 @@ import java.util.Collection;
  * JWT授权过滤器，验证请求中的JWT令牌并设置安全上下文
  */
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
+
   private final JwtUtil jwtUtil;
+
+  // 无参数构造器，保留现有逻辑
+  public JwtAuthorizationFilter() {
+    this.jwtUtil = new JwtUtil();
+  }
+
+  // 带参数构造器，支持依赖注入
+  public JwtAuthorizationFilter(JwtUtil jwtUtil) {
+    this.jwtUtil = jwtUtil;
+  }
 
   @Value("${jwt.header:Authorization}")
   private String tokenHeader;
 
   @Value("${jwt.token-prefix:Bearer }")
   private String tokenPrefix;
-
-  public JwtAuthorizationFilter() {
-    this.jwtUtil = new JwtUtil();
-  }
-
-  public JwtAuthorizationFilter(JwtUtil jwtUtil) {
-    this.jwtUtil = jwtUtil;
-  }
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

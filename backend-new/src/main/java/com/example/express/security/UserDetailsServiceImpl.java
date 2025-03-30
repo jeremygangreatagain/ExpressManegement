@@ -37,7 +37,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       // 根据角色设置权限
       if (user.getRole() == 1) {
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-      } else {
+      } else if (user.getRole() == 2) { // Correctly handle STAFF role from User table
+        authorities.add(new SimpleGrantedAuthority("ROLE_STAFF"));
+      } else { // Default to USER for role 0 or any other value
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
       }
 

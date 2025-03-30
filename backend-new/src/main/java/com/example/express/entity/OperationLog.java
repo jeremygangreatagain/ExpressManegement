@@ -15,6 +15,10 @@ public class OperationLog {
 
   private String operationType; // 操作类型
 
+  public String getOperationType() {
+    return operationType;
+  }
+
   private String operationMethod; // 操作方法
 
   private String operationParams; // 操作参数
@@ -33,5 +37,7 @@ public class OperationLog {
 
   private LocalDateTime createTime; // 创建时间
 
+  // 操作时间字段在数据库中不存在，标记为非持久化字段
+  @com.baomidou.mybatisplus.annotation.TableField(exist = false)
   private LocalDateTime operationTime; // 操作时间
 }

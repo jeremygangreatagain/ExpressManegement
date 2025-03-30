@@ -26,7 +26,7 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
     log.setOperatorId(operatorId);
     log.setOperatorName(operatorName);
     log.setOperatorRole(operatorRole);
-    log.setOperationTime(LocalDateTime.now());
+    // 移除对operationTime字段的设置，因为数据库表中没有对应的列
     log.setCreateTime(LocalDateTime.now());
 
     return save(log);

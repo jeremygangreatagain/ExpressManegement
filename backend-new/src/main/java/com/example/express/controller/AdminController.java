@@ -3,11 +3,13 @@ package com.example.express.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.express.common.Result;
+import com.example.express.entity.LogisticsInfo;
 import com.example.express.entity.OperationLog;
 import com.example.express.entity.Order;
 import com.example.express.entity.Staff;
 import com.example.express.entity.Store;
 import com.example.express.entity.User;
+import com.example.express.service.LogisticsInfoService;
 import com.example.express.service.OperationLogService;
 import com.example.express.service.OrderService;
 import com.example.express.service.StaffService;
@@ -46,6 +48,9 @@ public class AdminController {
 
   @Autowired
   private OperationLogService operationLogService;
+
+  @Autowired
+  private LogisticsInfoService logisticsInfoService;
 
   /**
    * 获取系统概览数据
@@ -123,11 +128,27 @@ public class AdminController {
     return Result.success(user);
   }
 
-  @DeleteMapping("/users/{id}")
-  public Result<Boolean> deleteUser(@PathVariable Long id) {
-    boolean success = userService.removeById(id);
+  @DeleteMapping("/users/{username}")
+  public Result<Boolean> deleteUser(@PathVariable String username) {
+    boolean success = userService.removeByUsername(username);
     if (!success) {
       return Result.error("删除用户失败");
+    }
+    return Result.success(true);
+  }
+
+  /**
+   * 批量删除用户
+   */
+  @DeleteMapping("/users/batch")
+  public Result<Boolean> batchDeleteUsers(@RequestBody Map<String, List<String>> payload) {
+    List<String> usernames = payload.get("ids");
+    if (usernames == null || usernames.isEmpty()) {
+      return Result.error("用户名列表不能为空");
+    }
+    boolean success = userService.removeByUsernames(usernames);
+    if (!success) {
+      return Result.error("批量删除用户失败");
     }
     return Result.success(true);
   }
@@ -151,7 +172,7 @@ public class AdminController {
     Staff staff = staffService.getById(id);
     if (staff == null) {
       return Result.error("员工不存在");
-    }
+    } // Add missing closing brace
     return Result.success(staff);
   }
 
@@ -164,8 +185,18 @@ public class AdminController {
     return Result.success(staff);
   }
 
-  @PutMapping("/staffs")
-  public Result<Staff> updateStaff(@RequestBody Staff staff) {
+  // Changed to use username in path for update
+  @PutMapping("/staffs/username/{username}") 
+  public Result<Staff> updateStaffByUsername(@PathVariable String username, @RequestBody Staff staff) {
+    Staff existingStaff = staffService.getByUsername(username);
+    if (existingStaff == null) {
+      return Result.error("员工不存在");
+    }
+    // Ensure the ID from the existing staff is used for update
+    staff.setId(existingStaff.getId()); 
+    // Ensure username consistency or handle potential username change attempt if needed
+    staff.setUsername(username); // Keep the username from the path consistent
+    
     boolean success = staffService.updateStaff(staff);
     if (!success) {
       return Result.error("更新员工失败");
@@ -173,11 +204,33 @@ public class AdminController {
     return Result.success(staff);
   }
 
-  @DeleteMapping("/staffs/{id}")
-  public Result<Boolean> deleteStaff(@PathVariable Long id) {
-    boolean success = staffService.removeById(id);
+  // Changed to use username in path for delete
+  @DeleteMapping("/staffs/username/{username}") 
+  public Result<Boolean> deleteStaffByUsername(@PathVariable String username) {
+    Staff staff = staffService.getByUsername(username);
+    if (staff == null) {
+      // Optionally return success if user doesn't exist, or error
+      return Result.error("员工不存在"); 
+    }
+    boolean success = staffService.removeById(staff.getId());
     if (!success) {
       return Result.error("删除员工失败");
+    }
+    return Result.success(true);
+  }
+
+  /**
+   * 批量删除员工
+   */
+  @DeleteMapping("/staffs/batch")
+  public Result<Boolean> batchDeleteStaffs(@RequestBody Map<String, List<Long>> payload) {
+    List<Long> ids = payload.get("ids");
+    if (ids == null || ids.isEmpty()) {
+      return Result.error("员工ID列表不能为空");
+    }
+    boolean success = staffService.removeByIds(ids); // Assuming staffService has removeByIds
+    if (!success) {
+      return Result.error("批量删除员工失败");
     }
     return Result.success(true);
   }
@@ -224,8 +277,9 @@ public class AdminController {
     return Result.success(store);
   }
 
-  @PutMapping("/stores")
-  public Result<Store> updateStore(@RequestBody Store store) {
+  @PutMapping("/stores/{id}")
+  public Result<Store> updateStore(@PathVariable Long id, @RequestBody Store store) {
+    store.setId(id);
     boolean success = storeService.updateStore(store);
     if (!success) {
       return Result.error("更新门店失败");
@@ -515,5 +569,96 @@ public class AdminController {
     result.put("counts", counts);
 
     return Result.success(result);
+  }
+
+  /**
+   * 添加物流信息
+   */
+  @PostMapping("/logistics")
+  @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
+  public Result<Boolean> addLogisticsInfo(
+      @RequestBody Map<String, Object> requestData) {
+
+    String orderNumber = (String) requestData.get("orderNumber");
+    String status = (String) requestData.get("status");
+    String message = (String) requestData.get("message");
+
+    if (orderNumber == null || message == null) {
+      return Result.error("订单号和物流信息不能为空");
+    }
+
+    // 查询订单信息
+    Order order = orderService.getByOrderNumber(orderNumber);
+    if (order == null) {
+      return Result.error("订单不存在");
+    }
+
+    // 创建物流信息
+    LogisticsInfo logisticsInfo = new LogisticsInfo();
+    logisticsInfo.setOrderId(order.getId());
+    logisticsInfo.setOrderNumber(orderNumber);
+    logisticsInfo.setContent(message);
+    logisticsInfo.setLocation("系统"); // 管理员添加的物流信息，位置默认为系统
+    logisticsInfo.setOperatorId(0L); // 管理员ID，可以根据实际情况修改
+    logisticsInfo.setOperatorName("管理员");
+    logisticsInfo.setOperatorRole("管理员");
+
+    // 添加物流信息
+    boolean success = logisticsInfoService.addLogisticsInfo(logisticsInfo);
+
+    if (!success) {
+      return Result.error("添加物流信息失败");
+    }
+
+    // 记录操作日志
+    operationLogService.addLog("添加物流信息", "订单号: " + orderNumber + ", 内容: " + message,
+        0L, "管理员", "管理员");
+
+    return Result.success(true);
+  }
+
+  /**
+   * 获取订单物流信息
+   */
+  @GetMapping("/orders/{orderNumber}/logistics")
+  @PreAuthorize("hasRole('ADMIN')")
+  public Result<List<LogisticsInfo>> getOrderLogistics(@PathVariable String orderNumber) {
+    // 记录请求日志，帮助调试
+    System.out.println("管理员请求物流信息，订单号: " + orderNumber);
+
+    // 首先尝试通过订单号查询
+    Order order = orderService.getByOrderNumber(orderNumber);
+
+    if (order != null) {
+      // 通过订单号找到订单，获取其物流信息
+      List<LogisticsInfo> logisticsList = logisticsInfoService.getLogisticsInfoByOrderNumber(orderNumber);
+      return Result.success(logisticsList);
+    }
+
+    try {
+      // 如果通过订单号未找到，尝试使用ID查询
+      Long orderId;
+      try {
+        orderId = Long.valueOf(orderNumber);
+      } catch (NumberFormatException e) {
+        System.out.println("非数字ID且非有效订单号: " + orderNumber);
+        return Result.error("订单不存在");
+      }
+
+      // 通过ID查询订单
+      order = orderService.getById(orderId);
+
+      if (order == null) {
+        System.out.println("未找到订单，请求ID: " + orderNumber);
+        return Result.error("订单不存在");
+      }
+
+      // 获取物流信息
+      List<LogisticsInfo> logisticsList = logisticsInfoService.getLogisticsInfoByOrderId(orderId);
+      return Result.success(logisticsList);
+    } catch (Exception e) {
+      System.out.println("查询物流信息出错: " + orderNumber + ", 错误: " + e.getMessage());
+      return Result.error("查询物流信息出错");
+    }
   }
 }

@@ -70,8 +70,16 @@ export function getOrderStatusOptions() {
 // 添加订单物流信息
 export function addOrderLogistics(data) {
   return request({
-    url: '/admin/orders/logistics',
+    url: '/admin/logistics',
     method: 'post',
     data
+  })
+}
+
+// 获取订单物流信息
+export function getOrderLogistics(orderId) {
+  return request({
+    url: `/admin/orders/${orderId}/logistics`,
+    method: 'get'
   })
 }

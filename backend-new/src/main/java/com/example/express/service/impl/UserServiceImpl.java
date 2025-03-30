@@ -8,6 +8,7 @@ import com.example.express.entity.User;
 import com.example.express.mapper.UserMapper;
 import com.example.express.service.OperationLogService;
 import com.example.express.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
   private final PasswordEncoder passwordEncoder;
@@ -33,7 +36,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
   public User getByUsername(String username) {
     LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.eq(User::getUsername, username);
-    return getOne(queryWrapper);
+    queryWrapper.eq(User::getDeleted, 0); // 只查询未删除的用户
+    User user = getOne(queryWrapper);
+    if (user != null && user.getStatus() == null) {
+      user.setStatus(1); // 如果状态为空，默认设置为启用
+    }
+    return user;
   }
 
   @Override
@@ -99,8 +107,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
   @Override
   @Transactional
   public boolean updateUser(User user) {
-    User existingUser = getById(user.getId());
+    // 添加日志记录用户名信息
+    log.info("更新用户，用户名: {}", user.getUsername());
+    User existingUser = getByUsername(user.getUsername());
     if (existingUser == null) {
+      log.warn("更新用户失败，用户不存在，用户名: {}", user.getUsername());
       return false;
     }
 
@@ -126,8 +137,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
       user.setPassword(existingUser.getPassword());
     }
 
-    // 更新用户
-    boolean success = updateById(user);
+    // 如果status为空，则使用原status
+    if (user.getStatus() == null) {
+      user.setStatus(existingUser.getStatus());
+    }
+
+    // 使用用户名作为条件更新用户，而不是使用ID
+    LambdaQueryWrapper<User> updateWrapper = new LambdaQueryWrapper<>();
+    updateWrapper.eq(User::getUsername, user.getUsername());
+    boolean success = update(user, updateWrapper);
 
     // 记录操作日志
     if (success) {
@@ -192,5 +210,67 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     queryWrapper.orderByDesc(User::getCreateTime);
 
     return page(page, queryWrapper);
+  }
+
+  @Override
+  @Transactional
+  public boolean removeByUsername(String username) {
+    // 获取用户信息
+    User user = getByUsername(username);
+    if (user == null) {
+      log.error("删除用户失败，用户不存在，用户名: {}", username);
+      return false;
+    }
+
+    // 使用用户名作为条件进行物理删除
+    LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+    queryWrapper.eq(User::getUsername, username);
+    queryWrapper.eq(User::getDeleted, 0); // 只删除未被删除的用户
+
+    // 执行物理删除操作
+    int rows = baseMapper.delete(queryWrapper);
+    boolean success = rows > 0;
+
+    // 记录日志
+    if (success) {
+      log.info("物理删除用户成功，用户名: {}", username);
+      operationLogService.recordLog("删除用户", "管理员物理删除用户：" + username, null, "系统", "管理员");
+    } else {
+      log.error("物理删除用户失败，删除操作未影响任何行，用户名: {}", username);
+    }
+
+    return success;
+  }
+
+  @Override
+  @Transactional
+  public boolean removeByUsernames(List<String> usernames) {
+    if (usernames == null || usernames.isEmpty()) {
+      log.error("批量删除用户失败，用户名列表为空");
+      return false;
+    }
+
+    boolean allSuccess = true;
+    StringBuilder deletedUsernames = new StringBuilder();
+
+    // 循环调用单个删除方法
+    for (String username : usernames) {
+      boolean success = removeByUsername(username);
+      if (success) {
+        if (deletedUsernames.length() > 0) {
+          deletedUsernames.append(", ");
+        }
+        deletedUsernames.append(username);
+      } else {
+        allSuccess = false;
+      }
+    }
+
+    // 记录批量删除日志
+    if (deletedUsernames.length() > 0) {
+      operationLogService.recordLog("批量删除用户", "管理员批量删除用户：" + deletedUsernames.toString(), null, "系统", "管理员");
+    }
+
+    return allSuccess;
   }
 }

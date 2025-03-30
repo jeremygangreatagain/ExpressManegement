@@ -163,8 +163,8 @@
           <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
               <p class="text-sm text-gray-700">
-                显示第 <span class="font-medium">{{ (currentPage - 1) * pageSize + 1 }}</span> 至 
-                <span class="font-medium">{{ Math.min(currentPage * pageSize, totalItems) }}</span> 条，
+                显示第 <span class="font-medium">{{ orders.length > 0 ? (currentPage - 1) * pageSize + 1 : 0 }}</span> 至 
+                <span class="font-medium">{{ orders.length > 0 ? Math.min(currentPage * pageSize, totalItems) : 0 }}</span> 条，
                 共 <span class="font-medium">{{ totalItems }}</span> 条记录
               </p>
             </div>
@@ -553,7 +553,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { getOrderList, getOrderDetail, updateOrder, deleteOrder, batchDeleteOrders, createOrder, getOrderStatusOptions } from '../../api/orders';
+import { getOrderList, getOrderDetail, updateOrder, deleteOrder, batchDeleteOrders, createOrder, getOrderStatusOptions, getOrderLogistics } from '../../api/orders';
 import toast from '../../utils/toast';
 
 // 搜索和筛选
@@ -661,6 +661,26 @@ const fetchOrderDetail = async (idOrOrderNumber) => {
     if (orderDetail.value.description !== undefined) {
       orderDetail.value.remark = orderDetail.value.description;
       console.log('订单详情 - 获取备注:', orderDetail.value.description, '映射到remark:', orderDetail.value.remark);
+    }
+    
+    // 获取物流信息
+    try {
+      const logisticsRes = await getOrderLogistics(idOrOrderNumber);
+      if (logisticsRes.code === 200 && logisticsRes.data) {
+        // 将物流信息映射到订单详情中
+        orderDetail.value.logistics = logisticsRes.data.map(item => ({
+          message: item.content,
+          location: item.location,
+          operatorName: item.operatorName,
+          operatorRole: item.operatorRole,
+          createTime: item.createTime
+        }));
+        console.log('获取物流信息成功:', orderDetail.value.logistics);
+      }
+    } catch (logisticsError) {
+      console.error('获取物流信息失败:', logisticsError);
+      // 不影响订单详情的显示，只是物流信息为空
+      orderDetail.value.logistics = [];
     }
   } catch (error) {
     console.error('获取订单详情失败:', error);

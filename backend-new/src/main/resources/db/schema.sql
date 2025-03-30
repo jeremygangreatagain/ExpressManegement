@@ -45,7 +45,7 @@ CREATE TABLE `staff` (
 -- 快递点表
 DROP TABLE IF EXISTS `store`;
 CREATE TABLE `store` (
-  `id` BIGINT NOT NULL COMMENT '快递点ID',
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '快递点ID',
   `name` VARCHAR(100) NOT NULL COMMENT '快递点名称',
   `address` VARCHAR(255) NOT NULL COMMENT '快递点地址',
   `phone` VARCHAR(20) COMMENT '联系电话',

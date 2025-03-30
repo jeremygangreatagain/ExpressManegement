@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.express.entity.Staff;
 
+import java.util.List; // Add this import
+
 public interface StaffService extends IService<Staff> {
   /**
    * 根据用户名获取员工

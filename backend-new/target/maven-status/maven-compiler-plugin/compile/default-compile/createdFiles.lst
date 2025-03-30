@@ -38,6 +38,7 @@ com\example\express\entity\Store.class
 com\example\express\service\CaptchaService.class
 com\example\express\security\JwtAuthorizationFilter.class
 com\example\express\controller\AdminController.class
+com\example\express\controller\CommonController.class
 com\example\express\controller\OrderController.class
 com\example\express\ExpressManagementSystemApplication.class
 com\example\express\entity\OrderStatusLog.class

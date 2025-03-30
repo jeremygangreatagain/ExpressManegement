@@ -54,7 +54,7 @@ logging:
     max-history: 30
 
 app:
-  snowflake:
+  snowflake: # Uncommented
     worker-id: 1
     datacenter-id: 1
   cors:

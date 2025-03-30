@@ -65,10 +65,28 @@ const routes = [
     meta: { requiresAuth: true, role: 'ADMIN' }
   },
   {
+    path: '/admin/users',
+    name: 'AdminUserManagement',
+    component: () => import('../views/admin/UserManagement.vue'),
+    meta: { requiresAuth: true, role: 'ADMIN' }
+  },
+  {
+    path: '/admin/stores',
+    name: 'AdminStoreManagement',
+    component: () => import('../views/admin/StoreManagement.vue'),
+    meta: { requiresAuth: true, role: 'ADMIN' }
+  },
+  {
     path: '/staff/profile',
     name: 'StaffProfile',
     component: () => import('../views/staff/Profile.vue'),
     meta: { requiresAuth: true, role: 'STAFF' }
+  },
+  {
+    path: '/admin/staff',
+    name: 'AdminStaffManagement',
+    component: () => import('../views/admin/StaffManagement.vue'),
+    meta: { requiresAuth: true, role: 'ADMIN' }
   }
 ]
 

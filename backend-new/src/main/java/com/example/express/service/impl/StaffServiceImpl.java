@@ -8,6 +8,8 @@ import com.example.express.entity.Staff;
 import com.example.express.mapper.StaffMapper;
 import com.example.express.service.OperationLogService;
 import com.example.express.service.StaffService;
+import org.slf4j.Logger; // Added import for Logger
+import org.slf4j.LoggerFactory; // Added import for LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.List; // Add this import
 
 @Service
 public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements StaffService {
+
+  // Added Logger instance
+  private static final Logger log = LoggerFactory.getLogger(StaffServiceImpl.class);
 
   private final PasswordEncoder passwordEncoder;
 
@@ -58,8 +64,16 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
     }
     staff.setPassword(passwordEncoder.encode(staff.getPassword() + salt));
 
-    // 保存员工
-    boolean success = save(staff);
+    // Log before saving
+    log.info("Attempting to save staff. ID before save: {}", staff.getId());
+
+    // 保存员工 - Explicitly call mapper insert
+    // boolean success = save(staff);
+    int rowsAffected = baseMapper.insert(staff); // Use baseMapper directly
+    boolean success = rowsAffected > 0;
+
+    // Log after saving
+    log.info("Save operation completed. Success: {}. ID after save: {}", success, staff.getId());
 
     // 记录操作日志
     if (success) {

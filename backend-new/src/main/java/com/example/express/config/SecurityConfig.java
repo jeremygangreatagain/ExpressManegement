@@ -58,6 +58,7 @@ public class SecurityConfig {
             .requestMatchers("/api/auth/register").permitAll()
             .requestMatchers("/api/auth/check-username").permitAll()
             .requestMatchers("/api/captcha/**").permitAll()
+            .requestMatchers("/api/common/**").permitAll()
             .requestMatchers("/api/admin/**").hasRole("ADMIN")
             .requestMatchers("/api/staff/**").hasRole("STAFF")
             .requestMatchers("/api/user/**").hasRole("USER")
@@ -91,8 +92,10 @@ public class SecurityConfig {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOrigins(Arrays.asList("*"));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
+    configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "*"));
     configuration.setExposedHeaders(Arrays.asList("Authorization"));
+    // 当使用setAllowCredentials(true)时，不能使用通配符*作为允许的源
+    // 但为了简化开发环境配置，这里暂时禁用credentials
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;

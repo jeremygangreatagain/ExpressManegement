@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.express.entity.User;
 
+import java.util.List;
+
 public interface UserService extends IService<User> {
+
   /**
    * 根据用户名获取用户
    * 
@@ -56,4 +59,20 @@ public interface UserService extends IService<User> {
    * @return 是否修改成功
    */
   boolean updatePassword(String username, String oldPassword, String newPassword);
+
+  /**
+   * 根据用户名删除用户
+   * 
+   * @param username 用户名
+   * @return 是否删除成功
+   */
+  boolean removeByUsername(String username);
+
+  /**
+   * 批量删除用户（根据用户名列表）
+   * 
+   * @param usernames 用户名列表
+   * @return 是否全部删除成功
+   */
+  boolean removeByUsernames(List<String> usernames);
 }

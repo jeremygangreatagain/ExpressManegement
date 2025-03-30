@@ -28,6 +28,8 @@ public class User {
 
   private Integer role; // 0: 普通用户, 1: 管理员
 
+  private Integer status; // 0: 禁用, 1: 启用
+
   private LocalDateTime createTime;
 
   private LocalDateTime updateTime;

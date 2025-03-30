@@ -129,8 +129,8 @@
           <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
               <p class="text-sm text-gray-700">
-                显示第 <span class="font-medium">{{ (currentPage - 1) * pageSize + 1 }}</span> 至 
-                <span class="font-medium">{{ Math.min(currentPage * pageSize, totalItems) }}</span> 条，
+                显示第 <span class="font-medium">{{ orders.length > 0 ? (currentPage - 1) * pageSize + 1 : 0 }}</span> 至 
+                <span class="font-medium">{{ orders.length > 0 ? Math.min(currentPage * pageSize, totalItems) : 0 }}</span> 条，
                 共 <span class="font-medium">{{ totalItems }}</span> 条记录
               </p>
             </div>
@@ -369,11 +369,11 @@
             </div>
             
             <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700 mb-1">物流信息</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">门店名字</label>
               <textarea 
                 v-model="newLogistics.message" 
                 rows="3"
-                placeholder="请输入物流信息，如：包裹已到达XX分拣中心"
+                placeholder="请输入门店名字，系统将自动组合为'物流状态——门店名字'格式"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 required
               ></textarea>
@@ -403,7 +403,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { getOrderList, getOrderDetail, addOrderLogistics } from '../../api/orders';
+import { getOrderList, getOrderDetail, addOrderLogistics, getOrderLogistics } from '../../api/orders';
 import toast from '../../utils/toast';
 
 // 搜索和筛选
@@ -442,11 +442,13 @@ const displayedPages = computed(() => {
 // 订单状态选项
 const statusOptions = ref([
   { value: 'PENDING', label: '待取件' },
-  { value: 'PICKED_UP', label: '已取件' },
+  { value: 'PROCESSING', label: '处理中' },
+  { value: 'SHIPPED', label: '已发货' },
   { value: 'IN_TRANSIT', label: '运输中' },
   { value: 'DELIVERED', label: '已送达' },
   { value: 'COMPLETED', label: '已完成' },
-  { value: 'CANCELLED', label: '已取消' }
+  { value: 'CANCELLED', label: '已取消' },
+  { value: 'RETURNED', label: '已退回' }
 ]);
 
 // 对话框控制
@@ -473,6 +475,21 @@ const fetchOrders = async () => {
     const res = await getOrderList(params);
     orders.value = res.data.records || [];
     totalItems.value = res.data.total || 0;
+    
+    // 获取每个订单的物流信息
+    for (const order of orders.value) {
+      try {
+        const logisticsRes = await getOrderLogistics(order.orderNumber);
+        if (logisticsRes.code === 200 && logisticsRes.data) {
+          order.logistics = logisticsRes.data;
+        } else {
+          order.logistics = [];
+        }
+      } catch (logisticsError) {
+        console.error(`获取订单 ${order.orderNumber} 的物流信息失败:`, logisticsError);
+        order.logistics = [];
+      }
+    }
   } catch (error) {
     console.error('获取订单列表失败:', error);
     toast.error('获取订单列表失败');
@@ -493,6 +510,26 @@ const fetchOrderDetail = async (idOrOrderNumber) => {
       orderDetail.value.remark = orderDetail.value.description;
       console.log('订单详情 - 获取备注:', orderDetail.value.description, '映射到remark:', orderDetail.value.remark);
     }
+    
+    // 获取物流信息
+    try {
+      const logisticsRes = await getOrderLogistics(idOrOrderNumber);
+      if (logisticsRes.code === 200 && logisticsRes.data) {
+        // 将物流信息映射到订单详情中
+        orderDetail.value.logistics = logisticsRes.data.map(item => ({
+          message: item.content,
+          location: item.location,
+          operatorName: item.operatorName,
+          operatorRole: item.operatorRole,
+          createTime: item.createTime
+        }));
+        console.log('获取物流信息成功:', orderDetail.value.logistics);
+      }
+    } catch (logisticsError) {
+      console.error('获取物流信息失败:', logisticsError);
+      // 不影响订单详情的显示，只是物流信息为空
+      orderDetail.value.logistics = [];
+    }
   } catch (error) {
     console.error('获取订单详情失败:', error);
     toast.error('获取订单详情失败');
@@ -510,8 +547,22 @@ const viewOrderDetail = async (orderNumber) => {
 // 添加物流信息
 const addLogistics = (orderNumber) => {
   currentOrderNumber.value = orderNumber;
+  
+  // 查找当前订单
+  const currentOrder = orders.value.find(order => order.orderNumber === orderNumber);
+  
+  // 获取当前状态和下一个状态
+  let nextStatus = '';
+  if (currentOrder) {
+    const currentStatusIndex = statusOptions.value.findIndex(option => option.value === currentOrder.status);
+    // 如果找到当前状态且不是最后一个状态，则设置为下一个状态
+    if (currentStatusIndex !== -1 && currentStatusIndex < statusOptions.value.length - 1) {
+      nextStatus = statusOptions.value[currentStatusIndex + 1].value;
+    }
+  }
+  
   newLogistics.value = {
-    status: '',
+    status: nextStatus,
     message: ''
   };
   showLogisticsDialog.value = true;
@@ -525,10 +576,15 @@ const saveLogistics = async () => {
       return;
     }
     
+    // 获取状态文本
+    const statusText = getStatusText(newLogistics.value.status);
+    // 组合成"物流状态——门店名字"格式
+    const formattedMessage = `${statusText}——${newLogistics.value.message}`;
+    
     const data = {
       orderNumber: currentOrderNumber.value,
       status: newLogistics.value.status,
-      message: newLogistics.value.message
+      message: formattedMessage
     };
     
     await addOrderLogistics(data);
@@ -601,16 +657,20 @@ const getStatusClass = (status) => {
   switch (status) {
     case 'PENDING':
       return 'bg-yellow-100 text-yellow-800';
-    case 'PICKED_UP':
+    case 'PROCESSING':
       return 'bg-blue-100 text-blue-800';
-    case 'IN_TRANSIT':
+    case 'SHIPPED':
       return 'bg-indigo-100 text-indigo-800';
+    case 'IN_TRANSIT':
+      return 'bg-purple-100 text-purple-800';
     case 'DELIVERED':
       return 'bg-green-100 text-green-800';
     case 'COMPLETED':
       return 'bg-green-100 text-green-800';
     case 'CANCELLED':
       return 'bg-red-100 text-red-800';
+    case 'RETURNED':
+      return 'bg-gray-100 text-gray-800';
     default:
       return 'bg-gray-100 text-gray-800';
   }
