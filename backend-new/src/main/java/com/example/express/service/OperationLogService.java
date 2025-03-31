@@ -29,11 +29,12 @@ public interface OperationLogService extends IService<OperationLog> {
      * @param operatorId    操作人ID
      * @param startTime     开始时间
      * @param endTime       结束时间
+     * @param keyword       搜索关键字 (操作内容或操作人)
      * @return 分页结果
      */
     IPage<OperationLog> pageLogs(Page<OperationLog> page, String operationType, Long operatorId,
             LocalDateTime startTime,
-            LocalDateTime endTime);
+            LocalDateTime endTime, String keyword); // Add keyword parameter
 
     /**
      * 添加操作日志

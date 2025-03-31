@@ -1,4 +1,5 @@
 com\example\express\config\RedisConfig.class
+com\example\express\controller\AuditController.class
 com\example\express\config\SecurityConfig.class
 com\example\express\security\MD5PasswordEncoder.class
 com\example\express\service\StoreService.class
@@ -7,6 +8,7 @@ com\example\express\util\SnowflakeIdGenerator.class
 com\example\express\config\JwtAuthorizationFilterConfig.class
 com\example\express\service\impl\OrderServiceImpl.class
 com\example\express\mapper\StoreMapper.class
+com\example\express\service\AuditService.class
 com\example\express\controller\AdminOrderDeletionController.class
 com\example\express\entity\OperationLog.class
 com\example\express\security\JwtAuthenticationFilter.class
@@ -23,6 +25,7 @@ com\example\express\mapper\OrderDeletionRequestMapper.class
 com\example\express\service\UserService.class
 com\example\express\controller\AuthController.class
 com\example\express\service\CaptchaService$CaptchaResult.class
+com\example\express\service\impl\AuditServiceImpl.class
 com\example\express\service\impl\LogisticsInfoServiceImpl.class
 com\example\express\service\OrderDeletionRequestService.class
 com\example\express\util\JwtUtil.class
@@ -47,10 +50,12 @@ com\example\express\service\impl\UserServiceImpl.class
 com\example\express\entity\LogisticsInfo.class
 com\example\express\service\LogisticsInfoService.class
 com\example\express\entity\Order.class
+com\example\express\entity\Audit.class
 com\example\express\mapper\StaffMapper.class
 com\example\express\service\CacheService.class
 com\example\express\service\impl\StaffServiceImpl.class
 com\example\express\entity\OrderDeletionRequest.class
+com\example\express\mapper\AuditMapper.class
 com\example\express\mapper\UserMapper.class
 com\example\express\service\impl\CacheServiceImpl.class
 com\example\express\entity\Staff.class

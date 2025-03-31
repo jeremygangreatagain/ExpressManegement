@@ -1,8 +1,11 @@
 package com.example.express.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize; // Add this import
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer; // Add this import
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,6 +14,7 @@ import java.time.LocalDateTime;
 @TableName("operation_log")
 public class OperationLog {
   @TableId(type = IdType.ASSIGN_ID)
+  @JsonSerialize(using = ToStringSerializer.class) // Serialize Long ID as String in JSON
   private Long id;
 
   private String operationType; // 操作类型
@@ -27,6 +31,8 @@ public class OperationLog {
 
   private String operationIp; // 操作IP
 
+  // detail字段在数据库中不存在，标记为非持久化字段
+  @com.baomidou.mybatisplus.annotation.TableField(exist = false)
   private String detail; // 操作详情
 
   private Long operatorId; // 操作人ID

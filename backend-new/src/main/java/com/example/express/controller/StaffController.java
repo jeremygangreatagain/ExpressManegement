@@ -215,6 +215,7 @@ public class StaffController {
       @RequestParam Long staffId,
       @RequestParam(defaultValue = "1") Integer current,
       @RequestParam(defaultValue = "10") Integer size,
+      @RequestParam(required = false) String keyword,
       @RequestParam(required = false) String operationType,
       @RequestParam(required = false) String startTime,
       @RequestParam(required = false) String endTime) {
@@ -243,7 +244,7 @@ public class StaffController {
     }
 
     // 查询日志列表（只查询与该门店相关的日志）
-    IPage<OperationLog> logPage = operationLogService.pageLogs(page, operationType, null, start, end);
+    IPage<OperationLog> logPage = operationLogService.pageLogs(page, operationType, null, start, end, keyword);
 
     return Result.success(logPage);
   }

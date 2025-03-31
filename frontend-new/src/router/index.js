@@ -87,6 +87,18 @@ const routes = [
     name: 'AdminStaffManagement',
     component: () => import('../views/admin/StaffManagement.vue'),
     meta: { requiresAuth: true, role: 'ADMIN' }
+  },
+  {
+    path: '/admin/logs',
+    name: 'AdminWorkLog',
+    component: () => import('../views/admin/WorkLog.vue'),
+    meta: { requiresAuth: true, role: 'ADMIN' }
+  },
+  {
+    path: '/admin/approvals',
+    name: 'AdminAuditManagement',
+    component: () => import('../views/admin/AuditManagement.vue'),
+    meta: { requiresAuth: true, role: 'ADMIN' }
   }
 ]
 

@@ -62,6 +62,7 @@ public class SecurityConfig {
             .requestMatchers("/api/admin/**").hasRole("ADMIN")
             .requestMatchers("/api/staff/**").hasRole("STAFF")
             .requestMatchers("/api/user/**").hasRole("USER")
+            .requestMatchers("/api/audit/**").hasRole("ADMIN")
             .anyRequest().authenticated())
         .addFilter(new JwtAuthenticationFilter(authenticationManager, captchaService, jwtUtil))
         .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)

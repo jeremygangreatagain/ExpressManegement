@@ -41,7 +41,7 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
 
   @Override
   public IPage<OperationLog> pageLogs(Page<OperationLog> page, String operationType, Long operatorId,
-      LocalDateTime startTime, LocalDateTime endTime) {
+      LocalDateTime startTime, LocalDateTime endTime, String keyword) { // Add keyword parameter
     LambdaQueryWrapper<OperationLog> queryWrapper = new LambdaQueryWrapper<>();
 
     // 如果操作类型不为空，则按操作类型查询
@@ -54,18 +54,26 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
       queryWrapper.eq(OperationLog::getOperatorId, operatorId);
     }
 
-    // 如果开始时间不为空，则按操作时间大于等于开始时间查询
+    // 如果开始时间不为空，则按创建时间大于等于开始时间查询
     if (startTime != null) {
-      queryWrapper.ge(OperationLog::getOperationTime, startTime);
+      queryWrapper.ge(OperationLog::getCreateTime, startTime);
     }
 
-    // 如果结束时间不为空，则按操作时间小于等于结束时间查询
+    // 如果结束时间不为空，则按创建时间小于等于结束时间查询
     if (endTime != null) {
-      queryWrapper.le(OperationLog::getOperationTime, endTime);
+      queryWrapper.le(OperationLog::getCreateTime, endTime);
     }
 
-    // 按操作时间降序排序
-    queryWrapper.orderByDesc(OperationLog::getOperationTime);
+    // 如果关键字不为空，则按操作内容或操作人姓名模糊查询
+    if (StringUtils.hasText(keyword)) {
+      queryWrapper.and(wrapper -> wrapper
+          .like(OperationLog::getOperationParams, keyword) // Search in operation content
+          .or()
+          .like(OperationLog::getOperatorName, keyword)); // Search in operator name
+    }
+
+    // 按创建时间降序排序
+    queryWrapper.orderByDesc(OperationLog::getCreateTime);
 
     return page(page, queryWrapper);
   }

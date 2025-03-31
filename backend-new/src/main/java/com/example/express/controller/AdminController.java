@@ -186,17 +186,18 @@ public class AdminController {
   }
 
   // Changed to use username in path for update
-  @PutMapping("/staffs/username/{username}") 
+  @PutMapping("/staffs/username/{username}")
   public Result<Staff> updateStaffByUsername(@PathVariable String username, @RequestBody Staff staff) {
     Staff existingStaff = staffService.getByUsername(username);
     if (existingStaff == null) {
       return Result.error("员工不存在");
     }
     // Ensure the ID from the existing staff is used for update
-    staff.setId(existingStaff.getId()); 
-    // Ensure username consistency or handle potential username change attempt if needed
+    staff.setId(existingStaff.getId());
+    // Ensure username consistency or handle potential username change attempt if
+    // needed
     staff.setUsername(username); // Keep the username from the path consistent
-    
+
     boolean success = staffService.updateStaff(staff);
     if (!success) {
       return Result.error("更新员工失败");
@@ -205,12 +206,12 @@ public class AdminController {
   }
 
   // Changed to use username in path for delete
-  @DeleteMapping("/staffs/username/{username}") 
+  @DeleteMapping("/staffs/username/{username}")
   public Result<Boolean> deleteStaffByUsername(@PathVariable String username) {
     Staff staff = staffService.getByUsername(username);
     if (staff == null) {
       // Optionally return success if user doesn't exist, or error
-      return Result.error("员工不存在"); 
+      return Result.error("员工不存在");
     }
     boolean success = staffService.removeById(staff.getId());
     if (!success) {
@@ -465,14 +466,63 @@ public class AdminController {
       @RequestParam(required = false) String operationType,
       @RequestParam(required = false) Long operatorId,
       @RequestParam(required = false) String startTime,
-      @RequestParam(required = false) String endTime) {
+      @RequestParam(required = false) String endTime,
+      @RequestParam(required = false) String keyword) { // Add keyword parameter
 
     Page<OperationLog> page = new Page<>(current, size);
     LocalDateTime start = startTime != null ? LocalDateTime.parse(startTime) : null;
     LocalDateTime end = endTime != null ? LocalDateTime.parse(endTime) : null;
 
-    IPage<OperationLog> logPage = operationLogService.pageLogs(page, operationType, operatorId, start, end);
+    // Pass keyword to the service method
+    IPage<OperationLog> logPage = operationLogService.pageLogs(page, operationType, operatorId, start, end, keyword);
     return Result.success(logPage);
+  }
+
+  /**
+   * 获取日志类型选项
+   */
+  @GetMapping("/logs/types")
+  public Result<List<Map<String, Object>>> getLogTypes() {
+    List<Map<String, Object>> types = new ArrayList<>();
+
+    // 定义系统中的操作类型
+    String[] operationTypes = {
+        "创建订单", "更新订单", "删除订单", "更改订单状态",
+        "添加物流信息", "完成订单", "用户登录", "用户注册"
+    };
+
+    // 构建前端需要的格式
+    for (String type : operationTypes) {
+      Map<String, Object> typeMap = new HashMap<>();
+      typeMap.put("label", type);
+      typeMap.put("value", type);
+      types.add(typeMap);
+    }
+
+    return Result.success(types);
+  }
+
+  /**
+   * 获取日志详情
+   */
+  @GetMapping("/logs/{id}")
+  public Result<OperationLog> getLogDetail(@PathVariable String id) {
+    // 记录请求日志，帮助调试
+    System.out.println("管理员请求日志详情，ID: " + id);
+
+    try {
+      // 将字符串ID转换为Long类型
+      Long logId = Long.valueOf(id);
+      OperationLog log = operationLogService.getById(logId);
+      if (log == null) {
+        System.out.println("未找到日志，请求ID: " + id);
+        return Result.error("日志不存在");
+      }
+      return Result.success(log);
+    } catch (NumberFormatException e) {
+      System.out.println("日志ID格式错误: " + id + ", 错误: " + e.getMessage());
+      return Result.error("日志ID格式错误");
+    }
   }
 
   /**
