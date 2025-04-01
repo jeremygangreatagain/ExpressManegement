@@ -171,6 +171,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import toast from '../../utils/toast';
+import { getCurrentUserInfo, updateCurrentUserInfo, updatePassword } from '../../api/profile';
 
 const isSaving = ref(false);
 
@@ -206,25 +207,46 @@ const passwordMismatch = computed(() => {
 });
 
 // 在组件挂载时获取用户信息
-onMounted(() => {
-  // 这里添加获取用户信息的API调用
-  // 模拟API调用
-  setTimeout(() => {
-    profileForm.value = {
-      username: localStorage.getItem('username') || '用户名',
-      nickname: '昵称',
-      phone: '13800138000',
-      email: 'user@example.com',
-      addresses: [
+onMounted(async () => {
+  try {
+    // 调用API获取用户信息
+    const response = await getCurrentUserInfo();
+    if (response.code === 200 && response.data) {
+      const userData = response.data;
+      // 初始化地址数据
+      let addresses = [
         {
-          name: '张三',
-          phone: '13800138000',
-          fullAddress: '北京市海淀区中关村大街1号',
+          name: '',
+          phone: '',
+          fullAddress: userData.address || '',
           isDefault: true
         }
-      ]
-    };
-  }, 500);
+      ];
+      
+      // 如果有地址数据，则使用该数据
+      if (userData.address) {
+        addresses = [
+          {
+            name: userData.nickname || '',
+            phone: userData.phone || '',
+            fullAddress: userData.address,
+            isDefault: true
+          }
+        ];
+      }
+      
+      profileForm.value = {
+        username: userData.username || '',
+        nickname: userData.nickname || '',
+        phone: userData.phone || '',
+        email: userData.email || '',
+        addresses: addresses
+      };
+    }
+  } catch (error) {
+    console.error('获取用户信息失败:', error);
+    toast.error('获取用户信息失败，请刷新页面重试');
+  }
 });
 
 // 添加新地址
@@ -257,33 +279,53 @@ const setDefaultAddress = (index) => {
 // 保存个人信息
 const saveProfile = async () => {
   try {
-    // 验证密码修改
+    isSaving.value = true;
+    
+    // 获取默认地址
+    const defaultAddress = profileForm.value.addresses.find(addr => addr.isDefault);
+    
+    // 保存个人信息
+    const userInfo = {
+      nickname: profileForm.value.nickname,
+      phone: profileForm.value.phone,
+      email: profileForm.value.email,
+      address: defaultAddress ? defaultAddress.fullAddress : ''
+    };
+    
+    const response = await updateCurrentUserInfo(userInfo);
+    if (response.code !== 200) {
+      throw new Error(response.message || '保存个人信息失败');
+    }
+    
+    // 处理密码修改
     if (passwordForm.value.oldPassword && passwordForm.value.newPassword) {
       if (passwordMismatch.value) {
         toast.error('两次输入的密码不一致');
         return;
       }
       
-      // 这里添加修改密码的API调用
+      const passwordData = {
+        oldPassword: passwordForm.value.oldPassword,
+        newPassword: passwordForm.value.newPassword
+      };
+      
+      const passwordResponse = await updatePassword(passwordData);
+      if (passwordResponse.code !== 200) {
+        throw new Error(passwordResponse.message || '修改密码失败');
+      }
+      
+      // 清空密码表单
+      passwordForm.value = {
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      };
     }
     
-    isSaving.value = true;
-    
-    // 这里添加保存个人信息的API调用
-    // 模拟API调用
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
     toast.success('个人信息保存成功！');
-    
-    // 清空密码表单
-    passwordForm.value = {
-      oldPassword: '',
-      newPassword: '',
-      confirmPassword: ''
-    };
   } catch (error) {
     console.error('保存个人信息失败:', error);
-    toast.error('保存失败，请重试');
+    toast.error(error.message || '保存失败，请重试');
   } finally {
     isSaving.value = false;
   }

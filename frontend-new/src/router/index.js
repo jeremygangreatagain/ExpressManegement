@@ -29,6 +29,12 @@ const routes = [
     meta: { requiresAuth: true, role: 'STAFF' }
   },
   {
+    path: '/staff/orders',
+    name: 'StaffOrderManagement',
+    component: () => import('../views/staff/OrderManagement.vue'),
+    meta: { requiresAuth: true, role: 'STAFF' }
+  },
+  {
     path: '/user',
     name: 'UserDashboard',
     component: () => import('../views/user/Dashboard.vue'),

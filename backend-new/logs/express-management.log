@@ -1,651 +1,34 @@
-2025-03-31T09:36:17.423+08:00  INFO 20780 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 20780 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
-2025-03-31T09:36:17.427+08:00 DEBUG 20780 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
-2025-03-31T09:36:17.428+08:00  INFO 20780 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
-2025-03-31T09:36:17.830+08:00  INFO 20780 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T09:36:17.831+08:00  INFO 20780 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
-2025-03-31T09:36:17.843+08:00  INFO 20780 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 Elasticsearch repository interfaces.
-2025-03-31T09:36:17.846+08:00  INFO 20780 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T09:36:17.847+08:00  INFO 20780 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
-2025-03-31T09:36:17.850+08:00  INFO 20780 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
-2025-03-31T09:36:17.856+08:00  INFO 20780 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T09:36:17.857+08:00  INFO 20780 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-31T09:36:17.865+08:00  INFO 20780 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
-2025-03-31T09:36:18.341+08:00  INFO 20780 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
-2025-03-31T09:36:18.343+08:00  INFO 20780 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
-2025-03-31T09:36:18.344+08:00  INFO 20780 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
-2025-03-31T09:36:18.355+08:00  INFO 20780 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
-2025-03-31T09:36:18.362+08:00  INFO 20780 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-31T09:36:18.363+08:00  INFO 20780 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-03-31T09:36:18.430+08:00  INFO 20780 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-03-31T09:36:18.430+08:00  INFO 20780 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 975 ms
-2025-03-31T09:36:18.467+08:00 DEBUG 20780 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
-2025-03-31T09:36:19.185+08:00  INFO 20780 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@248b2b61, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4b61e97, org.springframework.security.web.context.SecurityContextHolderFilter@457692cb, org.springframework.security.web.header.HeaderWriterFilter@58f50dd0, org.springframework.web.filter.CorsFilter@11d1735e, org.springframework.security.web.authentication.logout.LogoutFilter@1cb849b2, com.example.express.security.JwtAuthorizationFilter@4c731956, com.example.express.security.JwtAuthenticationFilter@31082efa, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5d297d4d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1dd44289, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4ca5cb99, org.springframework.security.web.session.SessionManagementFilter@8ef1d58, org.springframework.security.web.access.ExceptionTranslationFilter@5daad59a, org.springframework.security.web.access.intercept.AuthorizationFilter@55881f40]
-2025-03-31T09:36:19.556+08:00  INFO 20780 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
-2025-03-31T09:36:19.563+08:00  INFO 20780 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.394 seconds (process running for 2.597)
-2025-03-31T09:36:23.826+08:00  INFO 20780 --- [http-nio-8082-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-31T09:36:23.827+08:00  INFO 20780 --- [http-nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-31T09:36:23.828+08:00  INFO 20780 --- [http-nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
-2025-03-31T09:36:31.639+08:00  INFO 20780 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-03-31T09:36:31.794+08:00  INFO 20780 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@239bbd97
-2025-03-31T09:36:31.796+08:00  INFO 20780 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-03-31T09:36:39.643+08:00 ERROR 20780 --- [http-nio-8082-exec-8] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.mybatis.spring.MyBatisSystemException] with root cause
-
-com.baomidou.mybatisplus.core.exceptions.MybatisPlusException: can not find lambda cache for this property [operationTime] of entity [com.example.express.entity.OperationLog]
-	at com.baomidou.mybatisplus.core.toolkit.ExceptionUtils.mpe(ExceptionUtils.java:49) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.toolkit.Assert.isTrue(Assert.java:38) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.toolkit.Assert.notNull(Assert.java:72) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper.getColumnCache(AbstractLambdaWrapper.java:149) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper.getColumnCache(AbstractLambdaWrapper.java:132) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper.columnToString(AbstractLambdaWrapper.java:66) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper.columnToString(AbstractLambdaWrapper.java:62) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper.columnToString(AbstractLambdaWrapper.java:39) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.conditions.AbstractWrapper.lambda$columnToSqlSegment$638936d7$1(AbstractWrapper.java:666) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197) ~[na:na]
-	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625) ~[na:na]
-	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509) ~[na:na]
-	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499) ~[na:na]
-	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921) ~[na:na]
-	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234) ~[na:na]
-	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682) ~[na:na]
-	at com.baomidou.mybatisplus.core.conditions.segments.OrderBySegmentList.lambda$transformList$fe67a617$1(OrderBySegmentList.java:39) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197) ~[na:na]
-	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625) ~[na:na]
-	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509) ~[na:na]
-	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499) ~[na:na]
-	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921) ~[na:na]
-	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234) ~[na:na]
-	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682) ~[na:na]
-	at com.baomidou.mybatisplus.core.conditions.segments.OrderBySegmentList.childrenSqlSegment(OrderBySegmentList.java:48) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.conditions.segments.AbstractISegmentList.getSqlSegment(AbstractISegmentList.java:102) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.conditions.segments.MergeSegments.getSqlSegment(MergeSegments.java:68) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.conditions.AbstractWrapper.getSqlSegment(AbstractWrapper.java:619) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
-	at org.apache.ibatis.ognl.OgnlRuntime.invokeMethodInsideSandbox(OgnlRuntime.java:882) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.OgnlRuntime.invokeMethod(OgnlRuntime.java:867) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.OgnlRuntime.getMethodValue(OgnlRuntime.java:1712) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.ObjectPropertyAccessor.getPossibleProperty(ObjectPropertyAccessor.java:47) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.ObjectPropertyAccessor.getProperty(ObjectPropertyAccessor.java:110) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.OgnlRuntime.getProperty(OgnlRuntime.java:2341) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.ASTProperty.getValueBody(ASTProperty.java:95) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:171) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:206) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.ASTChain.getValueBody(ASTChain.java:128) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:171) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:206) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.ASTNotEq.getValueBody(ASTNotEq.java:34) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:171) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:206) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.ASTAnd.getValueBody(ASTAnd.java:45) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:171) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:206) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.Ognl.getValue(Ognl.java:408) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.ognl.Ognl.getValue(Ognl.java:383) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.scripting.xmltags.OgnlCache.getValue(OgnlCache.java:47) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.scripting.xmltags.VarDeclSqlNode.apply(VarDeclSqlNode.java:33) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.lambda$apply$0(MixedSqlNode.java:32) ~[mybatis-3.5.15.jar:3.5.15]
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511) ~[na:na]
-	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.apply(MixedSqlNode.java:32) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.scripting.xmltags.IfSqlNode.apply(IfSqlNode.java:35) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.lambda$apply$0(MixedSqlNode.java:32) ~[mybatis-3.5.15.jar:3.5.15]
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511) ~[na:na]
-	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.apply(MixedSqlNode.java:32) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.scripting.xmltags.DynamicSqlSource.getBoundSql(DynamicSqlSource.java:39) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.mapping.MappedStatement.getBoundSql(MappedStatement.java:320) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:88) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142) ~[mybatis-3.5.15.jar:3.5.15]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
-	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425) ~[mybatis-spring-3.0.3.jar:3.0.3]
-	at jdk.proxy2/jdk.proxy2.$Proxy83.selectList(Unknown Source) ~[na:na]
-	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:224) ~[mybatis-spring-3.0.3.jar:3.0.3]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.executeForMany(MybatisMapperMethod.java:164) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:77) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:152) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at jdk.proxy2/jdk.proxy2.$Proxy88.selectList(Unknown Source) ~[na:na]
-	at com.baomidou.mybatisplus.core.mapper.BaseMapper.selectPage(BaseMapper.java:348) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:732) ~[na:na]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$DefaultMethodInvoker.invoke(MybatisMapperProxy.java:166) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at jdk.proxy2/jdk.proxy2.$Proxy88.selectPage(Unknown Source) ~[na:na]
-	at com.baomidou.mybatisplus.extension.service.IService.page(IService.java:448) ~[mybatis-plus-extension-3.5.5.jar:3.5.5]
-	at com.example.express.service.impl.OperationLogServiceImpl.pageLogs(OperationLogServiceImpl.java:70) ~[classes/:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:713) ~[spring-aop-6.1.3.jar:6.1.3]
-	at com.example.express.service.impl.OperationLogServiceImpl$$SpringCGLIB$$0.pageLogs(<generated>) ~[classes/:na]
-	at com.example.express.controller.AdminController.getLogs(AdminController.java:474) ~[classes/:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:765) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.security.authorization.method.AuthorizationManagerBeforeMethodInterceptor.invoke(AuthorizationManagerBeforeMethodInterceptor.java:198) ~[spring-security-core-6.2.1.jar:6.2.1]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:765) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:717) ~[spring-aop-6.1.3.jar:6.1.3]
-	at com.example.express.controller.AdminController$$SpringCGLIB$$0.getLogs(<generated>) ~[classes/:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:261) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:189) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.18.jar:6.0]
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.18.jar:6.0]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:227) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:221) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at com.example.express.security.JwtAuthorizationFilter.doFilterInternal(JwtAuthorizationFilter.java:96) ~[classes/:na]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:225) ~[spring-security-config-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
-
-2025-03-31T09:42:53.414+08:00  INFO 20780 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-03-31T09:42:53.418+08:00  INFO 20780 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-03-31T09:43:02.636+08:00  INFO 33000 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 33000 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
-2025-03-31T09:43:02.637+08:00 DEBUG 33000 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
-2025-03-31T09:43:02.637+08:00  INFO 33000 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
-2025-03-31T09:43:03.085+08:00  INFO 33000 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T09:43:03.087+08:00  INFO 33000 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
-2025-03-31T09:43:03.101+08:00  INFO 33000 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 0 Elasticsearch repository interfaces.
-2025-03-31T09:43:03.105+08:00  INFO 33000 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T09:43:03.105+08:00  INFO 33000 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
-2025-03-31T09:43:03.110+08:00  INFO 33000 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Reactive Elasticsearch repository interfaces.
-2025-03-31T09:43:03.117+08:00  INFO 33000 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T09:43:03.118+08:00  INFO 33000 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-31T09:43:03.127+08:00  INFO 33000 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
-2025-03-31T09:43:03.601+08:00  INFO 33000 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
-2025-03-31T09:43:03.602+08:00  INFO 33000 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
-2025-03-31T09:43:03.603+08:00  INFO 33000 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
-2025-03-31T09:43:03.606+08:00  INFO 33000 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
-2025-03-31T09:43:03.613+08:00  INFO 33000 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-31T09:43:03.613+08:00  INFO 33000 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-03-31T09:43:03.654+08:00  INFO 33000 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-03-31T09:43:03.654+08:00  INFO 33000 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 992 ms
-2025-03-31T09:43:03.695+08:00 DEBUG 33000 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
-2025-03-31T09:43:04.524+08:00  INFO 33000 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7be7c052, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4ab9d160, org.springframework.security.web.context.SecurityContextHolderFilter@20184ade, org.springframework.security.web.header.HeaderWriterFilter@22361e23, org.springframework.web.filter.CorsFilter@5599dc60, org.springframework.security.web.authentication.logout.LogoutFilter@552bee2f, com.example.express.security.JwtAuthorizationFilter@79a201cf, com.example.express.security.JwtAuthenticationFilter@35554635, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5855b0ed, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@92fd091, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@70f5f59d, org.springframework.security.web.session.SessionManagementFilter@32a4ea4e, org.springframework.security.web.access.ExceptionTranslationFilter@6cde0c69, org.springframework.security.web.access.intercept.AuthorizationFilter@3de45b6c]
-2025-03-31T09:43:04.936+08:00  INFO 33000 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
-2025-03-31T09:43:04.943+08:00  INFO 33000 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.553 seconds (process running for 2.737)
-2025-03-31T09:43:07.599+08:00  INFO 33000 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-31T09:43:07.600+08:00  INFO 33000 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-31T09:43:07.601+08:00  INFO 33000 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-03-31T09:43:07.746+08:00  INFO 33000 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-03-31T09:43:07.925+08:00  INFO 33000 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7fc205e6
-2025-03-31T09:43:07.928+08:00  INFO 33000 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-03-31T09:43:08.015+08:00 ERROR 33000 --- [http-nio-8082-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.jdbc.BadSqlGrammarException: 
-### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Unknown column 'detail' in 'field list'
-### The error may exist in com/example/express/mapper/OperationLogMapper.java (best guess)
-### The error may involve defaultParameterMap
-### The error occurred while setting parameters
-### SQL: SELECT  id,operation_type,operation_method,operation_params,operation_result,operation_ip,detail,operator_id,operator_name,operator_role,create_time  FROM operation_log           ORDER BY create_time DESC
-### Cause: java.sql.SQLSyntaxErrorException: Unknown column 'detail' in 'field list'
-; bad SQL grammar []] with root cause
-
-java.sql.SQLSyntaxErrorException: Unknown column 'detail' in 'field list'
-	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121) ~[mysql-connector-j-8.3.0.jar:8.3.0]
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-j-8.3.0.jar:8.3.0]
-	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:912) ~[mysql-connector-j-8.3.0.jar:8.3.0]
-	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:354) ~[mysql-connector-j-8.3.0.jar:8.3.0]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44) ~[HikariCP-5.0.1.jar:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java) ~[HikariCP-5.0.1.jar:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
-	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:58) ~[mybatis-3.5.15.jar:3.5.15]
-	at jdk.proxy3/jdk.proxy3.$Proxy113.execute(Unknown Source) ~[na:na]
-	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:65) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:80) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:65) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:110) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:90) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147) ~[mybatis-3.5.15.jar:3.5.15]
-	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142) ~[mybatis-3.5.15.jar:3.5.15]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
-	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425) ~[mybatis-spring-3.0.3.jar:3.0.3]
-	at jdk.proxy2/jdk.proxy2.$Proxy83.selectList(Unknown Source) ~[na:na]
-	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:224) ~[mybatis-spring-3.0.3.jar:3.0.3]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.executeForMany(MybatisMapperMethod.java:164) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:77) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:152) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at jdk.proxy2/jdk.proxy2.$Proxy88.selectList(Unknown Source) ~[na:na]
-	at com.baomidou.mybatisplus.core.mapper.BaseMapper.selectPage(BaseMapper.java:348) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:732) ~[na:na]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$DefaultMethodInvoker.invoke(MybatisMapperProxy.java:166) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89) ~[mybatis-plus-core-3.5.5.jar:3.5.5]
-	at jdk.proxy2/jdk.proxy2.$Proxy88.selectPage(Unknown Source) ~[na:na]
-	at com.baomidou.mybatisplus.extension.service.IService.page(IService.java:448) ~[mybatis-plus-extension-3.5.5.jar:3.5.5]
-	at com.example.express.service.impl.OperationLogServiceImpl.pageLogs(OperationLogServiceImpl.java:70) ~[classes/:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:713) ~[spring-aop-6.1.3.jar:6.1.3]
-	at com.example.express.service.impl.OperationLogServiceImpl$$SpringCGLIB$$0.pageLogs(<generated>) ~[classes/:na]
-	at com.example.express.controller.AdminController.getLogs(AdminController.java:475) ~[classes/:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:765) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.security.authorization.method.AuthorizationManagerBeforeMethodInterceptor.invoke(AuthorizationManagerBeforeMethodInterceptor.java:198) ~[spring-security-core-6.2.1.jar:6.2.1]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:765) ~[spring-aop-6.1.3.jar:6.1.3]
-	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:717) ~[spring-aop-6.1.3.jar:6.1.3]
-	at com.example.express.controller.AdminController$$SpringCGLIB$$0.getLogs(<generated>) ~[classes/:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:261) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:189) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.18.jar:6.0]
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.18.jar:6.0]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:227) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:221) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at com.example.express.security.JwtAuthorizationFilter.doFilterInternal(JwtAuthorizationFilter.java:96) ~[classes/:na]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195) ~[spring-webmvc-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:225) ~[spring-security-config-6.2.1.jar:6.2.1]
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.3.jar:6.1.3]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
-	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
-
-2025-03-31T09:50:44.365+08:00  INFO 33000 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-03-31T09:50:44.370+08:00  INFO 33000 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-03-31T09:52:06.442+08:00  INFO 33040 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 33040 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
-2025-03-31T09:52:06.444+08:00 DEBUG 33040 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
-2025-03-31T09:52:06.446+08:00  INFO 33040 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
-2025-03-31T09:52:07.008+08:00  INFO 33040 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T09:52:07.010+08:00  INFO 33040 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
-2025-03-31T09:52:07.025+08:00  INFO 33040 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 0 Elasticsearch repository interfaces.
-2025-03-31T09:52:07.030+08:00  INFO 33040 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T09:52:07.031+08:00  INFO 33040 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
-2025-03-31T09:52:07.036+08:00  INFO 33040 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Reactive Elasticsearch repository interfaces.
-2025-03-31T09:52:07.045+08:00  INFO 33040 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T09:52:07.046+08:00  INFO 33040 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-31T09:52:07.054+08:00  INFO 33040 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
-2025-03-31T09:52:07.554+08:00  INFO 33040 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
-2025-03-31T09:52:07.556+08:00  INFO 33040 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
-2025-03-31T09:52:07.556+08:00  INFO 33040 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
-2025-03-31T09:52:07.559+08:00  INFO 33040 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
-2025-03-31T09:52:07.567+08:00  INFO 33040 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-31T09:52:07.568+08:00  INFO 33040 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-03-31T09:52:07.613+08:00  INFO 33040 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-03-31T09:52:07.613+08:00  INFO 33040 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1134 ms
-2025-03-31T09:52:07.660+08:00 DEBUG 33040 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
-2025-03-31T09:52:08.529+08:00  INFO 33040 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7be7c052, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4ab9d160, org.springframework.security.web.context.SecurityContextHolderFilter@20184ade, org.springframework.security.web.header.HeaderWriterFilter@22361e23, org.springframework.web.filter.CorsFilter@5599dc60, org.springframework.security.web.authentication.logout.LogoutFilter@552bee2f, com.example.express.security.JwtAuthorizationFilter@79a201cf, com.example.express.security.JwtAuthenticationFilter@35554635, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5855b0ed, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@92fd091, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@70f5f59d, org.springframework.security.web.session.SessionManagementFilter@32a4ea4e, org.springframework.security.web.access.ExceptionTranslationFilter@6cde0c69, org.springframework.security.web.access.intercept.AuthorizationFilter@3de45b6c]
-2025-03-31T09:52:08.963+08:00  INFO 33040 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
-2025-03-31T09:52:08.969+08:00  INFO 33040 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.834 seconds (process running for 3.066)
-2025-03-31T09:52:09.864+08:00  INFO 33040 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-31T09:52:09.865+08:00  INFO 33040 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-31T09:52:09.866+08:00  INFO 33040 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-03-31T09:52:10.025+08:00  INFO 33040 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-03-31T09:52:10.220+08:00  INFO 33040 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@56517fd2
-2025-03-31T09:52:10.222+08:00  INFO 33040 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-03-31T10:25:27.103+08:00  INFO 33040 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-03-31T10:25:27.106+08:00  INFO 33040 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-03-31T10:26:17.276+08:00  INFO 28684 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 28684 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
-2025-03-31T10:26:17.277+08:00 DEBUG 28684 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
-2025-03-31T10:26:17.278+08:00  INFO 28684 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
-2025-03-31T10:26:17.722+08:00  INFO 28684 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T10:26:17.724+08:00  INFO 28684 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
-2025-03-31T10:26:17.735+08:00  INFO 28684 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 Elasticsearch repository interfaces.
-2025-03-31T10:26:17.739+08:00  INFO 28684 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T10:26:17.740+08:00  INFO 28684 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
-2025-03-31T10:26:17.742+08:00  INFO 28684 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
-2025-03-31T10:26:17.750+08:00  INFO 28684 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T10:26:17.751+08:00  INFO 28684 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-31T10:26:17.757+08:00  INFO 28684 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
-2025-03-31T10:26:18.262+08:00  INFO 28684 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
-2025-03-31T10:26:18.264+08:00  INFO 28684 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
-2025-03-31T10:26:18.264+08:00  INFO 28684 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
-2025-03-31T10:26:18.268+08:00  INFO 28684 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
-2025-03-31T10:26:18.275+08:00  INFO 28684 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-31T10:26:18.275+08:00  INFO 28684 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-03-31T10:26:18.351+08:00  INFO 28684 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-03-31T10:26:18.352+08:00  INFO 28684 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1050 ms
-2025-03-31T10:26:18.393+08:00 DEBUG 28684 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
-2025-03-31T10:26:19.278+08:00  INFO 28684 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@37caecda, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7be7c052, org.springframework.security.web.context.SecurityContextHolderFilter@26aee0a6, org.springframework.security.web.header.HeaderWriterFilter@6f4d2294, org.springframework.web.filter.CorsFilter@4ab9d160, org.springframework.security.web.authentication.logout.LogoutFilter@43fe2008, com.example.express.security.JwtAuthorizationFilter@79a201cf, com.example.express.security.JwtAuthenticationFilter@5599dc60, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@35fb3209, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5855b0ed, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@35554635, org.springframework.security.web.session.SessionManagementFilter@2e0516a3, org.springframework.security.web.access.ExceptionTranslationFilter@28e48b65, org.springframework.security.web.access.intercept.AuthorizationFilter@526893f]
-2025-03-31T10:26:19.708+08:00  INFO 28684 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
-2025-03-31T10:26:19.714+08:00  INFO 28684 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.687 seconds (process running for 2.885)
-2025-03-31T10:26:25.778+08:00  INFO 28684 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-31T10:26:25.778+08:00  INFO 28684 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-31T10:26:25.780+08:00  INFO 28684 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-03-31T10:26:25.963+08:00  INFO 28684 --- [http-nio-8082-exec-6] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-03-31T10:26:26.167+08:00  INFO 28684 --- [http-nio-8082-exec-6] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@464071ff
-2025-03-31T10:26:26.168+08:00  INFO 28684 --- [http-nio-8082-exec-6] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-03-31T10:30:00.145+08:00  INFO 28684 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-03-31T10:30:00.151+08:00  INFO 28684 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-03-31T10:30:13.390+08:00  INFO 26888 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 26888 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
-2025-03-31T10:30:13.392+08:00 DEBUG 26888 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
-2025-03-31T10:30:13.392+08:00  INFO 26888 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
-2025-03-31T10:30:13.812+08:00  INFO 26888 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T10:30:13.814+08:00  INFO 26888 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
-2025-03-31T10:30:13.826+08:00  INFO 26888 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 0 Elasticsearch repository interfaces.
-2025-03-31T10:30:13.830+08:00  INFO 26888 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T10:30:13.831+08:00  INFO 26888 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
-2025-03-31T10:30:13.834+08:00  INFO 26888 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
-2025-03-31T10:30:13.842+08:00  INFO 26888 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T10:30:13.843+08:00  INFO 26888 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-31T10:30:13.851+08:00  INFO 26888 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
-2025-03-31T10:30:14.314+08:00  INFO 26888 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
-2025-03-31T10:30:14.315+08:00  INFO 26888 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
-2025-03-31T10:30:14.316+08:00  INFO 26888 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
-2025-03-31T10:30:14.319+08:00  INFO 26888 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
-2025-03-31T10:30:14.325+08:00  INFO 26888 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-31T10:30:14.327+08:00  INFO 26888 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-03-31T10:30:14.365+08:00  INFO 26888 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-03-31T10:30:14.366+08:00  INFO 26888 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 946 ms
-2025-03-31T10:30:14.402+08:00 DEBUG 26888 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
-2025-03-31T10:30:15.201+08:00  INFO 26888 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7be7c052, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4ab9d160, org.springframework.security.web.context.SecurityContextHolderFilter@20184ade, org.springframework.security.web.header.HeaderWriterFilter@22361e23, org.springframework.web.filter.CorsFilter@5599dc60, org.springframework.security.web.authentication.logout.LogoutFilter@552bee2f, com.example.express.security.JwtAuthorizationFilter@79a201cf, com.example.express.security.JwtAuthenticationFilter@35554635, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5855b0ed, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@92fd091, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@70f5f59d, org.springframework.security.web.session.SessionManagementFilter@32a4ea4e, org.springframework.security.web.access.ExceptionTranslationFilter@6cde0c69, org.springframework.security.web.access.intercept.AuthorizationFilter@3de45b6c]
-2025-03-31T10:30:15.631+08:00  INFO 26888 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
-2025-03-31T10:30:15.639+08:00  INFO 26888 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.509 seconds (process running for 2.725)
-2025-03-31T10:30:23.570+08:00  INFO 26888 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-31T10:30:23.571+08:00  INFO 26888 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-31T10:30:23.572+08:00  INFO 26888 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-03-31T10:30:23.697+08:00  INFO 26888 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-03-31T10:30:23.879+08:00  INFO 26888 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@56517fd2
-2025-03-31T10:30:23.881+08:00  INFO 26888 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-03-31T10:31:45.643+08:00  INFO 26888 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-03-31T10:31:45.652+08:00  INFO 26888 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-03-31T10:56:13.739+08:00  INFO 12584 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 12584 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
-2025-03-31T10:56:13.740+08:00 DEBUG 12584 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
-2025-03-31T10:56:13.741+08:00  INFO 12584 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
-2025-03-31T10:56:14.162+08:00  INFO 12584 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T10:56:14.164+08:00  INFO 12584 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
-2025-03-31T10:56:14.177+08:00  INFO 12584 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 0 Elasticsearch repository interfaces.
-2025-03-31T10:56:14.180+08:00  INFO 12584 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T10:56:14.181+08:00  INFO 12584 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
-2025-03-31T10:56:14.185+08:00  INFO 12584 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Reactive Elasticsearch repository interfaces.
-2025-03-31T10:56:14.194+08:00  INFO 12584 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T10:56:14.194+08:00  INFO 12584 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-31T10:56:14.203+08:00  INFO 12584 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
-2025-03-31T10:56:14.617+08:00  INFO 12584 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
-2025-03-31T10:56:14.619+08:00  INFO 12584 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
-2025-03-31T10:56:14.619+08:00  INFO 12584 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
-2025-03-31T10:56:14.630+08:00  INFO 12584 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
-2025-03-31T10:56:14.635+08:00  INFO 12584 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-31T10:56:14.637+08:00  INFO 12584 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-03-31T10:56:14.672+08:00  INFO 12584 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-03-31T10:56:14.673+08:00  INFO 12584 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 908 ms
-2025-03-31T10:56:14.706+08:00 DEBUG 12584 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
-2025-03-31T10:56:15.416+08:00  INFO 12584 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4ca5cb99, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7853363c, org.springframework.security.web.context.SecurityContextHolderFilter@6cc56b32, org.springframework.security.web.header.HeaderWriterFilter@56f2c9e8, org.springframework.web.filter.CorsFilter@6282f1eb, org.springframework.security.web.authentication.logout.LogoutFilter@57b711b6, com.example.express.security.JwtAuthorizationFilter@79a201cf, com.example.express.security.JwtAuthenticationFilter@120d6cbf, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@552bee2f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6a543e09, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@70169464, org.springframework.security.web.session.SessionManagementFilter@350342e0, org.springframework.security.web.access.ExceptionTranslationFilter@8ef1d58, org.springframework.security.web.access.intercept.AuthorizationFilter@11d1735e]
-2025-03-31T10:56:15.781+08:00  INFO 12584 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
-2025-03-31T10:56:15.787+08:00  INFO 12584 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.296 seconds (process running for 2.474)
-2025-03-31T10:56:26.789+08:00  INFO 12584 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-31T10:56:26.789+08:00  INFO 12584 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-31T10:56:26.791+08:00  INFO 12584 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
-2025-03-31T10:56:26.939+08:00  INFO 12584 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-03-31T10:56:27.131+08:00  INFO 12584 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6537f5d5
-2025-03-31T10:56:27.132+08:00  INFO 12584 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-03-31T13:26:43.838+08:00  INFO 12584 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-03-31T13:26:43.843+08:00  INFO 12584 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-03-31T13:26:54.450+08:00  INFO 33168 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 33168 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
-2025-03-31T13:26:54.452+08:00 DEBUG 33168 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
-2025-03-31T13:26:54.453+08:00  INFO 33168 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
-2025-03-31T13:26:54.843+08:00  INFO 33168 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T13:26:54.844+08:00  INFO 33168 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
-2025-03-31T13:26:54.856+08:00  INFO 33168 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 Elasticsearch repository interfaces.
-2025-03-31T13:26:54.860+08:00  INFO 33168 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T13:26:54.860+08:00  INFO 33168 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
-2025-03-31T13:26:54.863+08:00  INFO 33168 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
-2025-03-31T13:26:54.871+08:00  INFO 33168 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T13:26:54.872+08:00  INFO 33168 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-31T13:26:54.880+08:00  INFO 33168 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
-2025-03-31T13:26:55.327+08:00  INFO 33168 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
-2025-03-31T13:26:55.329+08:00  INFO 33168 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
-2025-03-31T13:26:55.330+08:00  INFO 33168 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
-2025-03-31T13:26:55.332+08:00  INFO 33168 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
-2025-03-31T13:26:55.339+08:00  INFO 33168 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-31T13:26:55.340+08:00  INFO 33168 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-03-31T13:26:55.411+08:00  INFO 33168 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-03-31T13:26:55.413+08:00  INFO 33168 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 937 ms
-2025-03-31T13:26:55.462+08:00 DEBUG 33168 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
-2025-03-31T13:26:56.181+08:00  INFO 33168 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1dfcf85a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@590dea35, org.springframework.security.web.context.SecurityContextHolderFilter@5e7cd0df, org.springframework.security.web.header.HeaderWriterFilter@552bee2f, org.springframework.web.filter.CorsFilter@6550ce46, org.springframework.security.web.authentication.logout.LogoutFilter@248b2b61, com.example.express.security.JwtAuthorizationFilter@39da5e49, com.example.express.security.JwtAuthenticationFilter@69f69078, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@8b89b3a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@526893f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@13b29b34, org.springframework.security.web.session.SessionManagementFilter@2d0f548a, org.springframework.security.web.access.ExceptionTranslationFilter@6cc56b32, org.springframework.security.web.access.intercept.AuthorizationFilter@1115be8c]
-2025-03-31T13:26:56.555+08:00  INFO 33168 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
-2025-03-31T13:26:56.561+08:00  INFO 33168 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.358 seconds (process running for 2.57)
-2025-03-31T13:27:00.459+08:00  INFO 33168 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-31T13:27:00.459+08:00  INFO 33168 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-31T13:27:00.461+08:00  INFO 33168 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
-2025-03-31T13:27:00.576+08:00  INFO 33168 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-03-31T13:27:00.725+08:00  INFO 33168 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6ae9231
-2025-03-31T13:27:00.726+08:00  INFO 33168 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-03-31T22:14:58.120+08:00  INFO 45080 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 45080 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
-2025-03-31T22:14:58.122+08:00 DEBUG 45080 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
-2025-03-31T22:14:58.122+08:00  INFO 45080 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
-2025-03-31T22:14:58.682+08:00  INFO 45080 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T22:14:58.683+08:00  INFO 45080 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
-2025-03-31T22:14:58.696+08:00  INFO 45080 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 0 Elasticsearch repository interfaces.
-2025-03-31T22:14:58.699+08:00  INFO 45080 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T22:14:58.701+08:00  INFO 45080 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
-2025-03-31T22:14:58.703+08:00  INFO 45080 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
-2025-03-31T22:14:58.714+08:00  INFO 45080 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-03-31T22:14:58.715+08:00  INFO 45080 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-03-31T22:14:58.724+08:00  INFO 45080 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
-2025-03-31T22:14:59.249+08:00  INFO 45080 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
-2025-03-31T22:14:59.251+08:00  INFO 45080 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
-2025-03-31T22:14:59.252+08:00  INFO 45080 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
-2025-03-31T22:14:59.267+08:00  INFO 45080 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
-2025-03-31T22:14:59.274+08:00  INFO 45080 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-31T22:14:59.274+08:00  INFO 45080 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-03-31T22:14:59.320+08:00  INFO 45080 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-03-31T22:14:59.320+08:00  INFO 45080 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1166 ms
-2025-03-31T22:14:59.363+08:00 DEBUG 45080 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
-2025-03-31T22:15:00.212+08:00  INFO 45080 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@36d7a68a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@42dd7d82, org.springframework.security.web.context.SecurityContextHolderFilter@563ada5, org.springframework.security.web.header.HeaderWriterFilter@a1cb94, org.springframework.web.filter.CorsFilter@2838eb, org.springframework.security.web.authentication.logout.LogoutFilter@e6e5da4, com.example.express.security.JwtAuthorizationFilter@40bf4386, com.example.express.security.JwtAuthenticationFilter@fb5d334, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@156ff70f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@c5a2d5, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@45dc7be, org.springframework.security.web.session.SessionManagementFilter@37f41a81, org.springframework.security.web.access.ExceptionTranslationFilter@6fa3def8, org.springframework.security.web.access.intercept.AuthorizationFilter@6f65aa58]
-2025-03-31T22:15:00.660+08:00  INFO 45080 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
-2025-03-31T22:15:00.666+08:00  INFO 45080 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.892 seconds (process running for 3.138)
-2025-03-31T22:15:04.865+08:00  INFO 45080 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-31T22:15:04.866+08:00  INFO 45080 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-31T22:15:04.867+08:00  INFO 45080 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-03-31T22:15:12.361+08:00  INFO 45080 --- [http-nio-8082-exec-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-03-31T22:15:12.568+08:00  INFO 45080 --- [http-nio-8082-exec-3] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@39dd520c
-2025-03-31T22:15:12.570+08:00  INFO 45080 --- [http-nio-8082-exec-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-03-31T22:15:29.200+08:00 ERROR 45080 --- [http-nio-8082-exec-9] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.jdbc.BadSqlGrammarException: 
+2025-04-01T09:40:49.075+08:00  INFO 9148 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 9148 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-01T09:40:49.079+08:00 DEBUG 9148 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-01T09:40:49.080+08:00  INFO 9148 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-01T09:40:49.611+08:00  INFO 9148 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T09:40:49.613+08:00  INFO 9148 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-01T09:40:49.625+08:00  INFO 9148 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-01T09:40:49.630+08:00  INFO 9148 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T09:40:49.631+08:00  INFO 9148 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-01T09:40:49.633+08:00  INFO 9148 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-01T09:40:49.641+08:00  INFO 9148 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T09:40:49.642+08:00  INFO 9148 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-01T09:40:49.650+08:00  INFO 9148 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
+2025-04-01T09:40:50.213+08:00  INFO 9148 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-01T09:40:50.215+08:00  INFO 9148 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-01T09:40:50.216+08:00  INFO 9148 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-01T09:40:50.228+08:00  INFO 9148 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-01T09:40:50.236+08:00  INFO 9148 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-01T09:40:50.237+08:00  INFO 9148 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-01T09:40:50.317+08:00  INFO 9148 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-01T09:40:50.317+08:00  INFO 9148 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1204 ms
+2025-04-01T09:40:50.365+08:00 DEBUG 9148 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-01T09:40:51.181+08:00  INFO 9148 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@38826984, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@65262308, org.springframework.security.web.context.SecurityContextHolderFilter@1dcca426, org.springframework.security.web.header.HeaderWriterFilter@407f2029, org.springframework.web.filter.CorsFilter@792e8181, org.springframework.security.web.authentication.logout.LogoutFilter@7be3abaa, com.example.express.security.JwtAuthorizationFilter@6d6bff89, com.example.express.security.JwtAuthenticationFilter@511d5e6e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@720c8f80, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@f591271, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7a78d380, org.springframework.security.web.session.SessionManagementFilter@45eacb70, org.springframework.security.web.access.ExceptionTranslationFilter@6b3b2c34, org.springframework.security.web.access.intercept.AuthorizationFilter@38848217]
+2025-04-01T09:40:51.622+08:00  INFO 9148 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-01T09:40:51.628+08:00  INFO 9148 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.854 seconds (process running for 3.076)
+2025-04-01T09:40:54.843+08:00  INFO 9148 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-01T09:40:54.843+08:00  INFO 9148 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-01T09:40:54.844+08:00  INFO 9148 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-04-01T09:41:03.354+08:00  INFO 9148 --- [http-nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-01T09:41:03.558+08:00  INFO 9148 --- [http-nio-8082-exec-2] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4468e092
+2025-04-01T09:41:03.559+08:00  INFO 9148 --- [http-nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-01T09:41:22.299+08:00 ERROR 9148 --- [http-nio-8082-exec-8] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.jdbc.BadSqlGrammarException: 
 ### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'expressmanagement.audit' doesn't exist
 ### The error may exist in com/example/express/mapper/AuditMapper.java (best guess)
 ### The error may involve com.example.express.mapper.AuditMapper.findAudits-Inline
@@ -700,7 +83,20 @@ java.sql.SQLSyntaxErrorException: Table 'expressmanagement.audit' doesn't exist
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:220) ~[spring-aop-6.1.3.jar:6.1.3]
 	at jdk.proxy2/jdk.proxy2.$Proxy101.findAudits(Unknown Source) ~[na:na]
 	at com.example.express.service.impl.AuditServiceImpl.getAuditList(AuditServiceImpl.java:45) ~[classes/:na]
-	at com.example.express.controller.AuditController.getAuditList(AuditController.java:57) ~[classes/:na]
+	at com.example.express.controller.AuditController.getAuditList(AuditController.java:59) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351) ~[spring-aop-6.1.3.jar:6.1.3]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196) ~[spring-aop-6.1.3.jar:6.1.3]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-6.1.3.jar:6.1.3]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:765) ~[spring-aop-6.1.3.jar:6.1.3]
+	at org.springframework.security.authorization.method.AuthorizationManagerBeforeMethodInterceptor.invoke(AuthorizationManagerBeforeMethodInterceptor.java:198) ~[spring-security-core-6.2.1.jar:6.2.1]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.3.jar:6.1.3]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:765) ~[spring-aop-6.1.3.jar:6.1.3]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:717) ~[spring-aop-6.1.3.jar:6.1.3]
+	at com.example.express.controller.AuditController$$SpringCGLIB$$0.getAuditList(<generated>) ~[classes/:na]
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
@@ -808,5 +204,272 @@ java.sql.SQLSyntaxErrorException: Table 'expressmanagement.audit' doesn't exist
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.18.jar:10.1.18]
 	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
 
-2025-03-31T23:21:04.362+08:00  INFO 45080 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-03-31T23:21:04.367+08:00  INFO 45080 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-01T10:09:30.610+08:00  INFO 9148 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-01T10:09:30.615+08:00  INFO 9148 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-01T10:11:30.297+08:00  INFO 28836 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 28836 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-01T10:11:30.298+08:00 DEBUG 28836 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-01T10:11:30.299+08:00  INFO 28836 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-01T10:11:30.715+08:00  INFO 28836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T10:11:30.717+08:00  INFO 28836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-01T10:11:30.727+08:00  INFO 28836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-01T10:11:30.730+08:00  INFO 28836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T10:11:30.732+08:00  INFO 28836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-01T10:11:30.734+08:00  INFO 28836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-01T10:11:30.740+08:00  INFO 28836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T10:11:30.742+08:00  INFO 28836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-01T10:11:30.748+08:00  INFO 28836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
+2025-04-01T10:11:31.168+08:00  INFO 28836 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-01T10:11:31.170+08:00  INFO 28836 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-01T10:11:31.170+08:00  INFO 28836 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-01T10:11:31.172+08:00  INFO 28836 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-01T10:11:31.179+08:00  INFO 28836 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-01T10:11:31.179+08:00  INFO 28836 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-01T10:11:31.215+08:00  INFO 28836 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-01T10:11:31.215+08:00  INFO 28836 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 889 ms
+2025-04-01T10:11:31.253+08:00 DEBUG 28836 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-01T10:11:32.079+08:00  INFO 28836 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4d664323, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@27ec0d06, org.springframework.security.web.context.SecurityContextHolderFilter@690ed13a, org.springframework.security.web.header.HeaderWriterFilter@156ff70f, org.springframework.web.filter.CorsFilter@2676d96a, org.springframework.security.web.authentication.logout.LogoutFilter@4ed19b69, com.example.express.security.JwtAuthorizationFilter@51c65a43, com.example.express.security.JwtAuthenticationFilter@12266084, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2c7375da, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@68c4db77, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6da646b8, org.springframework.security.web.session.SessionManagementFilter@185339ed, org.springframework.security.web.access.ExceptionTranslationFilter@563ada5, org.springframework.security.web.access.intercept.AuthorizationFilter@2d459bda]
+2025-04-01T10:11:32.448+08:00  INFO 28836 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-01T10:11:32.453+08:00  INFO 28836 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.426 seconds (process running for 2.631)
+2025-04-01T10:11:46.168+08:00  INFO 28836 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-01T10:11:46.168+08:00  INFO 28836 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-01T10:11:46.169+08:00  INFO 28836 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-04-01T10:11:46.242+08:00  WARN 28836 --- [http-nio-8082-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "types"]
+2025-04-01T10:11:46.306+08:00  INFO 28836 --- [http-nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-01T10:11:46.463+08:00  INFO 28836 --- [http-nio-8082-exec-2] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@71df4828
+2025-04-01T10:11:46.464+08:00  INFO 28836 --- [http-nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-01T10:11:50.541+08:00  WARN 28836 --- [http-nio-8082-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "types"]
+2025-04-01T10:28:18.015+08:00  INFO 28836 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-01T10:28:18.020+08:00  INFO 28836 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-01T10:28:29.284+08:00  INFO 32228 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 32228 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-01T10:28:29.286+08:00 DEBUG 32228 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-01T10:28:29.286+08:00  INFO 32228 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-01T10:28:29.709+08:00  INFO 32228 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T10:28:29.711+08:00  INFO 32228 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-01T10:28:29.723+08:00  INFO 32228 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-01T10:28:29.727+08:00  INFO 32228 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T10:28:29.727+08:00  INFO 32228 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-01T10:28:29.731+08:00  INFO 32228 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-01T10:28:29.739+08:00  INFO 32228 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T10:28:29.740+08:00  INFO 32228 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-01T10:28:29.748+08:00  INFO 32228 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
+2025-04-01T10:28:30.176+08:00  INFO 32228 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-01T10:28:30.177+08:00  INFO 32228 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-01T10:28:30.177+08:00  INFO 32228 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-01T10:28:30.181+08:00  INFO 32228 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-01T10:28:30.187+08:00  INFO 32228 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-01T10:28:30.187+08:00  INFO 32228 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-01T10:28:30.226+08:00  INFO 32228 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-01T10:28:30.226+08:00  INFO 32228 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 912 ms
+2025-04-01T10:28:30.268+08:00 DEBUG 32228 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-01T10:28:31.157+08:00  INFO 32228 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1b4ba615, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4407b042, org.springframework.security.web.context.SecurityContextHolderFilter@7e89eba7, org.springframework.security.web.header.HeaderWriterFilter@2c7375da, org.springframework.web.filter.CorsFilter@41f686af, org.springframework.security.web.authentication.logout.LogoutFilter@fb5d334, com.example.express.security.JwtAuthorizationFilter@50b46e24, com.example.express.security.JwtAuthenticationFilter@3dded90a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7b29cdea, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@f08d676, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7be3abaa, org.springframework.security.web.session.SessionManagementFilter@775c4054, org.springframework.security.web.access.ExceptionTranslationFilter@690ed13a, org.springframework.security.web.access.intercept.AuthorizationFilter@2a65e237]
+2025-04-01T10:28:31.571+08:00  INFO 32228 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-01T10:28:31.579+08:00  INFO 32228 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.567 seconds (process running for 2.766)
+2025-04-01T10:28:40.966+08:00  INFO 32228 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-01T10:28:40.967+08:00  INFO 32228 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-01T10:28:40.968+08:00  INFO 32228 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-04-01T10:28:41.102+08:00  INFO 32228 --- [http-nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-01T10:28:41.257+08:00  INFO 32228 --- [http-nio-8082-exec-2] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4d1f5376
+2025-04-01T10:28:41.258+08:00  INFO 32228 --- [http-nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-01T11:09:29.329+08:00  INFO 32228 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-01T11:09:29.334+08:00  INFO 32228 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-01T11:14:37.364+08:00  INFO 32900 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 32900 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-01T11:14:37.365+08:00 DEBUG 32900 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-01T11:14:37.365+08:00  INFO 32900 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-01T11:14:37.831+08:00  INFO 32900 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T11:14:37.833+08:00  INFO 32900 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-01T11:14:37.845+08:00  INFO 32900 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-01T11:14:37.849+08:00  INFO 32900 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T11:14:37.849+08:00  INFO 32900 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-01T11:14:37.851+08:00  INFO 32900 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-01T11:14:37.858+08:00  INFO 32900 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T11:14:37.859+08:00  INFO 32900 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-01T11:14:37.867+08:00  INFO 32900 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
+2025-04-01T11:14:38.316+08:00  INFO 32900 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-01T11:14:38.318+08:00  INFO 32900 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-01T11:14:38.318+08:00  INFO 32900 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-01T11:14:38.320+08:00  INFO 32900 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-01T11:14:38.329+08:00  INFO 32900 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-01T11:14:38.329+08:00  INFO 32900 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-01T11:14:38.368+08:00  INFO 32900 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-01T11:14:38.369+08:00  INFO 32900 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 976 ms
+2025-04-01T11:14:38.410+08:00 DEBUG 32900 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-01T11:14:39.176+08:00  INFO 32900 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4407b042, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@41f686af, org.springframework.security.web.context.SecurityContextHolderFilter@6bc25ac2, org.springframework.security.web.header.HeaderWriterFilter@68c4db77, org.springframework.web.filter.CorsFilter@3dded90a, org.springframework.security.web.authentication.logout.LogoutFilter@45dc7be, com.example.express.security.JwtAuthorizationFilter@4e80a001, com.example.express.security.JwtAuthenticationFilter@7be3abaa, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@f08d676, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3eedd0e3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@29f8134, org.springframework.security.web.session.SessionManagementFilter@7b2e931, org.springframework.security.web.access.ExceptionTranslationFilter@681311a7, org.springframework.security.web.access.intercept.AuthorizationFilter@3a48c398]
+2025-04-01T11:14:39.548+08:00  INFO 32900 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-01T11:14:39.554+08:00  INFO 32900 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.465 seconds (process running for 2.682)
+2025-04-01T11:14:42.441+08:00  INFO 32900 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-01T11:14:42.442+08:00  INFO 32900 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-01T11:14:42.444+08:00  INFO 32900 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-04-01T11:15:11.376+08:00  INFO 32900 --- [http-nio-8082-exec-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-01T11:15:11.533+08:00  INFO 32900 --- [http-nio-8082-exec-5] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@42dc7bd
+2025-04-01T11:15:11.534+08:00  INFO 32900 --- [http-nio-8082-exec-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-01T11:37:28.977+08:00  INFO 32900 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-01T11:37:28.987+08:00  INFO 32900 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-01T11:38:57.553+08:00  INFO 32516 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 32516 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-01T11:38:57.554+08:00 DEBUG 32516 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-01T11:38:57.555+08:00  INFO 32516 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-01T11:38:58.006+08:00  INFO 32516 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T11:38:58.007+08:00  INFO 32516 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-01T11:38:58.019+08:00  INFO 32516 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-01T11:38:58.023+08:00  INFO 32516 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T11:38:58.023+08:00  INFO 32516 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-01T11:38:58.027+08:00  INFO 32516 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-01T11:38:58.033+08:00  INFO 32516 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T11:38:58.033+08:00  INFO 32516 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-01T11:38:58.041+08:00  INFO 32516 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
+2025-04-01T11:38:58.510+08:00  INFO 32516 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-01T11:38:58.512+08:00  INFO 32516 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-01T11:38:58.512+08:00  INFO 32516 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-01T11:38:58.515+08:00  INFO 32516 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-01T11:38:58.523+08:00  INFO 32516 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-01T11:38:58.523+08:00  INFO 32516 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-01T11:38:58.563+08:00  INFO 32516 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-01T11:38:58.563+08:00  INFO 32516 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 981 ms
+2025-04-01T11:38:58.602+08:00 DEBUG 32516 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-01T11:38:59.465+08:00  INFO 32516 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1b4ba615, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4407b042, org.springframework.security.web.context.SecurityContextHolderFilter@7e89eba7, org.springframework.security.web.header.HeaderWriterFilter@2c7375da, org.springframework.web.filter.CorsFilter@41f686af, org.springframework.security.web.authentication.logout.LogoutFilter@fb5d334, com.example.express.security.JwtAuthorizationFilter@4e80a001, com.example.express.security.JwtAuthenticationFilter@3dded90a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7b29cdea, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@f08d676, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7be3abaa, org.springframework.security.web.session.SessionManagementFilter@775c4054, org.springframework.security.web.access.ExceptionTranslationFilter@690ed13a, org.springframework.security.web.access.intercept.AuthorizationFilter@2a65e237]
+2025-04-01T11:38:59.905+08:00  INFO 32516 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-01T11:38:59.912+08:00  INFO 32516 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.612 seconds (process running for 2.82)
+2025-04-01T11:39:03.343+08:00  INFO 32516 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-01T11:39:03.343+08:00  INFO 32516 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-01T11:39:03.344+08:00  INFO 32516 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-04-01T11:39:03.454+08:00  INFO 32516 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-01T11:39:03.623+08:00  INFO 32516 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1f1b233
+2025-04-01T11:39:03.624+08:00  INFO 32516 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-01T11:39:34.510+08:00  INFO 32516 --- [http-nio-8082-exec-2] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: admin
+2025-04-01T11:41:07.965+08:00  INFO 32516 --- [http-nio-8082-exec-6] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: user1
+2025-04-01T14:17:56.536+08:00  INFO 32516 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-01T14:17:56.540+08:00  INFO 32516 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-01T14:18:04.270+08:00  INFO 34760 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 34760 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-01T14:18:04.272+08:00 DEBUG 34760 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-01T14:18:04.273+08:00  INFO 34760 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-01T14:18:04.840+08:00  INFO 34760 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T14:18:04.842+08:00  INFO 34760 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-01T14:18:04.855+08:00  INFO 34760 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-01T14:18:04.859+08:00  INFO 34760 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T14:18:04.860+08:00  INFO 34760 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-01T14:18:04.864+08:00  INFO 34760 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-01T14:18:04.873+08:00  INFO 34760 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T14:18:04.873+08:00  INFO 34760 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-01T14:18:04.883+08:00  INFO 34760 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
+2025-04-01T14:18:05.368+08:00  INFO 34760 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-01T14:18:05.370+08:00  INFO 34760 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-01T14:18:05.371+08:00  INFO 34760 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-01T14:18:05.374+08:00  INFO 34760 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-01T14:18:05.381+08:00  INFO 34760 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-01T14:18:05.381+08:00  INFO 34760 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-01T14:18:05.426+08:00  INFO 34760 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-01T14:18:05.426+08:00  INFO 34760 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1119 ms
+2025-04-01T14:18:05.466+08:00 DEBUG 34760 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-01T14:18:06.465+08:00  INFO 34760 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1b4ba615, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4407b042, org.springframework.security.web.context.SecurityContextHolderFilter@7e89eba7, org.springframework.security.web.header.HeaderWriterFilter@2c7375da, org.springframework.web.filter.CorsFilter@41f686af, org.springframework.security.web.authentication.logout.LogoutFilter@fb5d334, com.example.express.security.JwtAuthorizationFilter@4e80a001, com.example.express.security.JwtAuthenticationFilter@3dded90a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7b29cdea, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@f08d676, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7be3abaa, org.springframework.security.web.session.SessionManagementFilter@775c4054, org.springframework.security.web.access.ExceptionTranslationFilter@690ed13a, org.springframework.security.web.access.intercept.AuthorizationFilter@2a65e237]
+2025-04-01T14:18:06.932+08:00  INFO 34760 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-01T14:18:06.940+08:00  INFO 34760 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 3.015 seconds (process running for 3.298)
+2025-04-01T14:18:09.910+08:00  INFO 34760 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-01T14:18:09.911+08:00  INFO 34760 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-01T14:18:09.911+08:00  INFO 34760 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-04-01T14:18:10.053+08:00  INFO 34760 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-01T14:18:10.232+08:00  INFO 34760 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@53ed6652
+2025-04-01T14:18:10.233+08:00  INFO 34760 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-01T14:18:19.897+08:00  INFO 34760 --- [http-nio-8082-exec-2] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: user1
+2025-04-01T14:18:40.913+08:00  INFO 34760 --- [http-nio-8082-exec-8] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: user1
+2025-04-01T14:25:31.995+08:00  INFO 34760 --- [http-nio-8082-exec-5] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: user2
+2025-04-01T14:28:12.148+08:00  INFO 34760 --- [http-nio-8082-exec-6] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: user2
+2025-04-01T14:28:39.082+08:00  INFO 34760 --- [http-nio-8082-exec-7] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: user2
+2025-04-01T14:29:30.407+08:00  INFO 34760 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-01T14:29:30.412+08:00  INFO 34760 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-01T15:05:51.302+08:00  INFO 24564 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 24564 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-01T15:05:51.303+08:00 DEBUG 24564 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-01T15:05:51.304+08:00  INFO 24564 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-01T15:05:51.727+08:00  INFO 24564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T15:05:51.728+08:00  INFO 24564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-01T15:05:51.739+08:00  INFO 24564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-01T15:05:51.743+08:00  INFO 24564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T15:05:51.743+08:00  INFO 24564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-01T15:05:51.747+08:00  INFO 24564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-01T15:05:51.752+08:00  INFO 24564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T15:05:51.754+08:00  INFO 24564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-01T15:05:51.762+08:00  INFO 24564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
+2025-04-01T15:05:52.196+08:00  INFO 24564 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-01T15:05:52.198+08:00  INFO 24564 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-01T15:05:52.198+08:00  INFO 24564 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-01T15:05:52.201+08:00  INFO 24564 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-01T15:05:52.207+08:00  INFO 24564 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-01T15:05:52.207+08:00  INFO 24564 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-01T15:05:52.244+08:00  INFO 24564 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-01T15:05:52.245+08:00  INFO 24564 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 916 ms
+2025-04-01T15:05:52.282+08:00 DEBUG 24564 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-01T15:05:53.110+08:00  INFO 24564 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2444c3df, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1eb6037d, org.springframework.security.web.context.SecurityContextHolderFilter@28b5d5dc, org.springframework.security.web.header.HeaderWriterFilter@3eedd0e3, org.springframework.web.filter.CorsFilter@335b3d6, org.springframework.security.web.authentication.logout.LogoutFilter@2a65e237, com.example.express.security.JwtAuthorizationFilter@4fba8eec, com.example.express.security.JwtAuthenticationFilter@3a5ce4b8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@77020328, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@45eacb70, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@38848217, org.springframework.security.web.session.SessionManagementFilter@72f35a31, org.springframework.security.web.access.ExceptionTranslationFilter@7b29cdea, org.springframework.security.web.access.intercept.AuthorizationFilter@3c743d40]
+2025-04-01T15:05:53.491+08:00  INFO 24564 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-01T15:05:53.496+08:00  INFO 24564 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.444 seconds (process running for 2.646)
+2025-04-01T15:05:57.665+08:00  INFO 24564 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-01T15:05:57.666+08:00  INFO 24564 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-01T15:05:57.668+08:00  INFO 24564 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-04-01T15:05:57.797+08:00  INFO 24564 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-01T15:05:57.961+08:00  INFO 24564 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3b66af75
+2025-04-01T15:05:57.962+08:00  INFO 24564 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-01T15:06:09.298+08:00  INFO 24564 --- [http-nio-8082-exec-2] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: user2
+2025-04-01T15:08:16.227+08:00  INFO 24564 --- [http-nio-8082-exec-4] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: admin
+2025-04-01T18:59:27.752+08:00  INFO 24564 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-01T18:59:27.757+08:00  INFO 24564 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-01T18:59:40.233+08:00  INFO 11640 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 11640 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-01T18:59:40.236+08:00 DEBUG 11640 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-01T18:59:40.237+08:00  INFO 11640 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-01T18:59:40.746+08:00  INFO 11640 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T18:59:40.748+08:00  INFO 11640 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-01T18:59:40.760+08:00  INFO 11640 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-01T18:59:40.765+08:00  INFO 11640 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T18:59:40.765+08:00  INFO 11640 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-01T18:59:40.768+08:00  INFO 11640 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-01T18:59:40.776+08:00  INFO 11640 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T18:59:40.777+08:00  INFO 11640 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-01T18:59:40.787+08:00  INFO 11640 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2025-04-01T18:59:41.336+08:00  INFO 11640 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-01T18:59:41.338+08:00  INFO 11640 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-01T18:59:41.338+08:00  INFO 11640 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-01T18:59:41.348+08:00  INFO 11640 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-01T18:59:41.358+08:00  INFO 11640 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-01T18:59:41.359+08:00  INFO 11640 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-01T18:59:41.419+08:00  INFO 11640 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-01T18:59:41.420+08:00  INFO 11640 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1152 ms
+2025-04-01T18:59:41.464+08:00 DEBUG 11640 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-01T18:59:42.446+08:00  INFO 11640 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1607d391, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@38826984, org.springframework.security.web.context.SecurityContextHolderFilter@7a30e30b, org.springframework.security.web.header.HeaderWriterFilter@28b5d5dc, org.springframework.web.filter.CorsFilter@65262308, org.springframework.security.web.authentication.logout.LogoutFilter@3dded90a, com.example.express.security.JwtAuthorizationFilter@681c0ae6, com.example.express.security.JwtAuthenticationFilter@792e8181, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@e6e5da4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@720c8f80, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@511d5e6e, org.springframework.security.web.session.SessionManagementFilter@77020328, org.springframework.security.web.access.ExceptionTranslationFilter@3b01897f, org.springframework.security.web.access.intercept.AuthorizationFilter@3a5ce4b8]
+2025-04-01T18:59:42.920+08:00  INFO 11640 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-01T18:59:42.926+08:00  INFO 11640 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 3.019 seconds (process running for 3.31)
+2025-04-01T18:59:47.772+08:00  INFO 11640 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-01T18:59:47.773+08:00  INFO 11640 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-01T18:59:47.775+08:00  INFO 11640 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-04-01T18:59:47.922+08:00  INFO 11640 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-01T18:59:48.141+08:00  INFO 11640 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@50bcbe0c
+2025-04-01T18:59:48.141+08:00  INFO 11640 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-01T23:15:54.645+08:00  INFO 11640 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-01T23:15:54.653+08:00  INFO 11640 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-01T23:16:00.003+08:00  INFO 27608 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 27608 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-01T23:16:00.004+08:00 DEBUG 27608 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-01T23:16:00.005+08:00  INFO 27608 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-01T23:16:00.468+08:00  INFO 27608 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T23:16:00.469+08:00  INFO 27608 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-01T23:16:00.483+08:00  INFO 27608 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-01T23:16:00.487+08:00  INFO 27608 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T23:16:00.487+08:00  INFO 27608 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-01T23:16:00.490+08:00  INFO 27608 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-01T23:16:00.498+08:00  INFO 27608 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-01T23:16:00.501+08:00  INFO 27608 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-01T23:16:00.511+08:00  INFO 27608 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2025-04-01T23:16:00.978+08:00  INFO 27608 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-01T23:16:00.980+08:00  INFO 27608 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-01T23:16:00.981+08:00  INFO 27608 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-01T23:16:00.988+08:00  INFO 27608 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-01T23:16:00.998+08:00  INFO 27608 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-01T23:16:00.998+08:00  INFO 27608 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-01T23:16:01.041+08:00  INFO 27608 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-01T23:16:01.041+08:00  INFO 27608 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1008 ms
+2025-04-01T23:16:01.078+08:00 DEBUG 27608 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-01T23:16:01.875+08:00  INFO 27608 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1607d391, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@38826984, org.springframework.security.web.context.SecurityContextHolderFilter@7a30e30b, org.springframework.security.web.header.HeaderWriterFilter@28b5d5dc, org.springframework.web.filter.CorsFilter@65262308, org.springframework.security.web.authentication.logout.LogoutFilter@3dded90a, com.example.express.security.JwtAuthorizationFilter@611e5819, com.example.express.security.JwtAuthenticationFilter@792e8181, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@e6e5da4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@720c8f80, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@511d5e6e, org.springframework.security.web.session.SessionManagementFilter@77020328, org.springframework.security.web.access.ExceptionTranslationFilter@3b01897f, org.springframework.security.web.access.intercept.AuthorizationFilter@3a5ce4b8]
+2025-04-01T23:16:02.285+08:00  INFO 27608 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-01T23:16:02.292+08:00  INFO 27608 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.566 seconds (process running for 2.771)
+2025-04-01T23:16:39.922+08:00  INFO 27608 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-01T23:16:39.923+08:00  INFO 27608 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-01T23:16:39.924+08:00  INFO 27608 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-04-01T23:16:40.063+08:00  INFO 27608 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-01T23:16:40.248+08:00  INFO 27608 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6a2159a3
+2025-04-01T23:16:40.251+08:00  INFO 27608 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-01T23:50:49.506+08:00  INFO 27608 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-01T23:50:49.510+08:00  INFO 27608 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

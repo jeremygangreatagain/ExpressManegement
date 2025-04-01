@@ -518,6 +518,18 @@
                     </label>
                   </div>
                 </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">处理门店</label>
+                  <select 
+                    v-model="editingOrder.storeId" 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  >
+                    <option value="">请选择处理门店</option>
+                    <option v-for="store in storeList" :key="store.id" :value="store.id">
+                      {{ store.name }}
+                    </option>
+                  </select>
+                </div>
               </div>
               <div class="mt-4">
                 <label class="block text-sm font-medium text-gray-700 mb-1">备注</label>
@@ -554,6 +566,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { getOrderList, getOrderDetail, updateOrder, deleteOrder, batchDeleteOrders, createOrder, getOrderStatusOptions, getOrderLogistics } from '../../api/orders';
+import { getStoreList } from '../../api/stores';
 import toast from '../../utils/toast';
 
 // 搜索和筛选
@@ -602,6 +615,9 @@ const statusOptions = ref([
   { value: 'RETURNED', label: '已退回' }
 ]);
 
+// 门店列表
+const storeList = ref([]);
+
 // 对话框控制
 const showDetailDialog = ref(false);
 const showEditDialog = ref(false);
@@ -647,6 +663,25 @@ const fetchOrders = async () => {
     toast.error('获取订单列表失败');
   } finally {
     isLoading.value = false;
+  }
+};
+
+// 获取门店列表
+const fetchStores = async () => {
+  try {
+    // 传递空对象作为参数，获取所有门店数据而不进行分页
+    const res = await getStoreList({});
+    if (res.code === 200 && res.data) {
+      // 确保返回的数据是数组
+      storeList.value = Array.isArray(res.data) ? res.data : 
+                        (res.data.records ? res.data.records : []);
+      console.log('获取门店列表成功:', storeList.value);
+    } else {
+      console.error('获取门店列表失败:', res.message);
+    }
+  } catch (error) {
+    console.error('获取门店列表失败:', error);
+    toast.error('获取门店列表失败');
   }
 };
 
@@ -751,7 +786,8 @@ const openCreateDialog = () => {
     status: 0,
     paymentStatus: 0, // 设置默认支付状态为未支付
     isPaid: false,    // 前端显示用
-    remark: ''
+    remark: '',
+    storeId: null      // 添加门店ID字段
   };
   isCreating.value = true;
   showEditDialog.value = true;
@@ -934,5 +970,7 @@ onMounted(async () => {
   
   // 获取订单列表
   fetchOrders();
+  // 获取门店列表
+  fetchStores();
 });
 </script>

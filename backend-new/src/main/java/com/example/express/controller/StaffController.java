@@ -59,6 +59,25 @@ public class StaffController {
   }
 
   /**
+   * 获取当前登录员工的个人信息
+   */
+  @GetMapping("/profile")
+  public Result<Staff> getProfile() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    Staff staff = staffService.getByUsername(username); // 假设 StaffService 有 getByUsername 方法
+
+    if (staff == null) {
+      // 记录日志或返回更具体的错误信息可能更好
+      System.out.println("无法根据用户名找到员工: " + username);
+      return Result.error("无法获取当前员工信息，请重新登录");
+    }
+    // 可以在这里选择性地隐藏敏感信息，比如密码
+    staff.setPassword(null); 
+    return Result.success(staff);
+  }
+
+  /**
    * 更新员工信息
    */
   @PutMapping("/info")

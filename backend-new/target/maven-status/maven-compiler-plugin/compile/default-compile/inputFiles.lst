@@ -9,6 +9,7 @@ C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\service\impl\OrderDeletionRequestServiceImpl.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\mapper\UserMapper.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\service\impl\CaptchaServiceImpl.java
+C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\controller\ProfileController.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\mapper\AuditMapper.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\controller\StaffController.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\mapper\OrderStatusLogMapper.java
@@ -35,6 +36,7 @@ C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\entity\Order.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\security\MD5PasswordEncoder.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\service\impl\OperationLogServiceImpl.java
+C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\controller\StaffDashboardController.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\service\impl\CacheServiceImpl.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\config\JwtAuthorizationFilterConfig.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\config\KaptchaConfig.java

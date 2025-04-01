@@ -103,7 +103,7 @@
         <div class="flex items-center">
           <button
             @click="fetchAudits(true)" 
-            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+            class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md"
           >
             搜索
           </button>

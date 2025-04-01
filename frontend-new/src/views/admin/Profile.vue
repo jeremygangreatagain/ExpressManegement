@@ -103,8 +103,10 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import toast from '../../utils/toast';
+import { getCurrentUserInfo, updateCurrentUserInfo, updatePassword } from '@/api/profile';
 
 const isSaving = ref(false);
+const isLoading = ref(true);
 
 // 个人信息表单数据
 const profileForm = ref({
@@ -130,49 +132,84 @@ const passwordMismatch = computed(() => {
 });
 
 // 在组件挂载时获取用户信息
-onMounted(() => {
-  // 这里添加获取用户信息的API调用
-  // 模拟API调用
-  setTimeout(() => {
-    profileForm.value = {
-      username: localStorage.getItem('username') || '管理员',
-      nickname: '系统管理员',
-      phone: '13800138000',
-      email: 'admin@example.com'
-    };
-  }, 500);
+onMounted(async () => {
+  try {
+    isLoading.value = true;
+    const res = await getCurrentUserInfo();
+    if (res.data) {
+      profileForm.value = {
+        username: res.data.username || '',
+        nickname: res.data.nickname || '',
+        phone: res.data.phone || '',
+        email: res.data.email || ''
+      };
+    }
+  } catch (error) {
+    console.error('获取用户信息失败:', error);
+    toast.error('获取用户信息失败');
+    // 使用本地存储的用户名作为备选
+    profileForm.value.username = localStorage.getItem('username') || '';
+  } finally {
+    isLoading.value = false;
+  }
 });
 
 // 保存个人信息
 const saveProfile = async () => {
   try {
-    // 验证密码修改
+    // 验证手机号格式
+    if (profileForm.value.phone && !/^1[3-9]\d{9}$/.test(profileForm.value.phone)) {
+      toast.error('请输入正确的手机号码');
+      return;
+    }
+    
+    // 验证邮箱格式
+    if (profileForm.value.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profileForm.value.email)) {
+      toast.error('请输入正确的邮箱地址');
+      return;
+    }
+    
+    isSaving.value = true;
+    
+    // 修改密码
     if (passwordForm.value.oldPassword && passwordForm.value.newPassword) {
       if (passwordMismatch.value) {
         toast.error('两次输入的密码不一致');
         return;
       }
       
-      // 这里添加修改密码的API调用
+      try {
+        await updatePassword({
+          oldPassword: passwordForm.value.oldPassword,
+          newPassword: passwordForm.value.newPassword
+        });
+        toast.success('密码修改成功');
+        
+        // 清空密码表单
+        passwordForm.value = {
+          oldPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        };
+      } catch (error) {
+        console.error('修改密码失败:', error);
+        toast.error(error.response?.data?.message || '修改密码失败，请检查当前密码是否正确');
+        return;
+      }
     }
     
-    isSaving.value = true;
-    
-    // 这里添加保存个人信息的API调用
-    // 模拟API调用
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // 更新个人信息
+    await updateCurrentUserInfo({
+      username: profileForm.value.username,
+      nickname: profileForm.value.nickname,
+      phone: profileForm.value.phone,
+      email: profileForm.value.email
+    });
     
     toast.success('个人信息保存成功！');
-    
-    // 清空密码表单
-    passwordForm.value = {
-      oldPassword: '',
-      newPassword: '',
-      confirmPassword: ''
-    };
   } catch (error) {
     console.error('保存个人信息失败:', error);
-    toast.error('保存失败，请重试');
+    toast.error(error.response?.data?.message || '保存失败，请重试');
   } finally {
     isSaving.value = false;
   }

@@ -1,7 +1,8 @@
 <template>
-  <div class="container mx-auto px-4 py-6">
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold text-gray-800">工作日志</h1>
+  <div> <!-- 添加包裹的 div -->
+    <div class="container mx-auto px-4 py-6">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">工作日志</h1>
       <div class="flex space-x-2">
         <button 
           @click="exportToExcel" 
@@ -77,7 +78,7 @@
         <div class="flex items-center">
           <button
             @click="fetchLogs(true)" 
-            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+            class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md"
           >
             搜索
           </button>
@@ -224,6 +225,7 @@
       </span>
     </template>
   </el-dialog>
+  </div> <!-- 闭合包裹的 div -->
 </template>
 
 <script>
