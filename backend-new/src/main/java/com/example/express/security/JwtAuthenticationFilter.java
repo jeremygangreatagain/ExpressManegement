@@ -1,8 +1,10 @@
 package com.example.express.security;
 
 import com.example.express.common.Result;
+import com.example.express.entity.Staff; // Import Staff entity
 import com.example.express.entity.User;
 import com.example.express.service.CaptchaService;
+import com.example.express.service.StaffService; // Import StaffService
 import com.example.express.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -33,12 +35,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final CaptchaService captchaService;
   private final JwtUtil jwtUtil;
+  private final StaffService staffService; // Add StaffService field
 
+  // Modify constructor to accept StaffService
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager, CaptchaService captchaService,
-      JwtUtil jwtUtil) {
+      JwtUtil jwtUtil, StaffService staffService) { 
     this.authenticationManager = authenticationManager;
     this.captchaService = captchaService;
     this.jwtUtil = jwtUtil;
+    this.staffService = staffService; // Initialize StaffService
     // 设置登录接口路径
     setFilterProcessesUrl("/api/auth/login");
   }
@@ -95,7 +100,36 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     Map<String, Object> data = new HashMap<>();
     data.put("token", token);
     data.put("username", userDetails.getUsername());
-    data.put("role", role);
+    data.put("role", role); // Role is already like "ROLE_STAFF"
+
+    // If the user is staff, fetch and add full userInfo
+    if ("ROLE_STAFF".equals(role)) {
+        Staff staffInfo = staffService.getByUsername(userDetails.getUsername());
+        if (staffInfo != null) {
+            // Create a map with only necessary fields instead of the whole entity
+            Map<String, Object> userInfoMap = new HashMap<>();
+            userInfoMap.put("id", staffInfo.getId());
+            userInfoMap.put("username", staffInfo.getUsername());
+            userInfoMap.put("name", staffInfo.getName());
+            userInfoMap.put("storeId", staffInfo.getStoreId());
+            // Assuming storeName might be needed, fetch it if not directly in Staff entity
+            // If storeName is already in Staff entity, add: userInfoMap.put("storeName", staffInfo.getStoreName());
+            // If not, you might need to fetch Store entity based on storeId or adjust Staff entity/query
+            // For now, let's assume storeName might be missing or fetched elsewhere if needed
+            // userInfoMap.put("storeName", "..."); // Placeholder if needed
+
+            data.put("userInfo", userInfoMap); // Add the map with selected fields
+            System.out.println("[AuthSuccess] Added selected staff userInfo to login response for: " + userDetails.getUsername());
+        } else {
+             System.err.println("[AuthSuccess] Could not find staff details for username: " + userDetails.getUsername());
+             // Optionally add basic info if full info not found, though ideally it should always be found
+             Map<String, Object> basicInfo = new HashMap<>();
+             basicInfo.put("username", userDetails.getUsername());
+             basicInfo.put("role", "STAFF"); // Assuming role is correct from authorities
+             data.put("userInfo", basicInfo); 
+        }
+    } 
+    // TODO: Optionally add userInfo for ADMIN or USER roles if needed elsewhere
 
     // 设置响应头
     response.setContentType("application/json");

@@ -31,7 +31,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/admin")
-@PreAuthorize("hasRole('ADMIN')")
+// @PreAuthorize("hasRole('ADMIN')") // 移除类级别权限，改为方法级别
 public class AdminController {
 
   @Autowired
@@ -56,6 +56,7 @@ public class AdminController {
    * 获取系统概览数据
    */
   @GetMapping("/dashboard")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Map<String, Object>> getDashboard() {
     Map<String, Object> data = new HashMap<>();
 
@@ -92,6 +93,7 @@ public class AdminController {
    * 用户管理
    */
   @GetMapping("/users")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<IPage<User>> getUsers(
       @RequestParam(defaultValue = "1") Integer current,
       @RequestParam(defaultValue = "10") Integer size,
@@ -102,6 +104,7 @@ public class AdminController {
   }
 
   @GetMapping("/users/{id}")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<User> getUserById(@PathVariable Long id) {
     User user = userService.getById(id);
     if (user == null) {
@@ -111,6 +114,7 @@ public class AdminController {
   }
 
   @PostMapping("/users")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<User> createUser(@RequestBody User user) {
     boolean success = userService.createUser(user);
     if (!success) {
@@ -120,6 +124,7 @@ public class AdminController {
   }
 
   @PutMapping("/users")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<User> updateUser(@RequestBody User user) {
     boolean success = userService.updateUser(user);
     if (!success) {
@@ -129,6 +134,7 @@ public class AdminController {
   }
 
   @DeleteMapping("/users/{username}")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Boolean> deleteUser(@PathVariable String username) {
     boolean success = userService.removeByUsername(username);
     if (!success) {
@@ -141,6 +147,7 @@ public class AdminController {
    * 批量删除用户
    */
   @DeleteMapping("/users/batch")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Boolean> batchDeleteUsers(@RequestBody Map<String, List<String>> payload) {
     List<String> usernames = payload.get("ids");
     if (usernames == null || usernames.isEmpty()) {
@@ -157,6 +164,7 @@ public class AdminController {
    * 员工管理
    */
   @GetMapping("/staffs")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<IPage<Staff>> getStaffs(
       @RequestParam(defaultValue = "1") Integer current,
       @RequestParam(defaultValue = "10") Integer size,
@@ -168,6 +176,7 @@ public class AdminController {
   }
 
   @GetMapping("/staffs/{id}")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Staff> getStaffById(@PathVariable Long id) {
     Staff staff = staffService.getById(id);
     if (staff == null) {
@@ -177,6 +186,7 @@ public class AdminController {
   }
 
   @PostMapping("/staffs")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Staff> createStaff(@RequestBody Staff staff) {
     boolean success = staffService.createStaff(staff);
     if (!success) {
@@ -187,6 +197,7 @@ public class AdminController {
 
   // Changed to use username in path for update
   @PutMapping("/staffs/username/{username}")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Staff> updateStaffByUsername(@PathVariable String username, @RequestBody Staff staff) {
     Staff existingStaff = staffService.getByUsername(username);
     if (existingStaff == null) {
@@ -207,6 +218,7 @@ public class AdminController {
 
   // Changed to use username in path for delete
   @DeleteMapping("/staffs/username/{username}")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Boolean> deleteStaffByUsername(@PathVariable String username) {
     Staff staff = staffService.getByUsername(username);
     if (staff == null) {
@@ -224,6 +236,7 @@ public class AdminController {
    * 批量删除员工
    */
   @DeleteMapping("/staffs/batch")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Boolean> batchDeleteStaffs(@RequestBody Map<String, List<Long>> payload) {
     List<Long> ids = payload.get("ids");
     if (ids == null || ids.isEmpty()) {
@@ -237,6 +250,7 @@ public class AdminController {
   }
 
   @PutMapping("/staffs/assign")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Boolean> assignStaffToStore(
       @RequestParam Long staffId,
       @RequestParam Long storeId) {
@@ -251,6 +265,7 @@ public class AdminController {
    * 门店管理
    */
   @GetMapping("/stores")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<IPage<Store>> getStores(
       @RequestParam(defaultValue = "1") Integer current,
       @RequestParam(defaultValue = "10") Integer size,
@@ -261,6 +276,7 @@ public class AdminController {
   }
 
   @GetMapping("/stores/{id}")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Store> getStoreById(@PathVariable Long id) {
     Store store = storeService.getById(id);
     if (store == null) {
@@ -270,6 +286,7 @@ public class AdminController {
   }
 
   @PostMapping("/stores")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Store> createStore(@RequestBody Store store) {
     boolean success = storeService.createStore(store);
     if (!success) {
@@ -279,6 +296,7 @@ public class AdminController {
   }
 
   @PutMapping("/stores/{id}")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Store> updateStore(@PathVariable Long id, @RequestBody Store store) {
     store.setId(id);
     boolean success = storeService.updateStore(store);
@@ -289,6 +307,7 @@ public class AdminController {
   }
 
   @DeleteMapping("/stores/{id}")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Boolean> deleteStore(@PathVariable Long id) {
     boolean success = storeService.removeById(id);
     if (!success) {
@@ -301,6 +320,7 @@ public class AdminController {
    * 订单管理
    */
   @GetMapping("/orders")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<IPage<Order>> getOrders(
       @RequestParam(defaultValue = "1") Integer current,
       @RequestParam(defaultValue = "10") Integer size,
@@ -320,37 +340,59 @@ public class AdminController {
     return Result.success(orderPage);
   }
 
+  // 允许员工和管理员访问订单详情
   @GetMapping("/orders/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')") // 修改权限，允许 STAFF 访问
   public Result<Order> getOrderDetail(@PathVariable String id) {
     // 记录请求日志，帮助调试
-    System.out.println("管理员请求订单详情，ID/订单号: " + id);
+    System.out.println("用户请求订单详情，ID/订单号: " + id);
 
-    // 首先尝试通过订单号查询
-    Order order = orderService.getByOrderNumber(id);
-    if (order != null) {
-      System.out.println("通过订单号找到订单: " + id);
-      return Result.success(order);
-    }
+    // 获取当前用户信息
+    org.springframework.security.core.Authentication authentication = org.springframework.security.core.context.SecurityContextHolder
+        .getContext().getAuthentication();
+    String username = authentication.getName();
+    boolean isAdmin = authentication.getAuthorities().stream()
+        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    boolean isStaff = authentication.getAuthorities().stream()
+        .anyMatch(a -> a.getAuthority().equals("ROLE_STAFF"));
 
+    Order order = null;
     try {
-      // 如果通过订单号未找到，尝试使用ID查询
-      Long orderId;
-      try {
-        orderId = Long.valueOf(id);
-      } catch (NumberFormatException e) {
-        System.out.println("非数字ID且非有效订单号: " + id);
-        return Result.error("订单不存在");
-      }
-
-      // 通过ID查询
-      order = orderService.getById(orderId);
-
+      // 首先尝试通过订单号查询
+      order = orderService.getByOrderNumber(id);
       if (order == null) {
-        // 记录日志，帮助调试
-        System.out.println("未找到订单，请求ID: " + id);
+        // 如果通过订单号未找到，尝试使用ID查询
+        try {
+          Long orderId = Long.valueOf(id);
+          order = orderService.getById(orderId);
+        } catch (NumberFormatException e) {
+          System.out.println("非数字ID且非有效订单号: " + id);
+          // 订单不存在，直接返回错误
+        }
+      }
+
+      // 检查订单是否存在
+      if (order == null) {
+        System.out.println("未找到订单，请求ID/订单号: " + id);
         return Result.error("订单不存在");
       }
+
+      // 权限检查：管理员可以查看所有订单，员工只能查看自己门店的订单
+      if (isStaff && !isAdmin) { // 如果是员工且不是管理员
+        Staff staff = staffService.getByUsername(username);
+        if (staff == null || staff.getStoreId() == null) {
+          return Result.error("无法获取员工门店信息");
+        }
+        if (!order.getStoreId().equals(staff.getStoreId())) {
+          System.out.println("员工 " + username + " 尝试访问不属于其门店的订单: " + id);
+          return Result.error("您无权查看该订单"); // 返回更明确的无权限错误
+        }
+      }
+
+      // 权限通过或用户是管理员
+      System.out.println("用户 " + username + " 成功获取订单详情: " + id);
       return Result.success(order);
+
     } catch (Exception e) {
       System.out.println("查询订单出错: " + id + ", 错误: " + e.getMessage());
       return Result.error("查询订单出错");
@@ -358,6 +400,7 @@ public class AdminController {
   }
 
   @PostMapping("/orders")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Order> createOrder(@RequestBody Order order) {
     boolean success = orderService.createOrder(order);
     if (!success) {
@@ -367,6 +410,7 @@ public class AdminController {
   }
 
   @PutMapping("/orders/status")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Boolean> updateOrderStatus(
       @RequestParam Long orderId,
       @RequestParam Integer status,
@@ -383,48 +427,77 @@ public class AdminController {
   }
 
   /**
-   * 更新订单信息
+   * 更新订单信息 (允许员工更新自己门店的订单)
    */
   @PutMapping("/orders/{idOrOrderNumber}")
+  @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')") // 允许 STAFF 访问
   public Result<Order> updateOrder(@PathVariable String idOrOrderNumber, @RequestBody Order order) {
     // 记录请求日志，帮助调试
-    System.out.println("管理员请求更新订单，ID/订单号: " + idOrOrderNumber);
+    System.out.println("用户请求更新订单，ID/订单号: " + idOrOrderNumber);
 
-    // 首先尝试通过订单号查询
-    Order existingOrder = orderService.getByOrderNumber(idOrOrderNumber);
+    // 获取当前用户信息
+    org.springframework.security.core.Authentication authentication = org.springframework.security.core.context.SecurityContextHolder
+        .getContext().getAuthentication();
+    String username = authentication.getName();
+    boolean isAdmin = authentication.getAuthorities().stream()
+        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    boolean isStaff = authentication.getAuthorities().stream()
+        .anyMatch(a -> a.getAuthority().equals("ROLE_STAFF"));
 
-    // 如果通过订单号未找到，尝试使用ID查询
-    if (existingOrder == null) {
-      try {
-        Long orderId = Long.valueOf(idOrOrderNumber);
-        existingOrder = orderService.getById(orderId);
-      } catch (NumberFormatException e) {
-        System.out.println("非数字ID且非有效订单号: " + idOrOrderNumber);
+    Order existingOrder = null;
+    try {
+      // 首先尝试通过订单号查询
+      existingOrder = orderService.getByOrderNumber(idOrOrderNumber);
+      if (existingOrder == null) {
+        // 如果通过订单号未找到，尝试使用ID查询
+        try {
+          Long orderId = Long.valueOf(idOrOrderNumber);
+          existingOrder = orderService.getById(orderId);
+        } catch (NumberFormatException e) {
+          System.out.println("非数字ID且非有效订单号: " + idOrOrderNumber);
+          // 订单不存在
+        }
+      }
+
+      // 检查订单是否存在
+      if (existingOrder == null) {
+        System.out.println("未找到要更新的订单，请求ID/订单号: " + idOrOrderNumber);
         return Result.error("订单不存在");
       }
-    }
 
-    // 检查订单是否存在
-    if (existingOrder == null) {
-      System.out.println("未找到订单，请求ID/订单号: " + idOrOrderNumber);
-      return Result.error("订单不存在");
-    }
+      // 权限检查：管理员可以更新任何订单，员工只能更新自己门店的订单
+      if (isStaff && !isAdmin) { // 如果是员工且不是管理员
+        Staff staff = staffService.getByUsername(username);
+        if (staff == null || staff.getStoreId() == null) {
+          return Result.error("无法获取员工门店信息");
+        }
+        if (!existingOrder.getStoreId().equals(staff.getStoreId())) {
+          System.out.println("员工 " + username + " 尝试更新不属于其门店的订单: " + idOrOrderNumber);
+          return Result.error("您无权更新该订单"); // 返回更明确的无权限错误
+        }
+      }
 
-    // 确保订单ID一致，如果不一致，使用数据库中的ID
-    if (order.getId() == null || !existingOrder.getId().equals(order.getId())) {
-      System.out.println("订单ID不匹配，使用数据库中的ID: " + existingOrder.getId());
+      // 确保使用从数据库查询到的订单ID进行更新
       order.setId(existingOrder.getId());
-    }
+      // 设置更新时间
+      order.setUpdateTime(LocalDateTime.now());
 
-    // 更新订单信息
-    boolean success = orderService.updateById(order);
-    if (!success) {
-      return Result.error("更新订单失败");
+      // 更新订单信息
+      boolean success = orderService.updateById(order);
+      if (!success) {
+        return Result.error("更新订单失败");
+      }
+      System.out.println("用户 " + username + " 成功更新订单: " + idOrOrderNumber);
+      return Result.success(order);
+
+    } catch (Exception e) {
+      System.out.println("更新订单出错: " + idOrOrderNumber + ", 错误: " + e.getMessage());
+      return Result.error("更新订单出错");
     }
-    return Result.success(order);
   }
 
   @DeleteMapping("/orders/{idOrOrderNumber}")
+  @PreAuthorize("hasRole('ADMIN')") // 删除操作通常只允许管理员
   public Result<Boolean> deleteOrder(@PathVariable String idOrOrderNumber) {
     // 记录请求日志，帮助调试
     System.out.println("管理员请求删除订单，ID/订单号: " + idOrOrderNumber);
@@ -460,6 +533,7 @@ public class AdminController {
    * 系统日志管理
    */
   @GetMapping("/logs")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<IPage<OperationLog>> getLogs(
       @RequestParam(defaultValue = "1") Integer current,
       @RequestParam(defaultValue = "10") Integer size,
@@ -482,6 +556,7 @@ public class AdminController {
    * 获取日志类型选项
    */
   @GetMapping("/logs/types")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<List<Map<String, Object>>> getLogTypes() {
     List<Map<String, Object>> types = new ArrayList<>();
 
@@ -506,6 +581,7 @@ public class AdminController {
    * 获取日志详情
    */
   @GetMapping("/logs/{id}")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<OperationLog> getLogDetail(@PathVariable String id) {
     // 记录请求日志，帮助调试
     System.out.println("管理员请求日志详情，ID: " + id);
@@ -529,6 +605,7 @@ public class AdminController {
    * 获取仪表盘统计数据
    */
   @GetMapping("/dashboard/stats")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Map<String, Object>> getDashboardStats() {
     Map<String, Object> data = new HashMap<>();
 
@@ -557,6 +634,7 @@ public class AdminController {
    * 获取最近订单列表
    */
   @GetMapping("/orders/recent")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<List<Order>> getRecentOrders(@RequestParam(defaultValue = "10") Integer limit) {
     List<Order> orders = orderService.getRecentOrders(limit);
     return Result.success(orders);
@@ -566,6 +644,7 @@ public class AdminController {
    * 获取订单状态分布数据
    */
   @GetMapping("/orders/status-distribution")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<List<Map<String, Object>>> getOrderStatusDistribution() {
     List<Map<String, Object>> distribution = new ArrayList<>();
 
@@ -595,6 +674,7 @@ public class AdminController {
    * 获取近期订单趋势数据
    */
   @GetMapping("/orders/trend")
+  @PreAuthorize("hasRole('ADMIN')") // 添加方法级别权限
   public Result<Map<String, Object>> getOrderTrend(@RequestParam(defaultValue = "7") Integer days) {
     Map<String, Object> result = new HashMap<>();
     List<String> dates = new ArrayList<>();
@@ -622,10 +702,10 @@ public class AdminController {
   }
 
   /**
-   * 添加物流信息
+   * 添加物流信息 (管理员)
    */
   @PostMapping("/logistics")
-  @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasRole('ADMIN')") // 明确管理员权限
   public Result<Boolean> addLogisticsInfo(
       @RequestBody Map<String, Object> requestData) {
 
@@ -668,44 +748,61 @@ public class AdminController {
   }
 
   /**
-   * 获取订单物流信息
+   * 获取订单物流信息 (允许员工和管理员)
    */
   @GetMapping("/orders/{orderNumber}/logistics")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')") // 修改权限，允许 STAFF 访问
   public Result<List<LogisticsInfo>> getOrderLogistics(@PathVariable String orderNumber) {
     // 记录请求日志，帮助调试
-    System.out.println("管理员请求物流信息，订单号: " + orderNumber);
+    System.out.println("用户请求物流信息，订单号: " + orderNumber);
 
-    // 首先尝试通过订单号查询
-    Order order = orderService.getByOrderNumber(orderNumber);
+    // 获取当前用户信息
+    org.springframework.security.core.Authentication authentication = org.springframework.security.core.context.SecurityContextHolder
+        .getContext().getAuthentication();
+    String username = authentication.getName();
+    boolean isAdmin = authentication.getAuthorities().stream()
+        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    boolean isStaff = authentication.getAuthorities().stream()
+        .anyMatch(a -> a.getAuthority().equals("ROLE_STAFF"));
 
-    if (order != null) {
-      // 通过订单号找到订单，获取其物流信息
-      List<LogisticsInfo> logisticsList = logisticsInfoService.getLogisticsInfoByOrderNumber(orderNumber);
-      return Result.success(logisticsList);
-    }
-
+    Order order = null;
     try {
-      // 如果通过订单号未找到，尝试使用ID查询
-      Long orderId;
-      try {
-        orderId = Long.valueOf(orderNumber);
-      } catch (NumberFormatException e) {
-        System.out.println("非数字ID且非有效订单号: " + orderNumber);
-        return Result.error("订单不存在");
-      }
-
-      // 通过ID查询订单
-      order = orderService.getById(orderId);
-
+      // 首先尝试通过订单号查询
+      order = orderService.getByOrderNumber(orderNumber);
       if (order == null) {
-        System.out.println("未找到订单，请求ID: " + orderNumber);
+        // 如果通过订单号未找到，尝试使用ID查询
+        try {
+          Long orderId = Long.valueOf(orderNumber);
+          order = orderService.getById(orderId);
+        } catch (NumberFormatException e) {
+          System.out.println("非数字ID且非有效订单号: " + orderNumber);
+          // 订单不存在，直接返回错误
+        }
+      }
+
+      // 检查订单是否存在
+      if (order == null) {
+        System.out.println("未找到订单，请求ID/订单号: " + orderNumber);
         return Result.error("订单不存在");
       }
 
-      // 获取物流信息
-      List<LogisticsInfo> logisticsList = logisticsInfoService.getLogisticsInfoByOrderId(orderId);
+      // 权限检查：管理员可以查看所有订单，员工只能查看自己门店的订单
+      if (isStaff && !isAdmin) { // 如果是员工且不是管理员
+        Staff staff = staffService.getByUsername(username);
+        if (staff == null || staff.getStoreId() == null) {
+          return Result.error("无法获取员工门店信息");
+        }
+        if (!order.getStoreId().equals(staff.getStoreId())) {
+          System.out.println("员工 " + username + " 尝试访问不属于其门店订单的物流信息: " + orderNumber);
+          return Result.error("您无权查看该订单的物流信息"); // 返回更明确的无权限错误
+        }
+      }
+
+      // 权限通过或用户是管理员
+      List<LogisticsInfo> logisticsList = logisticsInfoService.getLogisticsInfoByOrderNumber(order.getOrderNumber()); // 使用订单号查询物流
+      System.out.println("用户 " + username + " 成功获取订单物流信息: " + orderNumber);
       return Result.success(logisticsList);
+
     } catch (Exception e) {
       System.out.println("查询物流信息出错: " + orderNumber + ", 错误: " + e.getMessage());
       return Result.error("查询物流信息出错");

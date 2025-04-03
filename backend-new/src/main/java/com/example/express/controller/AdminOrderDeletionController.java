@@ -48,7 +48,7 @@ public class AdminOrderDeletionController {
    * 获取订单删除申请详情
    */
   @GetMapping("/requests/{id}")
-  public Result<OrderDeletionRequest> getRequestById(@PathVariable Long id) {
+  public Result<OrderDeletionRequest> getRequestById(@PathVariable String id) {
     OrderDeletionRequest request = orderDeletionRequestService.getById(id);
     if (request == null) {
       return Result.error("申请不存在");
@@ -61,7 +61,7 @@ public class AdminOrderDeletionController {
    */
   @PostMapping("/review")
   public Result<Boolean> reviewRequest(
-      @RequestParam Long requestId,
+      @RequestParam String requestId,
       @RequestParam Integer status, // 1-通过，2-拒绝
       @RequestParam Long reviewerId,
       @RequestParam String reviewerName,

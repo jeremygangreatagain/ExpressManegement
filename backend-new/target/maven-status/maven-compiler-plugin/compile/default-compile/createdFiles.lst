@@ -32,6 +32,7 @@ com\example\express\service\OrderDeletionRequestService.class
 com\example\express\util\JwtUtil.class
 com\example\express\security\LoginRequest.class
 com\example\express\mapper\OrderStatusLogMapper.class
+com\example\express\util\ShortIdGenerator.class
 com\example\express\service\impl\OrderDeletionRequestServiceImpl.class
 com\example\express\service\OperationLogService.class
 com\example\express\security\CaptchaValidationException.class

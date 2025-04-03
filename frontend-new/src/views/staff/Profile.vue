@@ -103,6 +103,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import toast from '../../utils/toast';
+import { getCurrentStaffInfo } from '../../api/profile';
+import { useUserStore } from '../../stores/user';
 
 const isSaving = ref(false);
 
@@ -130,17 +132,36 @@ const passwordMismatch = computed(() => {
 });
 
 // 在组件挂载时获取用户信息
-onMounted(() => {
-  // 这里添加获取用户信息的API调用
-  // 模拟API调用
-  setTimeout(() => {
-    profileForm.value = {
-      username: localStorage.getItem('username') || '员工',
-      nickname: '门店员工',
-      phone: '13800138000',
-      email: 'staff@example.com'
-    };
-  }, 500);
+onMounted(async () => {
+  try {
+    // 调用API获取员工信息
+    const response = await getCurrentStaffInfo();
+    if (response.code === 200 && response.data) {
+      // 更新表单数据
+      profileForm.value = {
+        username: response.data.username || '',
+        nickname: response.data.name || '',
+        phone: response.data.phone || '',
+        email: response.data.email || ''
+      };
+      
+      // 保存完整的员工信息到localStorage，确保包含storeId
+      const staffInfo = {
+        ...response.data,
+        storeId: response.data.storeId // 确保门店ID被保存
+      };
+      localStorage.setItem('userInfo', JSON.stringify(staffInfo));
+      
+      // 更新用户存储
+      const userStore = useUserStore();
+      userStore.setUserInfo(staffInfo);
+    } else {
+      toast.error('获取员工信息失败');
+    }
+  } catch (error) {
+    console.error('获取员工信息失败:', error);
+    toast.error('获取员工信息失败，请重试');
+  }
 });
 
 // 保存个人信息
@@ -153,23 +174,66 @@ const saveProfile = async () => {
         return;
       }
       
-      // 这里添加修改密码的API调用
+      // 调用修改密码的API
+      try {
+        const { updatePassword } = await import('../../api/profile');
+        const passwordResponse = await updatePassword({
+          oldPassword: passwordForm.value.oldPassword,
+          newPassword: passwordForm.value.newPassword
+        });
+        
+        if (passwordResponse.code !== 200) {
+          toast.error(passwordResponse.message || '密码修改失败');
+          return;
+        }
+        
+        toast.success('密码修改成功');
+      } catch (passwordError) {
+        console.error('密码修改失败:', passwordError);
+        toast.error('密码修改失败，请重试');
+        return;
+      }
     }
     
     isSaving.value = true;
     
-    // 这里添加保存个人信息的API调用
-    // 模拟API调用
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // 获取当前存储的员工信息
+    const currentUserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
     
-    toast.success('个人信息保存成功！');
-    
-    // 清空密码表单
-    passwordForm.value = {
-      oldPassword: '',
-      newPassword: '',
-      confirmPassword: ''
+    // 准备更新的员工信息，确保包含storeId
+    const updatedUserInfo = {
+      ...currentUserInfo,
+      username: profileForm.value.username,
+      name: profileForm.value.nickname,
+      phone: profileForm.value.phone,
+      email: profileForm.value.email,
+      // 确保保留storeId
+      storeId: currentUserInfo.storeId
     };
+    
+    // 调用API保存员工信息
+    const { updateStaffInfo } = await import('../../api/profile');
+    const response = await updateStaffInfo(updatedUserInfo);
+    
+    if (response.code === 200) {
+      // 更新localStorage中的员工信息，确保保留门店ID
+      localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
+      
+      // 更新用户存储
+      const userStore = useUserStore();
+      userStore.setUserInfo(updatedUserInfo);
+      
+      toast.success('个人信息保存成功！');
+      
+      // 清空密码表单
+      passwordForm.value = {
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      };
+    } else {
+      toast.error(response.message || '保存失败');
+    }
   } catch (error) {
     console.error('保存个人信息失败:', error);
     toast.error('保存失败，请重试');

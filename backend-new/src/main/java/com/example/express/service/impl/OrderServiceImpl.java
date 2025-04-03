@@ -122,52 +122,68 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
   @Override
   public IPage<Order> pageOrders(Page<Order> page, Long userId, Long staffId, Long storeId, Integer status,
       String keyword, LocalDateTime startTime, LocalDateTime endTime) {
+    // 添加调试日志
+    System.out.println("OrderService.pageOrders方法被调用，参数: userId=" + userId + ", staffId=" + staffId + ", storeId="
+        + storeId + ", status=" + status);
+
     LambdaQueryWrapper<Order> queryWrapper = new LambdaQueryWrapper<>();
 
-    // 添加查询条件
+    // 根据用户ID查询
     if (userId != null) {
       queryWrapper.eq(Order::getUserId, userId);
     }
 
+    // 根据员工ID查询
     if (staffId != null) {
       queryWrapper.eq(Order::getStaffId, staffId);
     }
 
+    // 根据门店ID查询
     if (storeId != null) {
+      System.out.println("使用storeId条件查询: " + storeId);
       queryWrapper.eq(Order::getStoreId, storeId);
+    } else {
+      System.out.println("警告: storeId为空，未添加门店过滤条件");
     }
 
+    // 根据状态查询
     if (status != null) {
       queryWrapper.eq(Order::getStatus, status);
     }
 
-    // 关键词搜索（订单编号、寄件人、收件人）
-    if (StringUtils.hasText(keyword)) {
+    // 关键词搜索
+    if (keyword != null && !keyword.isEmpty()) {
       queryWrapper.and(wrapper -> wrapper
           .like(Order::getOrderNumber, keyword)
           .or()
-          .like(Order::getSenderName, keyword)
-          .or()
-          .like(Order::getSenderPhone, keyword)
-          .or()
           .like(Order::getReceiverName, keyword)
           .or()
-          .like(Order::getReceiverPhone, keyword));
+          .like(Order::getReceiverPhone, keyword)
+          .or()
+          .like(Order::getSenderName, keyword)
+          .or()
+          .like(Order::getSenderPhone, keyword));
     }
 
     // 时间范围查询
     if (startTime != null) {
       queryWrapper.ge(Order::getCreateTime, startTime);
     }
-
     if (endTime != null) {
       queryWrapper.le(Order::getCreateTime, endTime);
     }
 
-    // 按创建时间降序排序
+    // 按创建时间倒序排序
     queryWrapper.orderByDesc(Order::getCreateTime);
 
-    return page(page, queryWrapper);
+    // 执行查询并记录结果
+    IPage<Order> result = baseMapper.selectPage(page, queryWrapper);
+    System.out.println("查询结果: 总记录数=" + result.getTotal() + ", 当前页记录数=" + result.getRecords().size());
+    if (result.getRecords().isEmpty()) {
+      System.out.println("警告: 未找到任何订单记录");
+    }
+
+    return result;
   }
 
   /**

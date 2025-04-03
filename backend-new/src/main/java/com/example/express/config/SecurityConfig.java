@@ -2,6 +2,7 @@ package com.example.express.config;
 
 import com.example.express.security.JwtAuthenticationFilter;
 import com.example.express.security.JwtAuthorizationFilter;
+import com.example.express.service.StaffService; // Import StaffService
 import com.example.express.service.UserService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+// Keep ObjectMapper and JavaTimeModule imports if needed elsewhere, or remove if not.
+// For customizer approach, we need Jackson2ObjectMapperBuilderCustomizer
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule; 
 
 import java.util.Arrays;
 
@@ -33,17 +38,20 @@ public class SecurityConfig {
   private com.example.express.service.CaptchaService captchaService;
   private com.example.express.util.JwtUtil jwtUtil;
   private JwtAuthorizationFilter jwtAuthorizationFilter;
+  private StaffService staffService; // Add StaffService field
 
   @Autowired
   public SecurityConfig(
       @Lazy UserDetailsService userDetailsService,
       @Lazy com.example.express.service.CaptchaService captchaService,
       com.example.express.util.JwtUtil jwtUtil,
-      JwtAuthorizationFilter jwtAuthorizationFilter) {
+      JwtAuthorizationFilter jwtAuthorizationFilter,
+      StaffService staffService) { // Add StaffService to constructor
     this.userDetailsService = userDetailsService;
     this.captchaService = captchaService;
     this.jwtUtil = jwtUtil;
     this.jwtAuthorizationFilter = jwtAuthorizationFilter;
+    this.staffService = staffService; // Assign StaffService
   }
 
   @Bean
@@ -59,12 +67,20 @@ public class SecurityConfig {
             .requestMatchers("/api/auth/check-username").permitAll()
             .requestMatchers("/api/captcha/**").permitAll()
             .requestMatchers("/api/common/**").permitAll()
-            .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+            // -- Specific rules before general /api/admin/** --
+            // Allow STAFF and ADMIN to get order details and logistics via admin path
+            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/admin/orders/{id}").hasAnyAuthority("ROLE_ADMIN", "ROLE_STAFF")
+            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/admin/orders/{orderNumber}/logistics").hasAnyAuthority("ROLE_ADMIN", "ROLE_STAFF")
+            // Allow STAFF and ADMIN to update orders via admin path
+            .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/admin/orders/{idOrOrderNumber}").hasAnyAuthority("ROLE_ADMIN", "ROLE_STAFF")
+            // -- General rules --
+            .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN") // Other admin paths require ADMIN
             .requestMatchers("/api/staff/**").hasAuthority("ROLE_STAFF")
             .requestMatchers("/api/user/**").authenticated()
             .requestMatchers("/api/audit/**").hasAuthority("ROLE_ADMIN")
             .anyRequest().authenticated())
-        .addFilter(new JwtAuthenticationFilter(authenticationManager, captchaService, jwtUtil))
+        // Pass staffService to the JwtAuthenticationFilter constructor
+        .addFilter(new JwtAuthenticationFilter(authenticationManager, captchaService, jwtUtil, staffService)) 
         .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }
@@ -99,6 +115,16 @@ public class SecurityConfig {
     // 但为了简化开发环境配置，这里暂时禁用credentials
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
+    source.registerCorsConfiguration("/**", configuration);
+    source.registerCorsConfiguration("/**", configuration);
     return source;
   }
+
+  // Removed custom Jackson configuration as annotations are now used on entity fields
+  // @Bean
+  // public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
+  //     return builder -> {
+  //         builder.modules(new JavaTimeModule());
+  //     };
+  // }
 }

@@ -1,20 +1,56 @@
 import request from '../utils/request'
 
 /**
- * 获取门店订单列表（分页）
+ * 获取当前员工所属门店的订单列表（分页）
  * @param {Object} params - 查询参数
- * @param {number} params.storeId - 门店ID
  * @param {number} params.current - 当前页码
  * @param {number} params.size - 每页大小
- * @param {string} params.keyword - 搜索关键词
- * @param {number} params.status - 订单状态
+ * @param {string} [params.keyword] - 搜索关键词 (可选)
+ * @param {number} [params.status] - 订单状态 (可选)
  * @returns {Promise}
  */
 export function getStoreOrders(params) {
+  // 移除 storeId，后端会从认证信息中获取
+  const { storeId, ...restParams } = params;
+  console.log('【API调用】获取门店订单列表，参数 (storeId removed):', restParams);
   return request({
-    url: '/staff/orders',
+    url: '/staff/orders', // 后端接口路径不变
     method: 'get',
-    params
+    params: restParams // 发送不含 storeId 的参数
+  }).then(response => {
+    console.log('【API响应】获取门店订单列表，响应:', response);
+    return response;
+  }).catch(error => {
+    console.error('【API错误】获取门店订单列表失败:', error);
+    throw error;
+  });
+}
+
+/**
+ * 获取订单详情
+ * @param {string} idOrOrderNumber - 订单ID或订单号
+ * @returns {Promise}
+ */
+export function getOrderDetail(idOrOrderNumber) {
+  // 无论是ID还是订单号，都作为字符串传递
+  const param = String(idOrOrderNumber);
+  return request({
+    url: `/staff/orders/${param}`,
+    method: 'get'
+  })
+}
+
+/**
+ * 获取订单物流信息
+ * @param {string} idOrOrderNumber - 订单ID或订单号
+ * @returns {Promise}
+ */
+export function getOrderLogistics(idOrOrderNumber) {
+  // 无论是ID还是订单号，都作为字符串传递
+  const param = String(idOrOrderNumber);
+  return request({
+    url: `/staff/orders/${param}/logistics`,
+    method: 'get'
   })
 }
 
@@ -66,11 +102,7 @@ export function updateOrderStatus(data) {
 /**
  * 提交订单删除申请
  * @param {Object} data - 申请数据
- * @param {number} data.orderId - 订单ID
- * @param {number} data.staffId - 员工ID
- * @param {string} data.staffName - 员工姓名
- * @param {number} data.storeId - 门店ID
- * @param {string} data.storeName - 门店名称
+ * @param {string} data.orderNumber - 订单号
  * @param {string} data.reason - 删除原因
  * @returns {Promise}
  */

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.KeySequence; // Import KeySequence if needed, though AUTO usually implies DB generation
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+// Removed Jackson annotations for LocalDateTime
 import lombok.Data;
 
 import java.time.LocalDateTime;

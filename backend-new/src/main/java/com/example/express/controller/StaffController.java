@@ -13,6 +13,7 @@ import com.example.express.service.OperationLogService;
 import com.example.express.service.OrderDeletionRequestService;
 import com.example.express.service.OrderService;
 import com.example.express.service.StaffService;
+import com.example.express.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -46,6 +47,9 @@ public class StaffController {
   @Autowired
   private LogisticsInfoService logisticsInfoService;
 
+  @Autowired
+  private StoreService storeService;
+
   /**
    * 获取员工信息
    */
@@ -73,7 +77,7 @@ public class StaffController {
       return Result.error("无法获取当前员工信息，请重新登录");
     }
     // 可以在这里选择性地隐藏敏感信息，比如密码
-    staff.setPassword(null); 
+    staff.setPassword(null);
     return Result.success(staff);
   }
 
@@ -94,18 +98,39 @@ public class StaffController {
    */
   @PostMapping("/order-deletion-request")
   public Result<Boolean> submitOrderDeletionRequest(
-      @RequestParam Long orderId,
-      @RequestParam Long staffId,
-      @RequestParam String staffName,
-      @RequestParam Long storeId,
-      @RequestParam String storeName,
+      @RequestParam String orderNumber,
       @RequestParam String reason) {
 
-    // 验证订单是否存在
-    Order order = orderService.getById(orderId);
+    // 获取当前登录的员工信息
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    Staff staff = staffService.getByUsername(username);
+
+    if (staff == null) {
+      return Result.error("无法获取员工信息");
+    }
+
+    Long staffId = staff.getId();
+    String staffName = staff.getName();
+    Long storeId = staff.getStoreId();
+
+    // 通过storeId获取门店名称
+    String storeName = "未知门店";
+    if (storeId != null) {
+      // 从store表中获取门店信息
+      com.example.express.entity.Store store = storeService.getById(storeId);
+      if (store != null) {
+        storeName = store.getName();
+      }
+    }
+
+    // 验证订单是否存在 (using orderNumber)
+    Order order = orderService.getByOrderNumber(orderNumber);
     if (order == null) {
+      System.out.println("删除申请：未找到订单，订单号: " + orderNumber);
       return Result.error("订单不存在");
     }
+    Long orderId = order.getId(); // Get the actual Long ID from the found order
 
     // 验证订单是否属于该门店
     if (!order.getStoreId().equals(storeId)) {
@@ -114,7 +139,7 @@ public class StaffController {
 
     // 创建删除申请
     OrderDeletionRequest request = new OrderDeletionRequest();
-    request.setOrderId(orderId);
+    request.setOrderId(orderId); // Use the retrieved Long ID
     request.setStaffId(staffId);
     request.setStaffName(staffName);
     request.setStoreId(storeId);
@@ -128,18 +153,17 @@ public class StaffController {
     }
 
     // 记录操作日志
-    operationLogService.addLog("提交订单删除申请", "订单ID: " + orderId + ", 原因: " + reason,
-        staffId, staffName, "员工");
+    operationLogService.addLog("提交订单删除申请", "订单ID: " + orderId + ", 原因: " + reason, staffId, staffName, "员工");
 
     return Result.success(true);
   }
 
   /**
-   * 获取门店订单列表
+   * 获取当前员工所属门店的订单列表
    */
   @GetMapping("/orders")
   public Result<IPage<Order>> getStoreOrders(
-      @RequestParam Long storeId,
+      // @RequestParam Long storeId, // 不再需要前端传递 storeId
       @RequestParam(defaultValue = "1") Integer current,
       @RequestParam(defaultValue = "10") Integer size,
       @RequestParam(required = false) Integer status,
@@ -147,10 +171,25 @@ public class StaffController {
       @RequestParam(required = false) String startTime,
       @RequestParam(required = false) String endTime) {
 
-    // 验证参数
-    if (storeId == null) {
-      return Result.error("门店ID不能为空");
+    // 1. 获取当前登录员工信息
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    Staff staff = staffService.getByUsername(username);
+
+    if (staff == null) {
+      System.out.println("无法获取当前登录员工信息，用户名: " + username);
+      return Result.error("无法获取员工信息，请重新登录");
     }
+
+    Long storeId = staff.getStoreId();
+    if (storeId == null) {
+      System.out.println("当前员工未分配门店，用户名: " + username);
+      return Result.error("您未分配到门店，无法查看订单");
+    }
+
+    // 记录请求参数 (使用从认证信息中获取的 storeId)
+    System.out.println("获取门店订单列表请求参数: storeId=" + storeId + " (from auth), current=" + current + ", size=" + size
+        + ", status=" + status + ", keyword=" + keyword);
 
     // 创建分页对象
     Page<Order> page = new Page<>(current, size);
@@ -165,8 +204,15 @@ public class StaffController {
       end = LocalDateTime.parse(endTime);
     }
 
-    // 查询订单列表
+    // 查询订单列表 (使用从认证信息中获取的 storeId)
     IPage<Order> orderPage = orderService.pageOrders(page, null, null, storeId, status, keyword, start, end);
+
+    // 记录查询结果
+    System.out.println("查询结果 for storeId " + storeId + ": 总记录数=" + orderPage.getTotal() + ", 当前页记录数="
+        + orderPage.getRecords().size());
+    if (orderPage.getRecords().isEmpty()) {
+      System.out.println("警告: 未找到任何订单记录");
+    }
 
     return Result.success(orderPage);
   }
@@ -333,9 +379,78 @@ public class StaffController {
   }
 
   /**
-   * 获取订单详情
+   * 更新员工所属门店的订单信息
    */
-  @GetMapping("/order/{orderId}")
+  @PutMapping("/orders/{idOrOrderNumber}")
+  // Class level @PreAuthorize("hasRole('STAFF')") already applies
+  public Result<Order> updateStaffOrder(@PathVariable String idOrOrderNumber, @RequestBody Order order) {
+    System.out.println("员工请求更新订单，ID/订单号: " + idOrOrderNumber);
+
+    // 1. Get current staff info
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    Staff staff = staffService.getByUsername(username);
+
+    if (staff == null || staff.getStoreId() == null) {
+      return Result.error("无法获取员工门店信息或员工未分配门店");
+    }
+    Long staffStoreId = staff.getStoreId();
+
+    Order existingOrder = null;
+    try {
+      // 2. Find the order
+      existingOrder = orderService.getByOrderNumber(idOrOrderNumber);
+      if (existingOrder == null) {
+        try {
+          Long orderId = Long.valueOf(idOrOrderNumber);
+          existingOrder = orderService.getById(orderId);
+        } catch (NumberFormatException e) {
+          // Ignore, order not found by ID either
+        }
+      }
+
+      // 3. Check if order exists
+      if (existingOrder == null) {
+        System.out.println("未找到要更新的订单，请求ID/订单号: " + idOrOrderNumber);
+        return Result.error("订单不存在");
+      }
+
+      // 4. Verify order belongs to staff's store
+      if (!existingOrder.getStoreId().equals(staffStoreId)) {
+        System.out.println("员工 " + username + " 尝试更新不属于其门店的订单: " + idOrOrderNumber);
+        return Result.error("您无权更新该订单");
+      }
+
+      // 5. Update the order
+      order.setId(existingOrder.getId()); // Ensure correct ID
+      order.setUpdateTime(LocalDateTime.now());
+      // Ensure storeId isn't accidentally changed if it's part of the request body
+      order.setStoreId(staffStoreId);
+
+      boolean success = orderService.updateById(order);
+      if (!success) {
+        return Result.error("更新订单失败");
+      }
+
+      // Log success
+      operationLogService.addLog("更新订单信息",
+          "订单ID: " + existingOrder.getId() + ", 订单号: " + existingOrder.getOrderNumber(),
+          staff.getId(), staff.getName(), "员工");
+
+      System.out.println("员工 " + username + " 成功更新订单: " + idOrOrderNumber);
+      return Result.success(order);
+
+    } catch (Exception e) {
+      System.out.println("更新订单出错: " + idOrOrderNumber + ", 错误: " + e.getMessage());
+      e.printStackTrace(); // Print stack trace for debugging
+      return Result.error("更新订单出错");
+    }
+  }
+
+  /**
+   * 获取订单详情 (员工只能获取自己门店的)
+   */
+  @GetMapping("/order/{orderId}") // Keep original path for get detail
   public Result<Order> getOrderDetail(@PathVariable String orderId) {
     // 获取当前认证员工
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

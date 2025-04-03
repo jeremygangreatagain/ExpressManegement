@@ -37,9 +37,16 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
 
   @Override
   public Staff getByUsername(String username) {
+    log.info("StaffService: Attempting to get staff by username: {}", username); // Add log
     LambdaQueryWrapper<Staff> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.eq(Staff::getUsername, username);
-    return getOne(queryWrapper);
+    Staff staff = getOne(queryWrapper);
+    if (staff == null) {
+        log.warn("StaffService: No staff found for username: {}", username); // Add log for not found
+    } else {
+        log.info("StaffService: Found staff for username: {}. Staff ID: {}", username, staff.getId()); // Add log for found
+    }
+    return staff;
   }
 
   @Override

@@ -49,3 +49,16 @@ export function updatePassword(data) {
     data
   });
 }
+
+/**
+ * 更新当前员工信息
+ * @param {Object} data - 员工数据
+ * @returns {Promise}
+ */
+export function updateStaffInfo(data) {
+  return request({
+    url: '/staff/info',
+    method: 'put',
+    data
+  });
+}

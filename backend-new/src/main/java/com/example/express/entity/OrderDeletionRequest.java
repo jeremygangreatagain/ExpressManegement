@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @TableName("order_deletion_request")
 public class OrderDeletionRequest {
 
-  @TableId(type = IdType.ASSIGN_ID)
-  private Long id;
+  @TableId(type = IdType.INPUT) // 改为INPUT类型，由我们自己生成ID
+  private String id; // 改为String类型，避免长整型精度问题
 
   private Long orderId; // 订单ID
 

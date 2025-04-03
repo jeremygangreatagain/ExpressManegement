@@ -177,15 +177,17 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, inject } from 'vue'
+import { ref, computed, onMounted } from 'vue' // Removed inject as it wasn't used
 import { useRouter } from 'vue-router'
 import { login, register, checkUsername, getCaptcha } from '../api/auth'
 import toast from '../utils/toast'
+import { useUserStore } from '../stores/user' // Import useUserStore
 
 export default {
   name: 'Login',
   setup() {
     const router = useRouter()
+    const userStore = useUserStore() // Get user store instance
     const isLogin = ref(true)
     const isLoading = ref(false)
     const captchaUrl = ref('')
@@ -337,14 +339,68 @@ export default {
           roleValue = 'ADMIN'
         } else if (roleValue === 2 || roleValue === '2') {
           roleValue = 'STAFF'
+          
+          // 如果是员工角色，保存员工信息到localStorage并更新store
+          if (res.data.userInfo) {
+            const userInfo = res.data.userInfo;
+            console.log('[Login] Received userInfo from backend:', JSON.stringify(userInfo)); // Log received userInfo
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            userStore.setUserInfo(userInfo); // Explicitly update the store
+            console.log('[Login] Staff userInfo saved to localStorage and Pinia store:', userStore.userInfo); // Log store state AFTER setting
+          } else {
+             console.warn('[Login] Backend login response did not contain userInfo field for STAFF role.');
+             // 如果后端没返回userInfo，尝试从顶层获取基本信息更新store (确保至少有基本信息)
+             const basicUserInfo = { 
+                id: res.data.id, // Assuming id might be at top level
+                username: loginForm.value.username, 
+                role: roleValue, 
+                // storeId might be missing here if not in userInfo
+             };
+             userStore.setUserInfo(basicUserInfo); 
+             console.warn('[Login] Staff userInfo not found in response, updated store with basic info.');
+          }
         } else if (roleValue === 3 || roleValue === '3') {
           roleValue = 'USER'
+          // 更新普通用户信息到store (如果需要的话)
+          const basicUserInfo = { 
+             id: res.data.id, 
+             username: loginForm.value.username, 
+             role: roleValue 
+          };
+          userStore.setUserInfo(basicUserInfo);
+          console.log('[Login] User userInfo updated in Pinia store:', basicUserInfo);
         } else if (typeof roleValue === 'string') {
           // 如果是字符串格式的ROLE_XXX，转换为XXX格式
           roleValue = roleValue.replace('ROLE_', '')
+          
+          // 如果是员工角色，保存员工信息到localStorage并更新store
+          if (roleValue === 'STAFF' && res.data.userInfo) {
+            const userInfo = res.data.userInfo;
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            userStore.setUserInfo(userInfo); // Explicitly update the store
+            console.log('[Login] Staff userInfo (ROLE_STAFF) saved to localStorage and Pinia store:', userInfo);
+          } else if (roleValue === 'STAFF') {
+             // 如果后端没返回userInfo，尝试从顶层获取基本信息更新store
+             const basicUserInfo = { 
+                id: res.data.id, 
+                username: loginForm.value.username, 
+                role: roleValue, 
+             };
+             userStore.setUserInfo(basicUserInfo); 
+             console.warn('[Login] Staff userInfo (ROLE_STAFF) not found in response, updated store with basic info.');
+          } else if (roleValue === 'ADMIN' || roleValue === 'USER') {
+             // 更新管理员或普通用户信息到store
+             const basicUserInfo = { 
+                id: res.data.id, 
+                username: loginForm.value.username, 
+                role: roleValue 
+             };
+             userStore.setUserInfo(basicUserInfo);
+             console.log(`[Login] ${roleValue} userInfo updated in Pinia store:`, basicUserInfo);
+          }
         }
         
-        localStorage.setItem('userRole', roleValue)
+        localStorage.setItem('userRole', roleValue) // Keep saving role separately if needed elsewhere
         
         // 如果选择了记住我，保存用户名
         if (loginForm.value.rememberMe) {

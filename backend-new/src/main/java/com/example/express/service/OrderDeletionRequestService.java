@@ -30,7 +30,7 @@ public interface OrderDeletionRequestService extends IService<OrderDeletionReque
    * @param reviewComment 审核意见
    * @return 是否成功
    */
-  boolean reviewRequest(Long requestId, Integer status, Long reviewerId, String reviewerName, String reviewComment);
+  boolean reviewRequest(String requestId, Integer status, Long reviewerId, String reviewerName, String reviewComment);
 
   /**
    * 分页查询订单删除申请

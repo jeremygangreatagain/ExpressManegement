@@ -157,11 +157,11 @@
                   class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
                   :class="getTypeClass(audit.type)"
                 >
-                  {{ audit.type }}
+                  {{ audit.type || '订单删除申请' }}
                 </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ audit.applicantName }} ({{ audit.applicantRole }})
+                {{ audit.staffName || audit.applicantName }} ({{ audit.applicantRole || '快递员' }})
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{ formatDate(audit.createTime) }}
@@ -182,14 +182,14 @@
                   查看
                 </button>
                 <button 
-                  v-if="audit.status === 'PENDING'"
+                  v-if="audit.status === 'PENDING' || audit.status === 0"
                   @click="handleApprove(audit.id)" 
                   class="text-green-600 hover:text-green-900 mr-3"
                 >
                   通过
                 </button>
                 <button 
-                  v-if="audit.status === 'PENDING'"
+                  v-if="audit.status === 'PENDING' || audit.status === 0"
                   @click="handleReject(audit.id)" 
                   class="text-red-600 hover:text-red-900"
                 >
@@ -488,20 +488,50 @@ export default {
     
     // 获取状态文本
     const getStatusText = (status) => {
+      // 处理数字状态值
+      if (typeof status === 'number' || !isNaN(Number(status))) {
+        const numStatus = Number(status);
+        switch (numStatus) {
+          case 0: return '待审核';
+          case 1: return '已通过';
+          case 2: return '已拒绝';
+          default: return `未知状态(${status})`;
+        }
+      }
+      
+      // 处理字符串状态值
       const statusMap = {
         'PENDING': '待审核',
         'APPROVED': '已通过',
-        'REJECTED': '已拒绝'
+        'REJECTED': '已拒绝',
+        '0': '待审核',
+        '1': '已通过',
+        '2': '已拒绝'
       };
-      return statusMap[status] || status;
+      return statusMap[status] || `未知状态(${status})`;
     };
     
     // 获取状态样式
     const getStatusClass = (status) => {
+      // 处理数字状态值
+      if (typeof status === 'number' || !isNaN(Number(status))) {
+        const numStatus = Number(status);
+        switch (numStatus) {
+          case 0: return 'bg-yellow-100 text-yellow-800'; // 待审核
+          case 1: return 'bg-green-100 text-green-800';  // 已通过
+          case 2: return 'bg-red-100 text-red-800';      // 已拒绝
+          default: return 'bg-gray-100 text-gray-800';
+        }
+      }
+      
+      // 处理字符串状态值
       const statusMap = {
         'PENDING': 'bg-yellow-100 text-yellow-800',
         'APPROVED': 'bg-green-100 text-green-800',
-        'REJECTED': 'bg-red-100 text-red-800'
+        'REJECTED': 'bg-red-100 text-red-800',
+        '0': 'bg-yellow-100 text-yellow-800',
+        '1': 'bg-green-100 text-green-800',
+        '2': 'bg-red-100 text-red-800'
       };
       return statusMap[status] || 'bg-gray-100 text-gray-800';
     };
@@ -522,7 +552,32 @@ export default {
       try {
         const res = await getAuditDetail(id);
         if (res.data) {
-          currentAudit.value = { ...res.data, id: String(res.data.id) };
+          // 处理审核详情数据，确保数据格式正确
+          const auditData = { ...res.data, id: String(res.data.id) };
+          
+          // 确保申请类型正确显示
+          if (!auditData.type && auditData.auditType) {
+            auditData.type = auditData.auditType;
+          } else if (!auditData.type) {
+            auditData.type = '订单删除申请'; // 默认类型
+          }
+          
+          // 确保申请人信息正确显示
+          if (!auditData.applicantName && auditData.staffName) {
+            auditData.applicantName = auditData.staffName;
+          }
+          
+          if (!auditData.applicantRole) {
+            auditData.applicantRole = auditData.role || '快递员';
+          }
+          
+          // 将reason字段映射到content字段，确保申请内容正确显示
+          if (!auditData.content && auditData.reason) {
+            auditData.content = auditData.reason;
+          }
+          
+          // 设置当前审核数据并显示对话框
+          currentAudit.value = auditData;
           dialogVisible.value = true;
         } else {
           ElMessage.warning('未找到审核详情');

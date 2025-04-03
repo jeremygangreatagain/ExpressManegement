@@ -10,6 +10,7 @@ import com.example.express.mapper.OrderDeletionRequestMapper;
 import com.example.express.service.OperationLogService;
 import com.example.express.service.OrderDeletionRequestService;
 import com.example.express.service.OrderService;
+import com.example.express.util.ShortIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +30,15 @@ public class OrderDeletionRequestServiceImpl extends ServiceImpl<OrderDeletionRe
   @Autowired
   private OperationLogService operationLogService;
 
+  @Autowired
+  private ShortIdGenerator shortIdGenerator;
+
   @Override
   public boolean createRequest(OrderDeletionRequest request) {
+    // 使用短ID生成器生成ID
+    String shortId = shortIdGenerator.nextId();
+    request.setId(shortId);
+
     // 设置申请状态为待审核
     request.setStatus(0);
     request.setCreateTime(LocalDateTime.now());
@@ -50,7 +58,7 @@ public class OrderDeletionRequestServiceImpl extends ServiceImpl<OrderDeletionRe
 
   @Override
   @Transactional
-  public boolean reviewRequest(Long requestId, Integer status, Long reviewerId, String reviewerName,
+  public boolean reviewRequest(String requestId, Integer status, Long reviewerId, String reviewerName,
       String reviewComment) {
     // 获取申请记录
     OrderDeletionRequest request = getById(requestId);
