@@ -11,8 +11,10 @@ const state = reactive({
 const actions = {
   // 设置用户信息
   setUserInfo(userInfo) {
+    console.log('[UserStore] setUserInfo called with:', JSON.stringify(userInfo)); // Log input
     state.userInfo = userInfo
     state.isLoggedIn = !!userInfo
+    console.log('[UserStore] State updated. state.userInfo:', JSON.stringify(state.userInfo)); // Log state after update
   },
 
   // 清除用户信息（登出）

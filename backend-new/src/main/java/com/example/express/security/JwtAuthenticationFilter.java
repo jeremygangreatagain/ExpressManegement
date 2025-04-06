@@ -16,9 +16,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.core.authority.SimpleGrantedAuthority; // No longer needed here if CustomUserDetails provides them
+import org.springframework.security.core.userdetails.UserDetails; // Keep for casting check
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+// Import CustomUserDetails
+import com.example.express.security.CustomUserDetails;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
   // Modify constructor to accept StaffService
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager, CaptchaService captchaService,
-      JwtUtil jwtUtil, StaffService staffService) { 
+      JwtUtil jwtUtil, StaffService staffService) {
     this.authenticationManager = authenticationManager;
     this.captchaService = captchaService;
     this.jwtUtil = jwtUtil;
@@ -87,49 +89,44 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
       Authentication authResult) throws IOException {
     // 获取认证用户
-    UserDetails userDetails = (UserDetails) authResult.getPrincipal();
+    // Get the custom user details object
+    CustomUserDetails customUserDetails = (CustomUserDetails) authResult.getPrincipal();
 
-    // 获取用户角色
-    Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+    // 获取用户角色 from CustomUserDetails
+    Collection<? extends GrantedAuthority> authorities = customUserDetails.getAuthorities();
     String role = authorities.isEmpty() ? "ROLE_USER" : authorities.iterator().next().getAuthority();
 
-    // 生成JWT令牌
-    String token = jwtUtil.generateToken(userDetails);
+    // 生成JWT令牌 using CustomUserDetails (or standard UserDetails if generateToken
+    // doesn't need custom fields)
+    // Assuming jwtUtil.generateToken works with the base UserDetails interface or
+    // the extended User object
+    String token = jwtUtil.generateToken(customUserDetails);
 
-    // 构建响应数据
+    // 构建响应数据 using CustomUserDetails
     Map<String, Object> data = new HashMap<>();
     data.put("token", token);
-    data.put("username", userDetails.getUsername());
-    data.put("role", role); // Role is already like "ROLE_STAFF"
+    data.put("username", customUserDetails.getUsername());
+    data.put("role", role);
 
-    // If the user is staff, fetch and add full userInfo
+    // Add userInfo directly from CustomUserDetails
+    Map<String, Object> userInfoMap = new HashMap<>();
+    userInfoMap.put("id", customUserDetails.getId().toString()); // Convert ID to string to avoid JavaScript precision
+                                                                 // issues
+    userInfoMap.put("username", customUserDetails.getUsername());
+    userInfoMap.put("name", customUserDetails.getName()); // Get name from CustomUserDetails
+
+    // Add store info only if it's a staff user (storeId/storeName might be null for
+    // others)
     if ("ROLE_STAFF".equals(role)) {
-        Staff staffInfo = staffService.getByUsername(userDetails.getUsername());
-        if (staffInfo != null) {
-            // Create a map with only necessary fields instead of the whole entity
-            Map<String, Object> userInfoMap = new HashMap<>();
-            userInfoMap.put("id", staffInfo.getId());
-            userInfoMap.put("username", staffInfo.getUsername());
-            userInfoMap.put("name", staffInfo.getName());
-            userInfoMap.put("storeId", staffInfo.getStoreId());
-            // Assuming storeName might be needed, fetch it if not directly in Staff entity
-            // If storeName is already in Staff entity, add: userInfoMap.put("storeName", staffInfo.getStoreName());
-            // If not, you might need to fetch Store entity based on storeId or adjust Staff entity/query
-            // For now, let's assume storeName might be missing or fetched elsewhere if needed
-            // userInfoMap.put("storeName", "..."); // Placeholder if needed
+      userInfoMap.put("storeId", customUserDetails.getStoreId());
+      userInfoMap.put("storeName", customUserDetails.getStoreName()); // Get storeName
+    }
+    // Add other roles or details if needed for USER/ADMIN based on
+    // CustomUserDetails fields
 
-            data.put("userInfo", userInfoMap); // Add the map with selected fields
-            System.out.println("[AuthSuccess] Added selected staff userInfo to login response for: " + userDetails.getUsername());
-        } else {
-             System.err.println("[AuthSuccess] Could not find staff details for username: " + userDetails.getUsername());
-             // Optionally add basic info if full info not found, though ideally it should always be found
-             Map<String, Object> basicInfo = new HashMap<>();
-             basicInfo.put("username", userDetails.getUsername());
-             basicInfo.put("role", "STAFF"); // Assuming role is correct from authorities
-             data.put("userInfo", basicInfo); 
-        }
-    } 
-    // TODO: Optionally add userInfo for ADMIN or USER roles if needed elsewhere
+    data.put("userInfo", userInfoMap);
+    System.out.println("[AuthSuccess] Added userInfo from CustomUserDetails to login response for: "
+        + customUserDetails.getUsername());
 
     // 设置响应头
     response.setContentType("application/json");

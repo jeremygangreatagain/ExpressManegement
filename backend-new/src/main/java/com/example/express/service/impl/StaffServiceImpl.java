@@ -8,6 +8,7 @@ import com.example.express.entity.Staff;
 import com.example.express.mapper.StaffMapper;
 import com.example.express.service.OperationLogService;
 import com.example.express.service.StaffService;
+import com.example.express.util.StaffIdGenerator; // 导入员工ID生成器
 import org.slf4j.Logger; // Added import for Logger
 import org.slf4j.LoggerFactory; // Added import for LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.List; // Add this import
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements StaffService {
@@ -31,6 +33,9 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
   private OperationLogService operationLogService;
 
   @Autowired
+  private StaffIdGenerator staffIdGenerator;
+
+  @Autowired
   public StaffServiceImpl(@org.springframework.context.annotation.Lazy PasswordEncoder passwordEncoder) {
     this.passwordEncoder = passwordEncoder;
   }
@@ -42,9 +47,10 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
     queryWrapper.eq(Staff::getUsername, username);
     Staff staff = getOne(queryWrapper);
     if (staff == null) {
-        log.warn("StaffService: No staff found for username: {}", username); // Add log for not found
+      log.warn("StaffService: No staff found for username: {}", username); // Add log for not found
     } else {
-        log.info("StaffService: Found staff for username: {}. Staff ID: {}", username, staff.getId()); // Add log for found
+      log.info("StaffService: Found staff for username: {}. Staff ID: {}", username, staff.getId()); // Add log for
+                                                                                                     // found
     }
     return staff;
   }
@@ -61,6 +67,11 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
     staff.setCreateTime(LocalDateTime.now());
     staff.setUpdateTime(LocalDateTime.now());
     staff.setStatus(0); // 默认离线状态
+
+    // 使用StaffIdGenerator生成10位数字的员工ID
+    Long staffId = staffIdGenerator.nextId();
+    staff.setId(staffId);
+    log.info("Generated 10-digit staff ID: {}", staffId);
 
     // 密码加密 - 使用MD5加盐（盐值为手机号后4位）
     String phone = staff.getPhone();
@@ -173,5 +184,17 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
     }
 
     return success;
+  }
+
+  @Override
+  public List<Staff> listByStoreId(Long storeId) {
+    if (storeId == null) {
+      return new ArrayList<>();
+    }
+
+    LambdaQueryWrapper<Staff> queryWrapper = new LambdaQueryWrapper<>();
+    queryWrapper.eq(Staff::getStoreId, storeId);
+
+    return list(queryWrapper);
   }
 }

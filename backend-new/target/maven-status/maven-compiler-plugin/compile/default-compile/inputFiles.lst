@@ -1,5 +1,6 @@
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\security\JwtAuthenticationFilter.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\util\ShortIdGenerator.java
+C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\security\CustomUserDetails.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\mapper\StoreMapper.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\entity\OrderDeletionRequest.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\service\StaffService.java
@@ -38,6 +39,7 @@ C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\entity\Order.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\security\MD5PasswordEncoder.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\service\impl\OperationLogServiceImpl.java
+C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\util\StaffIdGenerator.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\controller\StaffDashboardController.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\service\impl\CacheServiceImpl.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\config\JwtAuthorizationFilterConfig.java

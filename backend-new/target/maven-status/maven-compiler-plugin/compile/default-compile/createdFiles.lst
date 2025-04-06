@@ -1,6 +1,7 @@
 com\example\express\controller\ProfileController.class
 com\example\express\config\RedisConfig.class
 com\example\express\controller\AuditController.class
+com\example\express\util\StaffIdGenerator.class
 com\example\express\config\SecurityConfig.class
 com\example\express\security\MD5PasswordEncoder.class
 com\example\express\service\StoreService.class

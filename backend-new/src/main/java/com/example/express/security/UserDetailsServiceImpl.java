@@ -1,8 +1,10 @@
 package com.example.express.security;
 
 import com.example.express.entity.Staff;
+import com.example.express.entity.Store; // Import Store
 import com.example.express.entity.User;
 import com.example.express.service.StaffService;
+import com.example.express.service.StoreService; // Import StoreService
 import com.example.express.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,6 +28,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
   private StaffService staffService;
 
+  @Autowired
+  private StoreService storeService; // Inject StoreService
+
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     // 先从用户表中查找
@@ -43,9 +48,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
       }
 
-      return new org.springframework.security.core.userdetails.User(
+      // Return CustomUserDetails for regular users
+      return new CustomUserDetails(
+          user.getId(),
           user.getUsername(),
           user.getPassword(),
+          user.getName(), // Assuming User entity has a name field, adjust if needed
           authorities);
     }
 
@@ -56,9 +64,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
       authorities.add(new SimpleGrantedAuthority("ROLE_STAFF"));
 
-      return new org.springframework.security.core.userdetails.User(
+      // Fetch store details
+      String storeName = null;
+      if (staff.getStoreId() != null) {
+        Store store = storeService.getById(staff.getStoreId());
+        if (store != null) {
+          storeName = store.getName();
+        }
+      }
+
+      // Return CustomUserDetails for staff users
+      return new CustomUserDetails(
+          staff.getId(),
           staff.getUsername(),
           staff.getPassword(),
+          staff.getName(),
+          staff.getStoreId(),
+          storeName,
           authorities);
     }
 

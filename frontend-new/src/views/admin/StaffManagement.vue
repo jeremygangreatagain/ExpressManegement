@@ -178,13 +178,7 @@
         <el-form-item label="手机号" prop="phone">
           <el-input v-model="staffForm.phone"></el-input>
         </el-form-item>
-        <el-form-item label="职位" prop="position">
-          <el-select v-model="staffForm.position" placeholder="请选择职位">
-            <el-option label="店员" value="店员"></el-option>
-            <el-option label="店长" value="店长"></el-option>
-            <el-option label="经理" value="经理"></el-option>
-          </el-select>
-        </el-form-item>
+        <!-- 移除position字段 -->
         <el-form-item label="门店" prop="storeId">
           <el-select v-model="staffForm.storeId" placeholder="请选择门店">
             <el-option 
@@ -259,7 +253,7 @@ export default {
       password: '', // Added password
       name: '',
       phone: '',
-      position: '',
+      // 移除position字段
       storeId: '',
       status: 1
     })
@@ -296,7 +290,7 @@ export default {
         { required: true, message: '请输入密码', trigger: 'blur' },
         { min: 6, message: '密码长度至少为 6 位', trigger: 'blur' }
       ],
-      position: [{ required: true, message: '请选择职位', trigger: 'change' }],
+      // 移除position验证规则
       storeId: [{ required: true, message: '请选择门店', trigger: 'change' }]
     }
     
@@ -457,7 +451,7 @@ export default {
         password: '', // Reset password
         name: '',
         phone: '',
-        position: '',
+        // 移除position字段
         storeId: '',
         status: 1 // Default status
       }

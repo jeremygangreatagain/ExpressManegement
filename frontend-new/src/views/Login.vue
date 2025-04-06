@@ -342,11 +342,28 @@ export default {
           
           // 如果是员工角色，保存员工信息到localStorage并更新store
           if (res.data.userInfo) {
-            const userInfo = res.data.userInfo;
-            console.log('[Login] Received userInfo from backend:', JSON.stringify(userInfo)); // Log received userInfo
-            localStorage.setItem('userInfo', JSON.stringify(userInfo));
-            userStore.setUserInfo(userInfo); // Explicitly update the store
-            console.log('[Login] Staff userInfo saved to localStorage and Pinia store:', userStore.userInfo); // Log store state AFTER setting
+            const receivedUserInfo = res.data.userInfo;
+            console.log('[Login] Received userInfo from backend:', JSON.stringify(receivedUserInfo)); // Log received userInfo
+            // Ensure the received data has id and storeId before setting
+            if (receivedUserInfo && receivedUserInfo.id && receivedUserInfo.storeId) {
+              localStorage.setItem('userInfo', JSON.stringify(receivedUserInfo));
+              console.log('[Login] Calling userStore.setUserInfo with:', JSON.stringify(receivedUserInfo));
+              userStore.setUserInfo(receivedUserInfo); // Explicitly update the store
+              // Log store state AFTER setting - use a slight delay if needed for reactivity
+              setTimeout(() => {
+                 console.log('[Login] Staff userInfo in Pinia store AFTER update:', JSON.stringify(userStore.userInfo)); 
+              }, 0);
+            } else {
+              console.error('[Login] Received userInfo is incomplete:', JSON.stringify(receivedUserInfo));
+              toast.error('登录响应缺少必要的员工信息，请联系管理员。');
+              // Optionally clear potentially bad data
+              userStore.clearUserInfo(); 
+              localStorage.removeItem('userInfo');
+              localStorage.removeItem('token');
+              localStorage.removeItem('userRole');
+              isLoading.value = false; // Stop loading indicator
+              return; // Prevent further execution like routing
+            }
           } else {
              console.warn('[Login] Backend login response did not contain userInfo field for STAFF role.');
              // 如果后端没返回userInfo，尝试从顶层获取基本信息更新store (确保至少有基本信息)

@@ -35,7 +35,8 @@ export function getOrderDetail(idOrOrderNumber) {
   // 无论是ID还是订单号，都作为字符串传递
   const param = String(idOrOrderNumber);
   return request({
-    url: `/staff/orders/${param}`,
+    // 修正 URL 路径为单数 /order/
+    url: `/staff/order/${param}`,
     method: 'get'
   })
 }
@@ -89,14 +90,42 @@ export function updateOrder(orderNumber, data) {
  * @param {number} data.staffId - 员工ID
  * @param {string} data.staffName - 员工姓名
  * @param {string} data.remark - 备注信息
+ * @param {string} [data.orderNumber] - 订单号（可选，作为备用标识）
  * @returns {Promise}
  */
 export function updateOrderStatus(data) {
+  console.log('【API调用】更新订单状态，参数:', data);
   return request({
     url: '/staff/order-status',
     method: 'put',
     params: data
   })
+}
+
+/**
+ * 添加物流信息
+ * @param {Object} data - 物流数据
+ * @param {number} data.orderId - 订单ID
+ * @param {number} data.status - 物流状态
+ * @param {string} data.content - 物流内容
+ * @param {string} data.location - 物流地点
+ * @param {number} data.operatorId - 操作员ID
+ * @param {string} data.operatorName - 操作员姓名
+ * @returns {Promise}
+ */
+export function addLogisticsInfo(data) {
+  console.log('【API调用】添加物流信息，参数:', data);
+  return request({
+    url: '/staff/logistics',
+    method: 'post',
+    data
+  }).then(response => {
+    console.log('【API响应】添加物流信息，响应:', response);
+    return response;
+  }).catch(error => {
+    console.error('【API错误】添加物流信息失败:', error);
+    throw error;
+  });
 }
 
 /**

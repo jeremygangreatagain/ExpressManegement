@@ -2,21 +2,21 @@
   <div> <!-- Add root div -->
     <div class="min-h-screen bg-gray-100 p-6">
       <h1 class="text-2xl font-bold text-orange-500 mb-6">订单管理</h1>
-      
+
     <!-- 搜索和操作区域 -->
     <div class="bg-white rounded-lg shadow-md p-6 mb-6">
       <div class="flex flex-col md:flex-row gap-4 mb-4">
         <div class="flex-grow">
-          <input 
-            type="text" 
-            v-model="searchQuery" 
-            placeholder="输入订单号、收件人姓名或电话" 
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="输入订单号、收件人姓名或电话"
             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
         </div>
         <div class="flex gap-2">
-          <select 
-            v-model="statusFilter" 
+          <select
+            v-model="statusFilter"
             class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
             <option value="">全部状态</option>
@@ -24,15 +24,15 @@
               {{ option.label }}
             </option>
           </select>
-          <button 
-            @click="searchOrders" 
+          <button
+            @click="searchOrders"
             class="px-4 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors"
           >
             <span class="material-icons mr-1">search</span>
             查询
           </button>
-          <button 
-            @click="resetSearch" 
+          <button
+            @click="resetSearch"
             class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
           >
             <span class="material-icons mr-1">refresh</span>
@@ -42,8 +42,8 @@
       </div>
       <div class="flex justify-between items-center">
         <div>
-          <button 
-            @click="openCreateDialog" 
+          <button
+            @click="openCreateDialog"
             class="px-4 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
           >
             <span class="material-icons mr-1">add</span>
@@ -52,17 +52,17 @@
         </div>
       </div>
     </div>
-    
+
     <!-- 订单列表 -->
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
       <div v-if="isLoading" class="p-6 text-center">
         <p class="text-gray-500">加载中...</p>
       </div>
-      
+
       <div v-else-if="orders.length === 0" class="p-6 text-center">
         <p class="text-gray-500">暂无订单数据</p>
       </div>
-      
+
       <div v-else>
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
@@ -88,28 +88,28 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatDate(order.createTime) }}</td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <span 
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" 
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
                   :class="getStatusClass(order.status)"
                 >
                   {{ getStatusText(order.status) }}
                 </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <button 
-                  @click="viewOrderDetail(order.orderNumber)" 
+                <button
+                  @click="viewOrderDetail(order.orderNumber)"
                   class="text-blue-500 hover:text-blue-700 mr-2"
                 >
                   查看
                 </button>
-                <button 
-                  @click="editOrder(order.orderNumber)" 
+                <button
+                  @click="editOrder(order.orderNumber)"
                   class="text-orange-500 hover:text-orange-700 mr-2"
                 >
                   编辑
                 </button>
-                <button 
-                  @click="confirmDeleteRequest(order.orderNumber)" 
+                <button
+                  @click="confirmDeleteRequest(order.orderNumber)"
                   class="text-red-500 hover:text-red-700"
                 >
                   申请删除
@@ -118,20 +118,20 @@
             </tr>
           </tbody>
         </table>
-        
+
         <!-- 分页 -->
         <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200">
           <div class="flex-1 flex justify-between sm:hidden">
-            <button 
-              @click="prevPage" 
-              :disabled="currentPage === 1" 
+            <button
+              @click="prevPage"
+              :disabled="currentPage === 1"
               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               上一页
             </button>
-            <button 
-              @click="nextPage" 
-              :disabled="currentPage === totalPages" 
+            <button
+              @click="nextPage"
+              :disabled="currentPage === totalPages"
               class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               下一页
@@ -140,26 +140,26 @@
           <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
               <p class="text-sm text-gray-700">
-                显示第 <span class="font-medium">{{ orders.length > 0 ? (currentPage - 1) * pageSize + 1 : 0 }}</span> 至 
+                显示第 <span class="font-medium">{{ orders.length > 0 ? (currentPage - 1) * pageSize + 1 : 0 }}</span> 至
                 <span class="font-medium">{{ orders.length > 0 ? Math.min(currentPage * pageSize, totalItems) : 0 }}</span> 条，
                 共 <span class="font-medium">{{ totalItems }}</span> 条记录
               </p>
             </div>
             <div>
               <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                <button 
-                  @click="prevPage" 
-                  :disabled="currentPage === 1" 
+                <button
+                  @click="prevPage"
+                  :disabled="currentPage === 1"
                   class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span class="sr-only">上一页</span>
                   <span class="material-icons text-sm">chevron_left</span>
                 </button>
-                
-                <button 
-                  v-for="page in displayedPages" 
-                  :key="page" 
-                  @click="goToPage(page)" 
+
+                <button
+                  v-for="page in displayedPages"
+                  :key="page"
+                  @click="goToPage(page)"
                   :class="[
                     'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
                     currentPage === page
@@ -169,10 +169,10 @@
                 >
                   {{ page }}
                 </button>
-                
-                <button 
-                  @click="nextPage" 
-                  :disabled="currentPage === totalPages" 
+
+                <button
+                  @click="nextPage"
+                  :disabled="currentPage === totalPages"
                   class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span class="sr-only">下一页</span>
@@ -185,7 +185,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- 订单详情对话框 -->
   <div v-if="showDetailDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -197,11 +197,11 @@
           </button>
         </div>
       </div>
-      
+
       <div v-if="isLoadingDetail" class="p-6 text-center">
         <p class="text-gray-500">加载中...</p>
       </div>
-      
+
       <div v-else class="p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
@@ -217,8 +217,8 @@
               </div>
               <div class="flex">
                 <span class="text-gray-500 w-24">订单状态：</span>
-                <span 
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" 
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
                   :class="getStatusClass(orderDetail.status)"
                 >
                   {{ getStatusText(orderDetail.status) }}
@@ -226,8 +226,8 @@
               </div>
               <div class="flex">
                 <span class="text-gray-500 w-24">支付状态：</span>
-                <span 
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" 
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
                   :class="orderDetail.paymentStatus === 1 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
                 >
                   {{ orderDetail.paymentStatus === 1 ? '已支付' : '未支付' }}
@@ -251,7 +251,7 @@
               </div>
             </div>
           </div>
-          
+
           <div>
             <h3 class="text-lg font-semibold text-gray-700 mb-4">收发件信息</h3>
             <div class="space-y-4">
@@ -263,7 +263,7 @@
                   <div class="text-gray-600">{{ orderDetail.senderAddress }}</div>
                 </div>
               </div>
-              
+
               <div class="p-3 bg-gray-50 rounded-md">
                 <h4 class="text-sm font-medium text-gray-500 mb-2">收件人信息</h4>
                 <div class="space-y-1">
@@ -275,7 +275,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="mt-6">
           <h3 class="text-lg font-semibold text-gray-700 mb-4">物流信息</h3>
           <div v-if="!orderDetail.logistics || orderDetail.logistics.length === 0" class="text-gray-500 text-center py-4">
@@ -298,10 +298,10 @@
           </div>
         </div>
       </div>
-      
+
       <div class="p-6 border-t border-gray-200 flex justify-end">
-        <button 
-          @click="showDetailDialog = false" 
+        <button
+          @click="showDetailDialog = false"
           class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
         >
           关闭
@@ -309,7 +309,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- 编辑订单对话框 -->
   <div v-if="showEditDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -321,7 +321,7 @@
           </button>
         </div>
       </div>
-      
+
       <div class="p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- 寄件人信息 -->
@@ -330,26 +330,26 @@
             <div class="space-y-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
-                <input 
-                  type="text" 
-                  v-model="editingOrder.senderName" 
+                <input
+                  type="text"
+                  v-model="editingOrder.senderName"
                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   placeholder="请输入寄件人姓名"
                 >
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">电话</label>
-                <input 
-                  type="text" 
-                  v-model="editingOrder.senderPhone" 
+                <input
+                  type="text"
+                  v-model="editingOrder.senderPhone"
                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   placeholder="请输入寄件人电话"
                 >
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">地址</label>
-                <textarea 
-                  v-model="editingOrder.senderAddress" 
+                <textarea
+                  v-model="editingOrder.senderAddress"
                   rows="3"
                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   placeholder="请输入寄件人详细地址"
@@ -357,33 +357,33 @@
               </div>
             </div>
           </div>
-          
+
           <!-- 收件人信息 -->
           <div>
             <h3 class="text-lg font-semibold text-gray-700 mb-4">收件人信息</h3>
             <div class="space-y-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
-                <input 
-                  type="text" 
-                  v-model="editingOrder.receiverName" 
+                <input
+                  type="text"
+                  v-model="editingOrder.receiverName"
                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   placeholder="请输入收件人姓名"
                 >
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">电话</label>
-                <input 
-                  type="text" 
-                  v-model="editingOrder.receiverPhone" 
+                <input
+                  type="text"
+                  v-model="editingOrder.receiverPhone"
                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   placeholder="请输入收件人电话"
                 >
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">地址</label>
-                <textarea 
-                  v-model="editingOrder.receiverAddress" 
+                <textarea
+                  v-model="editingOrder.receiverAddress"
                   rows="3"
                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   placeholder="请输入收件人详细地址"
@@ -392,7 +392,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- 物品信息 -->
           <div>
@@ -400,18 +400,28 @@
             <div class="space-y-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">物品类型</label>
-                <input 
-                  type="text" 
-                  v-model="editingOrder.itemType" 
+                <select
+                  v-model="editingOrder.itemType"
                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  placeholder="请输入物品类型，如：文件、日用品等"
+                  required
                 >
+                  <option value="">请选择物品种类</option>
+                  <option value="电器">电器</option>
+                  <option value="数码产品">数码产品</option>
+                  <option value="日常用品">日常用品</option>
+                  <option value="文件类">文件类</option>
+                  <option value="服装">服装</option>
+                  <option value="食品">食品</option>
+                  <option value="化妆品">化妆品</option>
+                  <option value="玩具">玩具</option>
+                  <option value="书籍">书籍</option>
+                </select>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">重量 (kg)</label>
-                <input 
-                  type="number" 
-                  v-model="editingOrder.weight" 
+                <input
+                  type="number"
+                  v-model="editingOrder.weight"
                   min="0"
                   step="0.01"
                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
@@ -420,9 +430,9 @@
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">运费 (元)</label>
-                <input 
-                  type="number" 
-                  v-model="editingOrder.price" 
+                <input
+                  type="number"
+                  v-model="editingOrder.price"
                   min="0"
                   step="0.01"
                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
@@ -431,15 +441,15 @@
               </div>
             </div>
           </div>
-          
+
           <!-- 订单状态 -->
           <div>
             <h3 class="text-lg font-semibold text-gray-700 mb-4">订单状态</h3>
             <div class="space-y-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">订单状态</label>
-                <select 
-                  v-model="editingOrder.status" 
+                <select
+                  v-model="editingOrder.status"
                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 >
                   <option v-for="option in statusOptions" :key="option.value" :value="option.value">
@@ -451,18 +461,18 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">支付状态</label>
                 <div class="flex items-center space-x-4 mt-2">
                   <label class="inline-flex items-center">
-                    <input 
-                      type="radio" 
-                      v-model="editingOrder.isPaid" 
+                    <input
+                      type="radio"
+                      v-model="editingOrder.isPaid"
                       :value="true"
                       class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300"
                     >
                     <span class="ml-2 text-gray-700">已支付</span>
                   </label>
                   <label class="inline-flex items-center">
-                    <input 
-                      type="radio" 
-                      v-model="editingOrder.isPaid" 
+                    <input
+                      type="radio"
+                      v-model="editingOrder.isPaid"
                       :value="false"
                       class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300"
                     >
@@ -472,8 +482,8 @@
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">备注</label>
-                <textarea 
-                  v-model="editingOrder.remark" 
+                <textarea
+                  v-model="editingOrder.remark"
                   rows="3"
                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   placeholder="请输入备注信息（可选）"
@@ -483,16 +493,16 @@
           </div>
         </div>
       </div>
-      
+
       <div class="p-6 border-t border-gray-200 flex justify-end space-x-2">
-        <button 
-          @click="showEditDialog = false" 
+        <button
+          @click="showEditDialog = false"
           class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
         >
           取消
         </button>
-        <button 
-          @click="saveOrder" 
+        <button
+          @click="saveOrder"
           class="px-4 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors"
         >
           保存
@@ -500,7 +510,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- 删除申请对话框 -->
   <div v-if="showDeleteRequestDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
@@ -512,26 +522,26 @@
           </button>
         </div>
       </div>
-      
+
       <div class="p-6">
         <p class="text-gray-700 mb-4">您正在申请删除订单，请填写删除原因：</p>
-        <textarea 
-          v-model="deleteReason" 
+        <textarea
+          v-model="deleteReason"
           rows="4"
           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
           placeholder="请输入删除原因（必填）"
         ></textarea>
       </div>
-      
+
       <div class="p-6 border-t border-gray-200 flex justify-end space-x-2">
-        <button 
-          @click="showDeleteRequestDialog = false" 
+        <button
+          @click="showDeleteRequestDialog = false"
           class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
         >
           取消
         </button>
-        <button 
-          @click="submitDeleteRequest" 
+        <button
+          @click="submitDeleteRequest"
           class="px-4 py-2 bg-red-500 text-white font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
         >
           提交申请
@@ -539,7 +549,7 @@
       </div>
       </div>
     </div>
-    
+
     <!-- 订单详情对话框 -->
     <div v-if="showDetailDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -551,11 +561,11 @@
             </button>
           </div>
         </div>
-        
+
         <div v-if="isLoadingDetail" class="p-6 text-center">
           <p class="text-gray-500">加载中...</p>
         </div>
-        
+
         <div v-else class="p-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
@@ -571,8 +581,8 @@
                 </div>
                 <div class="flex">
                   <span class="text-gray-500 w-24">订单状态：</span>
-                  <span 
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" 
+                  <span
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
                     :class="getStatusClass(orderDetail.status)"
                   >
                     {{ getStatusText(orderDetail.status) }}
@@ -580,8 +590,8 @@
                 </div>
                 <div class="flex">
                   <span class="text-gray-500 w-24">支付状态：</span>
-                  <span 
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" 
+                  <span
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
                     :class="orderDetail.paymentStatus === 1 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
                   >
                     {{ orderDetail.paymentStatus === 1 ? '已支付' : '未支付' }}
@@ -605,7 +615,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div>
               <h3 class="text-lg font-semibold text-gray-700 mb-4">收发件信息</h3>
               <div class="space-y-4">
@@ -617,7 +627,7 @@
                     <div class="text-gray-600">{{ orderDetail.senderAddress }}</div>
                   </div>
                 </div>
-                
+
                 <div class="p-3 bg-gray-50 rounded-md">
                   <h4 class="text-sm font-medium text-gray-500 mb-2">收件人信息</h4>
                   <div class="space-y-1">
@@ -629,7 +639,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="mt-6">
             <h3 class="text-lg font-semibold text-gray-700 mb-4">物流信息</h3>
             <div v-if="!orderDetail.logistics || orderDetail.logistics.length === 0" class="text-gray-500 text-center py-4">
@@ -652,10 +662,10 @@
             </div>
           </div>
         </div>
-        
+
         <div class="p-6 border-t border-gray-200 flex justify-end">
-          <button 
-            @click="showDetailDialog = false" 
+          <button
+            @click="showDetailDialog = false"
             class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
           >
             关闭
@@ -663,7 +673,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- 编辑订单对话框 -->
     <div v-if="showEditDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -675,7 +685,7 @@
             </button>
           </div>
         </div>
-        
+
         <div class="p-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- 寄件人信息 -->
@@ -684,26 +694,26 @@
               <div class="space-y-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
-                  <input 
-                    type="text" 
-                    v-model="editingOrder.senderName" 
+                  <input
+                    type="text"
+                    v-model="editingOrder.senderName"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="请输入寄件人姓名"
                   >
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">电话</label>
-                  <input 
-                    type="text" 
-                    v-model="editingOrder.senderPhone" 
+                  <input
+                    type="text"
+                    v-model="editingOrder.senderPhone"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="请输入寄件人电话"
                   >
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">地址</label>
-                  <textarea 
-                    v-model="editingOrder.senderAddress" 
+                  <textarea
+                    v-model="editingOrder.senderAddress"
                     rows="3"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="请输入寄件人详细地址"
@@ -711,33 +721,33 @@
                 </div>
               </div>
             </div>
-            
+
             <!-- 收件人信息 -->
             <div>
               <h3 class="text-lg font-semibold text-gray-700 mb-4">收件人信息</h3>
               <div class="space-y-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
-                  <input 
-                    type="text" 
-                    v-model="editingOrder.receiverName" 
+                  <input
+                    type="text"
+                    v-model="editingOrder.receiverName"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="请输入收件人姓名"
                   >
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">电话</label>
-                  <input 
-                    type="text" 
-                    v-model="editingOrder.receiverPhone" 
+                  <input
+                    type="text"
+                    v-model="editingOrder.receiverPhone"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="请输入收件人电话"
                   >
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">地址</label>
-                  <textarea 
-                    v-model="editingOrder.receiverAddress" 
+                  <textarea
+                    v-model="editingOrder.receiverAddress"
                     rows="3"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="请输入收件人详细地址"
@@ -746,7 +756,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- 物品信息 -->
             <div>
@@ -754,18 +764,28 @@
               <div class="space-y-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">物品类型</label>
-                  <input 
-                    type="text" 
-                    v-model="editingOrder.itemType" 
+                  <select
+                    v-model="editingOrder.itemType"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    placeholder="请输入物品类型，如：文件、日用品等"
+                    required
                   >
+                    <option value="">请选择物品种类</option>
+                    <option value="电器">电器</option>
+                    <option value="数码产品">数码产品</option>
+                    <option value="日常用品">日常用品</option>
+                    <option value="文件类">文件类</option>
+                    <option value="服装">服装</option>
+                    <option value="食品">食品</option>
+                    <option value="化妆品">化妆品</option>
+                    <option value="玩具">玩具</option>
+                    <option value="书籍">书籍</option>
+                  </select>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">重量 (kg)</label>
-                  <input 
-                    type="number" 
-                    v-model="editingOrder.weight" 
+                  <input
+                    type="number"
+                    v-model="editingOrder.weight"
                     min="0"
                     step="0.01"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
@@ -774,9 +794,9 @@
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">运费 (元)</label>
-                  <input 
-                    type="number" 
-                    v-model="editingOrder.price" 
+                  <input
+                    type="number"
+                    v-model="editingOrder.price"
                     min="0"
                     step="0.01"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
@@ -785,15 +805,15 @@
                 </div>
               </div>
             </div>
-            
+
             <!-- 订单状态 -->
             <div>
               <h3 class="text-lg font-semibold text-gray-700 mb-4">订单状态</h3>
               <div class="space-y-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">订单状态</label>
-                  <select 
-                    v-model="editingOrder.status" 
+                  <select
+                    v-model="editingOrder.status"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   >
                     <option v-for="option in statusOptions" :key="option.value" :value="option.value">
@@ -805,18 +825,18 @@
                   <label class="block text-sm font-medium text-gray-700 mb-1">支付状态</label>
                   <div class="flex items-center space-x-4 mt-2">
                     <label class="inline-flex items-center">
-                      <input 
-                        type="radio" 
-                        v-model="editingOrder.isPaid" 
+                      <input
+                        type="radio"
+                        v-model="editingOrder.isPaid"
                         :value="true"
                         class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300"
                       >
                       <span class="ml-2 text-gray-700">已支付</span>
                     </label>
                     <label class="inline-flex items-center">
-                      <input 
-                        type="radio" 
-                        v-model="editingOrder.isPaid" 
+                      <input
+                        type="radio"
+                        v-model="editingOrder.isPaid"
                         :value="false"
                         class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300"
                       >
@@ -826,8 +846,8 @@
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">备注</label>
-                  <textarea 
-                    v-model="editingOrder.remark" 
+                  <textarea
+                    v-model="editingOrder.remark"
                     rows="3"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="请输入备注信息（可选）"
@@ -837,16 +857,16 @@
             </div>
           </div>
         </div>
-        
+
         <div class="p-6 border-t border-gray-200 flex justify-end space-x-2">
-          <button 
-            @click="showEditDialog = false" 
+          <button
+            @click="showEditDialog = false"
             class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
           >
             取消
           </button>
-          <button 
-            @click="saveOrder" 
+          <button
+            @click="saveOrder"
             class="px-4 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors"
           >
             保存
@@ -854,7 +874,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- 删除申请对话框 -->
     <div v-if="showDeleteRequestDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
@@ -866,26 +886,26 @@
             </button>
           </div>
         </div>
-        
+
         <div class="p-6">
           <p class="text-gray-700 mb-4">您正在申请删除订单，请填写删除原因：</p>
-          <textarea 
-            v-model="deleteReason" 
+          <textarea
+            v-model="deleteReason"
             rows="4"
             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             placeholder="请输入删除原因（必填）"
           ></textarea>
         </div>
-        
+
         <div class="p-6 border-t border-gray-200 flex justify-end space-x-2">
-          <button 
-            @click="showDeleteRequestDialog = false" 
+          <button
+            @click="showDeleteRequestDialog = false"
             class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
           >
             取消
           </button>
-          <button 
-            @click="submitDeleteRequest" 
+          <button
+            @click="submitDeleteRequest"
             class="px-4 py-2 bg-red-500 text-white font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
           >
             提交申请
@@ -899,8 +919,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'; // Removed watch
 // Import functions from correct API files
-import { getStoreOrders, submitOrderDeletionRequest, updateOrder, createOrder } from '../../api/staffOrders'; // Use staff-specific API functions
-import { getOrderDetail, getOrderLogistics } from '../../api/orders'; // Use common API for details and logistics
+// Use staff-specific API functions for all staff operations
+import { getStoreOrders, submitOrderDeletionRequest, updateOrder, createOrder, getOrderLogistics, getOrderDetail } from '../../api/staffOrders';
 import toast from '../../utils/toast';
 import { useUserStore } from '../../stores/user'; // Keep userStore if needed for other parts like delete request
 
@@ -1000,6 +1020,10 @@ const fetchOrders = async () => {
       orders.value = res.data.records || [];
       totalItems.value = res.data.total || 0;
       console.log('成功获取订单数据, 总数:', totalItems.value);
+      // 添加日志检查 orderNumber
+      if (orders.value.length > 0) {
+        console.log('检查第一个订单的 orderNumber:', orders.value[0].orderNumber, '类型:', typeof orders.value[0].orderNumber);
+      }
     } else {
       console.error('获取订单列表失败, 错误码:', res.code, '错误信息:', res.message);
       toast.error(res.message || '获取订单列表失败');
@@ -1025,9 +1049,10 @@ const fetchOrderDetail = async (idOrOrderNumber) => {
       orderDetail.value.remark = orderDetail.value.description;
     }
     
-    // 获取物流信息
+    // 获取物流信息 (确保始终使用传入的 idOrOrderNumber，我们知道它就是 orderNumber 字符串)
     try {
-      // 使用员工专用API获取物流信息
+      // 直接使用从 viewOrderDetail 传递过来的 idOrOrderNumber (它就是 "EX..." 字符串)
+      console.log(`[fetchOrderDetail] Fetching logistics using initial identifier: ${idOrOrderNumber}`); // 添加日志
       const logisticsRes = await getOrderLogistics(idOrOrderNumber);
       if (logisticsRes.code === 200 && logisticsRes.data) {
         // 将物流信息映射到订单详情中
@@ -1191,9 +1216,19 @@ const submitDeleteRequest = async () => {
   }
   
   try {
-    // 简化请求数据，只传递订单号和删除原因，让后端从当前认证用户中获取员工信息
+    const staffInfo = userStore.userInfo;
+    // Log the staffInfo retrieved from the store right before the check
+    console.log('[Delete Request] Checking staffInfo from userStore:', JSON.stringify(staffInfo)); 
+    if (!staffInfo || !staffInfo.id || !staffInfo.storeId) {
+      toast.error('无法获取员工或门店信息，无法提交申请');
+      return;
+    }
     const requestData = {
-      orderNumber: orderToDelete.value,
+      orderNumber: orderToDelete.value, // Correctly send orderNumber
+      staffId: staffInfo.id,
+      staffName: staffInfo.name || '未知员工', // Add fallback
+      storeId: staffInfo.storeId,
+      storeName: staffInfo.storeName || '未知门店', // Add fallback
       reason: deleteReason.value
     };
 

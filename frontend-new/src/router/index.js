@@ -89,6 +89,12 @@ const routes = [
     meta: { requiresAuth: true, role: 'STAFF' }
   },
   {
+    path: '/staff/logistics',
+    name: 'StaffLogisticsManagement',
+    component: () => import('../views/staff/LogisticsManagement.vue'),
+    meta: { requiresAuth: true, role: 'STAFF' }
+  },
+  {
     path: '/admin/staff',
     name: 'AdminStaffManagement',
     component: () => import('../views/admin/StaffManagement.vue'),
@@ -99,6 +105,12 @@ const routes = [
     name: 'AdminWorkLog',
     component: () => import('../views/admin/WorkLog.vue'),
     meta: { requiresAuth: true, role: 'ADMIN' }
+  },
+  {
+    path: '/staff/logs',
+    name: 'StaffWorkLog',
+    component: () => import('../views/staff/WorkLog.vue'),
+    meta: { requiresAuth: true, role: 'STAFF' }
   },
   {
     path: '/admin/approvals',

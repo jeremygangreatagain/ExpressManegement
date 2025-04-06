@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.express.entity.Staff;
 
-import java.util.List; // Add this import
+import java.util.List;
 
 public interface StaffService extends IService<Staff> {
   /**
@@ -50,4 +50,12 @@ public interface StaffService extends IService<Staff> {
    * @return 是否分配成功
    */
   boolean assignToStore(Long staffId, Long storeId);
+
+  /**
+   * 根据门店ID获取所有员工
+   * 
+   * @param storeId 门店ID
+   * @return 员工列表
+   */
+  List<Staff> listByStoreId(Long storeId);
 }

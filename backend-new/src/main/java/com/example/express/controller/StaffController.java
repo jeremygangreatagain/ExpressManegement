@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 员工控制器
@@ -218,6 +219,84 @@ public class StaffController {
   }
 
   /**
+   * 创建订单
+   */
+  @PostMapping("/orders")
+  public Result<Order> createOrder(@RequestBody Order order) {
+    // 获取当前登录员工信息
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    Staff staff = staffService.getByUsername(username);
+
+    if (staff == null) {
+      return Result.error("无法获取员工信息");
+    }
+
+    Long staffId = staff.getId();
+    String staffName = staff.getName();
+    Long storeId = staff.getStoreId();
+
+    if (storeId == null) {
+      return Result.error("您未分配到门店，无法创建订单");
+    }
+
+    // 设置订单的门店ID
+    order.setStoreId(storeId);
+    // 设置创建者信息
+    order.setStaffId(staffId);
+    order.setCreateTime(LocalDateTime.now());
+    // 设置初始状态
+    order.setStatus(0); // 0-已创建
+
+    // 验证必填字段
+    if (order.getSenderName() == null || order.getSenderName().isEmpty()) {
+      return Result.error("寄件人姓名不能为空");
+    }
+    if (order.getSenderPhone() == null || order.getSenderPhone().isEmpty()) {
+      return Result.error("寄件人电话不能为空");
+    }
+    if (order.getSenderAddress() == null || order.getSenderAddress().isEmpty()) {
+      return Result.error("寄件人地址不能为空");
+    }
+    if (order.getReceiverName() == null || order.getReceiverName().isEmpty()) {
+      return Result.error("收件人姓名不能为空");
+    }
+    if (order.getReceiverPhone() == null || order.getReceiverPhone().isEmpty()) {
+      return Result.error("收件人电话不能为空");
+    }
+    if (order.getReceiverAddress() == null || order.getReceiverAddress().isEmpty()) {
+      return Result.error("收件人地址不能为空");
+    }
+    if (order.getWeight() == null) {
+      return Result.error("包裹重量不能为空");
+    }
+
+    // 生成订单号
+    String orderNumber = generateOrderNumber();
+    order.setOrderNumber(orderNumber);
+
+    // 创建订单
+    boolean success = orderService.save(order);
+    if (!success) {
+      return Result.error("创建订单失败");
+    }
+
+    // 记录操作日志
+    operationLogService.addLog("创建订单", "订单号: " + orderNumber, staffId, staffName, "员工");
+
+    return Result.success(order);
+  }
+
+  /**
+   * 生成订单号
+   */
+  private String generateOrderNumber() {
+    // 生成订单号的逻辑，可以根据实际需求调整
+    // 这里简单使用时间戳 + 随机数
+    return "EX" + System.currentTimeMillis() + String.format("%04d", (int) (Math.random() * 10000));
+  }
+
+  /**
    * 获取门店订单统计信息
    */
   @GetMapping("/order-statistics")
@@ -239,10 +318,27 @@ public class StaffController {
       @RequestParam Integer status,
       @RequestParam Long staffId,
       @RequestParam String staffName,
-      @RequestParam(required = false) String remark) {
+      @RequestParam(required = false) String remark,
+      @RequestParam(required = false) String orderNumber) {
 
     // 验证订单是否存在
-    Order order = orderService.getById(orderId);
+    Order order = null;
+
+    // 首先尝试通过orderId查找订单
+    if (orderId != null) {
+      order = orderService.getById(orderId);
+    }
+
+    // 如果通过orderId找不到订单，且提供了orderNumber，则尝试通过orderNumber查找
+    if (order == null && orderNumber != null && !orderNumber.isEmpty()) {
+      order = orderService.getByOrderNumber(orderNumber);
+      // 如果找到了订单，更新orderId以便后续使用
+      if (order != null) {
+        orderId = order.getId();
+      }
+    }
+
+    // 如果仍然找不到订单，返回错误
     if (order == null) {
       return Result.error("订单不存在");
     }
@@ -308,42 +404,118 @@ public class StaffController {
       end = LocalDateTime.parse(endTime);
     }
 
-    // 查询日志列表（只查询与该门店相关的日志）
-    IPage<OperationLog> logPage = operationLogService.pageLogs(page, operationType, null, start, end, keyword);
+    // 获取门店所有员工的ID列表
+    List<Staff> storeStaffs = staffService.listByStoreId(storeId);
+    List<Long> storeStaffIds = storeStaffs.stream().map(Staff::getId).collect(Collectors.toList());
 
-    return Result.success(logPage);
+    // 如果门店没有员工，返回空结果
+    if (storeStaffIds.isEmpty()) {
+      return Result.success(new Page<>());
+    }
+
+    // 查询日志列表（查询门店所有员工的日志）
+    // 由于OperationLogService不支持按多个操作员ID查询，我们需要在内存中进行过滤
+    IPage<OperationLog> allLogs = operationLogService.pageLogs(page, operationType, null, start, end, keyword);
+
+    // 过滤出门店员工的日志
+    List<OperationLog> filteredLogs = allLogs.getRecords().stream()
+        .filter(log -> log.getOperatorId() != null && storeStaffIds.contains(log.getOperatorId()))
+        .collect(Collectors.toList());
+
+    // 创建新的分页结果
+    Page<OperationLog> result = new Page<>(current, size);
+    result.setRecords(filteredLogs);
+    result.setTotal(filteredLogs.size()); // 这里的总数可能不准确，但是简单实现
+
+    return Result.success(result);
   }
 
   /**
    * 添加物流信息
    */
   @PostMapping("/logistics")
-  public Result<Boolean> addLogisticsInfo(
-      @RequestParam Long orderId,
-      @RequestParam String content,
-      @RequestParam String location,
-      @RequestParam Long staffId,
-      @RequestParam String staffName) {
+  public Result<Boolean> addLogisticsInfo(@RequestBody Map<String, Object> requestData) { // 使用Map接收JSON数据
 
-    // 验证订单是否存在
-    Order order = orderService.getById(orderId);
+    // 从请求数据中提取必要信息
+    String orderNumber = (String) requestData.get("orderNumber");
+    String content = (String) requestData.get("content");
+    String location = requestData.get("location") != null ? (String) requestData.get("location") : "未知";
+    Long requestOrderId = null;
+    if (requestData.get("orderId") != null) {
+      if (requestData.get("orderId") instanceof Integer) {
+        requestOrderId = ((Integer) requestData.get("orderId")).longValue();
+      } else if (requestData.get("orderId") instanceof Long) {
+        requestOrderId = (Long) requestData.get("orderId");
+      } else if (requestData.get("orderId") instanceof String) {
+        try {
+          requestOrderId = Long.parseLong((String) requestData.get("orderId"));
+        } catch (NumberFormatException e) {
+          System.out.println("无法解析orderId: " + requestData.get("orderId"));
+        }
+      }
+    }
+
+    // 记录接收到的数据，帮助调试
+    System.out.println("接收到的物流信息数据: " + requestData);
+
+    // 验证必要字段
+    if (orderNumber == null || orderNumber.isEmpty() || content == null || requestOrderId == null) {
+      return Result.error("请求参数不完整 (orderNumber, content, orderId are required)");
+    }
+
+    // 获取当前认证的员工信息
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    Staff currentStaff = staffService.getByUsername(username);
+
+    if (currentStaff == null) {
+      return Result.error("无法获取当前员工信息");
+    }
+    Long staffId = currentStaff.getId(); // 使用认证的员工ID
+    String staffName = currentStaff.getName(); // 使用认证的员工姓名
+    Long staffStoreId = currentStaff.getStoreId();
+
+    if (staffStoreId == null) {
+      return Result.error("当前员工未分配门店");
+    }
+
+    // 验证订单是否存在 (使用 orderNumber)
+    Order order = orderService.getByOrderNumber(orderNumber);
     if (order == null) {
+      // 记录日志，帮助调试
+      System.out.println("添加物流信息：未找到订单，订单号: " + orderNumber);
       return Result.error("订单不存在");
     }
+    // 验证传入的orderId与通过orderNumber找到的订单ID是否匹配
+    if (!order.getId().equals(requestOrderId)) {
+      System.out.println("警告：请求中的 orderId (" + requestOrderId + ") 与通过 orderNumber (" + orderNumber + ") 找到的订单 ID ("
+          + order.getId() + ") 不匹配。");
+      // 我们信任通过orderNumber查找到的订单ID
+    }
+    System.out.println("添加物流信息：通过订单号找到订单，ID: " + order.getId() + ", 订单号: " + order.getOrderNumber());
 
     // 验证订单是否属于该员工的门店
-    Staff staff = staffService.getById(staffId);
-    if (staff == null) {
-      return Result.error("员工不存在");
-    }
-
-    if (!order.getStoreId().equals(staff.getStoreId())) {
+    if (!order.getStoreId().equals(staffStoreId)) {
       return Result.error("该订单不属于您的门店");
     }
 
-    // 创建物流信息
+    // 处理status字段，将其转换为物流内容
+    Integer status = null;
+    if (requestData.get("status") != null) {
+      if (requestData.get("status") instanceof Integer) {
+        status = (Integer) requestData.get("status");
+      } else if (requestData.get("status") instanceof String) {
+        try {
+          status = Integer.parseInt((String) requestData.get("status"));
+        } catch (NumberFormatException e) {
+          System.out.println("无法解析status: " + requestData.get("status"));
+        }
+      }
+    }
+
+    // 创建物流信息对象
     LogisticsInfo logisticsInfo = new LogisticsInfo();
-    logisticsInfo.setOrderId(orderId);
+    logisticsInfo.setOrderId(order.getId());
     logisticsInfo.setOrderNumber(order.getOrderNumber());
     logisticsInfo.setContent(content);
     logisticsInfo.setLocation(location);
@@ -359,14 +531,14 @@ public class StaffController {
     }
 
     // 记录操作日志
-    operationLogService.addLog("添加物流信息", "订单ID: " + orderId + ", 内容: " + content,
+    operationLogService.addLog("添加物流信息", "订单ID: " + order.getId() + ", 内容: " + content + ", 状态: " + status,
         staffId, staffName, "员工");
 
     return Result.success(true);
   }
 
   /**
-   * 获取订单物流信息
+   * 获取订单物流信息 (通过订单ID)
    */
   @GetMapping("/logistics")
   public Result<List<LogisticsInfo>> getOrderLogistics(@RequestParam Long orderId) {
@@ -375,6 +547,86 @@ public class StaffController {
     }
 
     List<LogisticsInfo> logisticsList = logisticsInfoService.getLogisticsInfoByOrderId(orderId);
+    return Result.success(logisticsList);
+  }
+
+  /**
+   * 获取订单物流信息 (通过订单ID或订单号)
+   * 匹配前端API调用路径
+   */
+  @GetMapping("/orders/{idOrOrderNumber}/logistics")
+  public Result<List<LogisticsInfo>> getOrderLogisticsByIdOrNumber(@PathVariable String idOrOrderNumber) {
+    if (idOrOrderNumber == null || idOrOrderNumber.isEmpty()) {
+      return Result.error("订单ID或订单号不能为空");
+    }
+
+    // 获取当前登录的员工信息
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    Staff staff = staffService.getByUsername(username);
+
+    if (staff == null || staff.getStoreId() == null) {
+      return Result.error("无法获取员工门店信息或员工未分配门店");
+    }
+    Long staffStoreId = staff.getStoreId();
+
+    // 记录请求日志，帮助调试
+    System.out.println("员工请求物流信息，ID/订单号: " + idOrOrderNumber);
+
+    // 首先尝试直接通过订单号查询物流信息（无论是否以EX开头）
+    List<LogisticsInfo> logisticsList = logisticsInfoService.getLogisticsInfoByOrderNumber(idOrOrderNumber);
+    if (logisticsList != null && !logisticsList.isEmpty()) {
+      System.out.println("直接通过订单号找到物流信息: " + idOrOrderNumber + ", 条数: " + logisticsList.size());
+      return Result.success(logisticsList);
+    }
+
+    // 如果直接查询物流信息失败，尝试查找订单
+    Order order = null;
+
+    // 优先通过订单号查询
+    order = orderService.getByOrderNumber(idOrOrderNumber);
+    if (order != null) {
+      System.out.println("通过订单号找到订单: " + idOrOrderNumber);
+    } else {
+      // 如果通过订单号未找到，且输入内容是数字格式，尝试作为ID查询
+      boolean isNumeric = idOrOrderNumber.matches("\\d+");
+      if (isNumeric) {
+        try {
+          // 尝试转换为Long类型ID进行查询，但要处理可能的数值溢出
+          Long orderId = Long.parseLong(idOrOrderNumber);
+          order = orderService.getById(orderId);
+          if (order != null) {
+            System.out.println("通过ID找到订单: " + orderId);
+          }
+        } catch (NumberFormatException e) {
+          // 数值转换失败，可能是因为数值太大
+          System.out.println("订单ID数值转换失败: " + idOrOrderNumber + ", 错误: " + e.getMessage());
+        }
+      } else {
+        System.out.println("非数字格式且非有效订单号: " + idOrOrderNumber);
+      }
+    }
+
+    // 检查是否找到订单
+    if (order == null) {
+      System.out.println("未找到订单，请求ID/订单号: " + idOrOrderNumber);
+      return Result.error("订单不存在");
+    }
+
+    // 验证订单是否属于该员工的门店
+    if (!order.getStoreId().equals(staffStoreId)) {
+      System.out.println("订单不属于员工门店，订单所属门店ID: " + order.getStoreId() + ", 员工门店ID: " + staffStoreId);
+      return Result.error("该订单不属于您的门店");
+    }
+
+    // 使用订单号获取物流信息
+    logisticsList = logisticsInfoService.getLogisticsInfoByOrderNumber(order.getOrderNumber());
+    System.out.println("通过订单对象获取到物流信息条数: " + (logisticsList != null ? logisticsList.size() : 0));
+
+    // 即使没有物流信息，也返回空列表而不是错误
+    if (logisticsList == null) {
+      logisticsList = List.of();
+    }
     return Result.success(logisticsList);
   }
 

@@ -767,18 +767,8 @@ public class AdminController {
 
     Order order = null;
     try {
-      // 首先尝试通过订单号查询
+      // 此端点明确使用订单号查询
       order = orderService.getByOrderNumber(orderNumber);
-      if (order == null) {
-        // 如果通过订单号未找到，尝试使用ID查询
-        try {
-          Long orderId = Long.valueOf(orderNumber);
-          order = orderService.getById(orderId);
-        } catch (NumberFormatException e) {
-          System.out.println("非数字ID且非有效订单号: " + orderNumber);
-          // 订单不存在，直接返回错误
-        }
-      }
 
       // 检查订单是否存在
       if (order == null) {
