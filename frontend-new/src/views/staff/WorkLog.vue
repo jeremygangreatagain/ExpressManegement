@@ -1,222 +1,156 @@
 <template>
   <div class="min-h-screen bg-gray-100 p-6">
-    <h1 class="text-2xl font-bold text-orange-500 mb-6">工作日志</h1>
-    
-    <!-- 搜索和操作区域 -->
-    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-      <div class="flex flex-col md:flex-row gap-4 mb-4">
-        <div class="flex-grow">
-          <input 
-            type="text" 
-            v-model="searchQuery" 
-            placeholder="搜索日志内容" 
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-          >
-        </div>
-        <div class="flex gap-2">
-          <button 
-            @click="searchLogs" 
-            class="px-4 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors"
-          >
-            <span class="material-icons mr-1">search</span>
-            查询
-          </button>
-          <button 
-            @click="resetSearch" 
-            class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
-          >
-            <span class="material-icons mr-1">refresh</span>
-            重置
-          </button>
-        </div>
+    <div class="container mx-auto">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">工作日志</h1>
       </div>
-      <div class="flex flex-col md:flex-row gap-4">
-        <div class="flex-grow">
-          <div class="flex gap-4">
-            <div class="w-1/2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">开始日期</label>
-              <input 
-                type="date" 
-                v-model="startDate" 
-                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-              >
-            </div>
-            <div class="w-1/2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">结束日期</label>
-              <input 
-                type="date" 
-                v-model="endDate" 
-                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-              >
+      
+      <!-- 搜索和操作区域 -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex flex-wrap items-center gap-4">
+          <div class="flex-grow md:flex-grow-0">
+            <input 
+              type="text" 
+              v-model="searchQuery" 
+              placeholder="搜索日志内容" 
+              class="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+          </div>
+          
+          <div class="flex items-center w-full md:w-auto">
+            <div class="flex gap-4 w-full">
+              <div class="w-1/2">
+                <input 
+                  type="date" 
+                  v-model="startDate" 
+                  placeholder="开始日期"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                >
+              </div>
+              <div class="w-1/2">
+                <input 
+                  type="date" 
+                  v-model="endDate" 
+                  placeholder="结束日期"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                >
+              </div>
             </div>
           </div>
+          
+          <div class="flex items-center gap-2">
+            <button 
+              @click="searchLogs" 
+              class="px-4 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors"
+            >
+              <span class="material-icons mr-1">search</span>
+              查询
+            </button>
+            <button 
+              @click="resetSearch" 
+              class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+            >
+              <span class="material-icons mr-1">refresh</span>
+              重置
+            </button>
+            <button 
+              @click="addNewLog" 
+              class="px-4 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
+            >
+              <span class="material-icons mr-1">add</span>
+              添加日志
+            </button>
+          </div>
         </div>
-        <div class="flex items-end">
-          <button 
-            @click="addNewLog" 
-            class="px-4 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
-          >
-            <span class="material-icons mr-1">add</span>
-            添加日志
-          </button>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 日志列表 -->
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-      <div v-if="isLoading" class="p-6 text-center">
-        <p class="text-gray-500">加载中...</p>
       </div>
       
-      <div v-else-if="logs.length === 0" class="p-6 text-center">
-        <p class="text-gray-500">暂无日志记录</p>
-      </div>
-      
-      <div v-else>
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">日期</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">内容</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">类型</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">相关订单</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="log in logs" :key="log.id" class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ formatDate(log.createTime) }}
-              </td>
-              <td class="px-6 py-4 text-sm text-gray-500 max-w-md truncate">
-                {{ log.content }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <span 
-                  :class="{
-                    'px-2 py-1 rounded-full text-xs font-medium': true,
-                    'bg-blue-100 text-blue-800': log.type === 'ORDER',
-                    'bg-green-100 text-green-800': log.type === 'LOGISTICS',
-                    'bg-purple-100 text-purple-800': log.type === 'SYSTEM',
-                    'bg-yellow-100 text-yellow-800': log.type === 'OTHER'
-                  }"
-                >
-                  {{ getLogTypeName(log.type) }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ log.orderNumber || '-' }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <button 
-                  @click="viewLogDetail(log)" 
-                  class="text-indigo-600 hover:text-indigo-900 mr-3"
-                >
-                  查看
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- 日志列表 -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div v-if="isLoading" class="p-6 text-center">
+          <p class="text-gray-500">加载中...</p>
+        </div>
         
-        <!-- 分页 -->
-        <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200">
-          <div class="flex-1 flex justify-between sm:hidden">
-            <button 
-              @click="changePage(currentPage - 1)" 
-              :disabled="currentPage === 1"
-              :class="{
-                'px-4 py-2 border rounded-md text-sm font-medium': true,
-                'bg-white text-gray-700 border-gray-300 hover:bg-gray-50': currentPage !== 1,
-                'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed': currentPage === 1
-              }"
-            >
-              上一页
-            </button>
-            <button 
-              @click="changePage(currentPage + 1)" 
-              :disabled="currentPage === totalPages"
-              :class="{
-                'px-4 py-2 ml-3 border rounded-md text-sm font-medium': true,
-                'bg-white text-gray-700 border-gray-300 hover:bg-gray-50': currentPage !== totalPages,
-                'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed': currentPage === totalPages
-              }"
-            >
-              下一页
-            </button>
-          </div>
-          <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
-              <p class="text-sm text-gray-700">
-                显示第 <span class="font-medium">{{ (currentPage - 1) * pageSize + 1 }}</span> 至 
-                <span class="font-medium">{{ Math.min(currentPage * pageSize, totalItems) }}</span> 条，
-                共 <span class="font-medium">{{ totalItems }}</span> 条记录
-              </p>
+        <div v-else-if="logs.length === 0" class="p-6 text-center">
+          <p class="text-gray-500">暂无日志记录</p>
+        </div>
+        
+        <div v-else class="p-4">
+          <!-- 日志卡片列表 -->
+          <div v-for="log in logs" :key="log.id" class="mb-6 bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200 log-card">
+            <!-- 日志头部：时间和操作 -->
+            <div class="flex justify-between items-center bg-gray-50 px-4 py-3 border-b border-gray-200">
+              <div class="text-sm font-medium text-gray-600">
+                <span class="material-icons text-gray-500 text-sm mr-1 align-text-bottom">event</span>
+                {{ formatDate(log.createTime) }}
+              </div>
+              
+              <button 
+                @click="viewLogDetail(log)" 
+                class="text-blue-500 hover:text-blue-700 text-sm flex items-center"
+              >
+                <span class="material-icons text-sm mr-1">visibility</span>
+                查看详情
+              </button>
             </div>
-            <div>
-              <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                <button 
-                  @click="changePage(1)" 
-                  :disabled="currentPage === 1"
-                  :class="{
-                    'relative inline-flex items-center px-2 py-2 rounded-l-md border text-sm font-medium': true,
-                    'bg-white text-gray-500 border-gray-300 hover:bg-gray-50': currentPage !== 1,
-                    'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed': currentPage === 1
-                  }"
-                >
-                  <span class="sr-only">首页</span>
-                  <span class="material-icons text-sm">first_page</span>
-                </button>
-                <button 
-                  @click="changePage(currentPage - 1)" 
-                  :disabled="currentPage === 1"
-                  :class="{
-                    'relative inline-flex items-center px-2 py-2 border text-sm font-medium': true,
-                    'bg-white text-gray-500 border-gray-300 hover:bg-gray-50': currentPage !== 1,
-                    'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed': currentPage === 1
-                  }"
-                >
-                  <span class="sr-only">上一页</span>
-                  <span class="material-icons text-sm">chevron_left</span>
-                </button>
-                <button 
-                  v-for="page in displayedPages" 
-                  :key="page" 
-                  @click="changePage(page)" 
-                  :class="{
-                    'relative inline-flex items-center px-4 py-2 border text-sm font-medium': true,
-                    'bg-orange-50 text-orange-600 border-orange-500': page === currentPage,
-                    'bg-white text-gray-700 border-gray-300 hover:bg-gray-50': page !== currentPage
-                  }"
-                >
-                  {{ page }}
-                </button>
-                <button 
-                  @click="changePage(currentPage + 1)" 
-                  :disabled="currentPage === totalPages"
-                  :class="{
-                    'relative inline-flex items-center px-2 py-2 border text-sm font-medium': true,
-                    'bg-white text-gray-500 border-gray-300 hover:bg-gray-50': currentPage !== totalPages,
-                    'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed': currentPage === totalPages
-                  }"
-                >
-                  <span class="sr-only">下一页</span>
-                  <span class="material-icons text-sm">chevron_right</span>
-                </button>
-                <button 
-                  @click="changePage(totalPages)" 
-                  :disabled="currentPage === totalPages"
-                  :class="{
-                    'relative inline-flex items-center px-2 py-2 rounded-r-md border text-sm font-medium': true,
-                    'bg-white text-gray-500 border-gray-300 hover:bg-gray-50': currentPage !== totalPages,
-                    'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed': currentPage === totalPages
-                  }"
-                >
-                  <span class="sr-only">尾页</span>
-                  <span class="material-icons text-sm">last_page</span>
-                </button>
-              </nav>
+            
+            <!-- 卡片内容区域 -->
+             <div class="p-4">
+               <!-- 相关订单信息 -->
+               <div v-if="log.orderNumber" class="flex items-center mb-3">
+                 <div class="font-bold text-lg text-orange-600">
+                   订单 {{ log.orderNumber }}
+                 </div>
+               </div>
+               
+               <!-- 操作类型与内容 -->
+               <div class="flex flex-wrap gap-2 mb-3">
+                 <div class="flex items-center">
+                   <span class="font-medium">{{ log.operatorName || staffInfo.name }}</span>
+                   <span class="mx-1">进行了</span>
+                   <span 
+                     :class="{
+                       'px-2 py-1 rounded-full text-xs font-medium': true,
+                       'bg-blue-100 text-blue-800': log.type === 'ORDER',
+                       'bg-green-100 text-green-800': log.type === 'LOGISTICS',
+                       'bg-purple-100 text-purple-800': log.type === 'SYSTEM',
+                       'bg-yellow-100 text-yellow-800': log.type === 'OTHER'
+                     }"
+                   >
+                     {{ getLogTypeName(log.type) }}
+                   </span>
+                 </div>
+               </div>
+               
+               <!-- 日志内容 -->
+               <div class="text-gray-700 text-sm bg-gray-50 p-3 rounded-md border border-gray-100">
+                 {{ formatLogContent(log.content) }}
+               </div>
+             </div>
+           </div>
+         </div>
+         
+         <!-- 分页 -->
+        <div class="px-6 py-4 flex justify-between items-center border-t border-gray-200 mt-4">
+            <div class="text-sm text-gray-700">
+              共 <span class="font-medium">{{ totalItems }}</span> 条记录
+            </div>
+            <div class="flex space-x-2">
+              <button 
+                @click="changePage(currentPage - 1)" 
+                :disabled="currentPage === 1"
+                class="px-3 py-1 rounded-md bg-gray-200 text-gray-700 disabled:opacity-50 flex items-center"
+              >
+                <span class="material-icons text-sm mr-1">chevron_left</span>
+                上一页
+              </button>
+              <button 
+                @click="changePage(currentPage + 1)" 
+                :disabled="currentPage === totalPages"
+                class="px-3 py-1 rounded-md bg-gray-200 text-gray-700 disabled:opacity-50 flex items-center"
+              >
+                下一页
+                <span class="material-icons text-sm ml-1">chevron_right</span>
+              </button>
             </div>
           </div>
         </div>
@@ -264,7 +198,7 @@
             </div>
             <div>
               <p class="text-sm text-gray-500">日志内容</p>
-              <p class="text-base whitespace-pre-line">{{ selectedLog.content }}</p>
+              <p class="text-base whitespace-pre-line">{{ formatLogContent(selectedLog.content) }}</p>
             </div>
           </div>
           <div class="mt-6 flex justify-end">
@@ -339,7 +273,6 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -478,10 +411,57 @@ const fetchLogs = async () => {
     console.log('获取工作日志，参数:', params);
     const res = await getWorkLogs(params);
     
-    // 假设后端返回的数据结构为 { code: 200, data: { records: [...], total: ... } }
-    logs.value = res.data?.records || [];
-    totalItems.value = res.data?.total || 0;
+    // 输出完整的API响应，查看实际数据结构
+    console.log('API响应完整数据:', res);
+    
+    // 检查响应结构
+    if (res.records) {
+      // 如果records直接在res对象上
+      logs.value = res.records.map(log => ({
+        id: log.id,
+        type: log.operationType === '添加物流信息' ? 'LOGISTICS' : 
+              log.operationType === '添加订单' ? 'ORDER' : 
+              log.operationType === '系统操作' ? 'SYSTEM' : 'OTHER',
+        content: formatLogContent(log.operationParams || log.operationResult || ''),
+        orderNumber: log.orderNumber || (log.operationParams && log.operationParams.includes('订单ID:') ? 
+                    log.operationParams.split('订单ID:')[1].split(',')[0].trim() : null),
+        operatorName: log.operatorName || '',
+        createTime: log.createTime || log.operationTime
+      }));
+      totalItems.value = res.total || 0;
+    } else if (res.data) {
+      // 如果records在res.data对象上
+      logs.value = res.data.records.map(log => ({
+        id: log.id,
+        type: log.operationType === '添加物流信息' ? 'LOGISTICS' : 
+              log.operationType === '添加订单' ? 'ORDER' : 
+              log.operationType === '系统操作' ? 'SYSTEM' : 'OTHER',
+        content: formatLogContent(log.operationParams || log.operationResult || ''),
+        orderNumber: log.orderNumber || (log.operationParams && log.operationParams.includes('订单ID:') ? 
+                    log.operationParams.split('订单ID:')[1].split(',')[0].trim() : null),
+        operatorName: log.operatorName || '',
+        createTime: log.createTime || log.operationTime
+      }));
+      totalItems.value = res.data.total || 0;
+    } else {
+      // 如果是其他结构，尝试直接使用res作为数组
+      logs.value = Array.isArray(res) ? res.map(log => ({
+        id: log.id,
+        type: log.operationType === '添加物流信息' ? 'LOGISTICS' : 
+              log.operationType === '添加订单' ? 'ORDER' : 
+              log.operationType === '系统操作' ? 'SYSTEM' : 'OTHER',
+        content: formatLogContent(log.operationParams || log.operationResult || ''),
+        orderNumber: log.orderNumber || (log.operationParams && log.operationParams.includes('订单ID:') ? 
+                    log.operationParams.split('订单ID:')[1].split(',')[0].trim() : null),
+        operatorName: log.operatorName || '',
+        createTime: log.createTime || log.operationTime
+      })) : [];
+      totalItems.value = Array.isArray(res) ? res.length : 0;
+      console.warn('未识别的API响应结构，尝试直接使用响应作为数组');
+    }
+    
     console.log(`获取到 ${logs.value.length} 条日志记录，总计 ${totalItems.value} 条`);
+    console.log('日志数据示例:', logs.value.length > 0 ? logs.value[0] : '无数据');
     isLoading.value = false;
   } catch (error) {
     console.error('获取日志列表失败:', error);
@@ -621,9 +601,60 @@ const getLogTypeName = (type) => {
   return typeMap[type] || type;
 };
 
+// 获取订单状态名称
+const getOrderStatusName = (status) => {
+  const statusMap = {
+    '0': '待接单',
+    '1': '已接单',
+    '2': '运输中',
+    '3': '已送达',
+    '4': '已完成',
+    '5': '已取消'
+  };
+  return statusMap[status] || status;
+};
+
+// 处理日志内容，将订单状态数字转换为文字
+const formatLogContent = (content) => {
+  if (!content) return '';
+  
+  // 匹配"状态: 数字"的模式
+  return content.replace(/状态:\s*(\d+)/g, (match, statusCode) => {
+    return `状态: ${getOrderStatusName(statusCode)}`;
+  });
+};
+
 // 生命周期钩子
 onMounted(() => {
   getStaffInfo();
   fetchLogs();
 });
 </script>
+
+<style scoped>
+/* 自定义样式 */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 日志卡片悬停效果 */
+.log-card {
+  transition: all 0.3s ease;
+}
+
+.log-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+</style>

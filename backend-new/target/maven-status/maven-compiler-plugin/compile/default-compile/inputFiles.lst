@@ -34,6 +34,7 @@ C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\mapper\OperationLogMapper.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\service\impl\StoreServiceImpl.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\controller\AdminOrderDeletionController.java
+C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\security\CustomAuthenticationProvider.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\config\SecurityConfig.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\util\SnowflakeIdGenerator.java
 C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\src\main\java\com\example\express\entity\Order.java

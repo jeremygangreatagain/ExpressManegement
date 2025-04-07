@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.HashMap;
 
 /**
  * 员工控制器
@@ -67,19 +68,40 @@ public class StaffController {
    * 获取当前登录员工的个人信息
    */
   @GetMapping("/profile")
-  public Result<Staff> getProfile() {
+  public Result<?> getProfile() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String username = authentication.getName();
-    Staff staff = staffService.getByUsername(username); // 假设 StaffService 有 getByUsername 方法
+    Staff staff = staffService.getByUsername(username);
 
     if (staff == null) {
       // 记录日志或返回更具体的错误信息可能更好
       System.out.println("无法根据用户名找到员工: " + username);
       return Result.error("无法获取当前员工信息，请重新登录");
     }
-    // 可以在这里选择性地隐藏敏感信息，比如密码
-    staff.setPassword(null);
-    return Result.success(staff);
+
+    // 获取门店信息
+    String storeName = "未知";
+    if (staff.getStoreId() != null) {
+      com.example.express.entity.Store store = storeService.getById(staff.getStoreId());
+      if (store != null) {
+        storeName = store.getName();
+      }
+    }
+
+    // 创建包含门店名称的响应数据
+    Map<String, Object> responseData = new HashMap<>();
+    responseData.put("id", staff.getId());
+    responseData.put("username", staff.getUsername());
+    responseData.put("name", staff.getName());
+    responseData.put("phone", staff.getPhone());
+    responseData.put("email", staff.getEmail());
+    responseData.put("storeId", staff.getStoreId());
+    responseData.put("storeName", storeName);
+    responseData.put("createTime", staff.getCreateTime());
+    responseData.put("updateTime", staff.getUpdateTime());
+
+    // 不返回密码
+    return Result.success(responseData);
   }
 
   /**
@@ -560,74 +582,50 @@ public class StaffController {
       return Result.error("订单ID或订单号不能为空");
     }
 
-    // 获取当前登录的员工信息
+    Long orderId = null;
+    try {
+      // 尝试将参数解析为Long类型的订单ID
+      orderId = Long.parseLong(idOrOrderNumber);
+      return getOrderLogistics(orderId);
+    } catch (NumberFormatException e) {
+      // 如果解析失败，则将参数视为订单号
+      Order order = orderService.getByOrderNumber(idOrOrderNumber);
+      if (order == null) {
+        return Result.error("订单不存在");
+      }
+      return getOrderLogistics(order.getId());
+    }
+  }
+
+  /**
+   * 修改员工密码
+   */
+  @PutMapping("/password")
+  public Result<Boolean> updatePassword(@RequestBody Map<String, String> passwordInfo) {
+    // 获取当前认证用户
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String username = authentication.getName();
+
+    // 验证参数
+    String oldPassword = passwordInfo.get("oldPassword");
+    String newPassword = passwordInfo.get("newPassword");
+    if (oldPassword == null || newPassword == null) {
+      return Result.error("请提供旧密码和新密码");
+    }
+
+    // 更新密码
+    boolean success = staffService.updatePassword(username, oldPassword, newPassword);
+    if (!success) {
+      return Result.error("修改密码失败，可能原密码错误");
+    }
+
+    // 记录操作日志
     Staff staff = staffService.getByUsername(username);
-
-    if (staff == null || staff.getStoreId() == null) {
-      return Result.error("无法获取员工门店信息或员工未分配门店");
-    }
-    Long staffStoreId = staff.getStoreId();
-
-    // 记录请求日志，帮助调试
-    System.out.println("员工请求物流信息，ID/订单号: " + idOrOrderNumber);
-
-    // 首先尝试直接通过订单号查询物流信息（无论是否以EX开头）
-    List<LogisticsInfo> logisticsList = logisticsInfoService.getLogisticsInfoByOrderNumber(idOrOrderNumber);
-    if (logisticsList != null && !logisticsList.isEmpty()) {
-      System.out.println("直接通过订单号找到物流信息: " + idOrOrderNumber + ", 条数: " + logisticsList.size());
-      return Result.success(logisticsList);
+    if (staff != null) {
+      operationLogService.addLog("修改密码", "员工修改密码", staff.getId(), staff.getName(), "员工");
     }
 
-    // 如果直接查询物流信息失败，尝试查找订单
-    Order order = null;
-
-    // 优先通过订单号查询
-    order = orderService.getByOrderNumber(idOrOrderNumber);
-    if (order != null) {
-      System.out.println("通过订单号找到订单: " + idOrOrderNumber);
-    } else {
-      // 如果通过订单号未找到，且输入内容是数字格式，尝试作为ID查询
-      boolean isNumeric = idOrOrderNumber.matches("\\d+");
-      if (isNumeric) {
-        try {
-          // 尝试转换为Long类型ID进行查询，但要处理可能的数值溢出
-          Long orderId = Long.parseLong(idOrOrderNumber);
-          order = orderService.getById(orderId);
-          if (order != null) {
-            System.out.println("通过ID找到订单: " + orderId);
-          }
-        } catch (NumberFormatException e) {
-          // 数值转换失败，可能是因为数值太大
-          System.out.println("订单ID数值转换失败: " + idOrOrderNumber + ", 错误: " + e.getMessage());
-        }
-      } else {
-        System.out.println("非数字格式且非有效订单号: " + idOrOrderNumber);
-      }
-    }
-
-    // 检查是否找到订单
-    if (order == null) {
-      System.out.println("未找到订单，请求ID/订单号: " + idOrOrderNumber);
-      return Result.error("订单不存在");
-    }
-
-    // 验证订单是否属于该员工的门店
-    if (!order.getStoreId().equals(staffStoreId)) {
-      System.out.println("订单不属于员工门店，订单所属门店ID: " + order.getStoreId() + ", 员工门店ID: " + staffStoreId);
-      return Result.error("该订单不属于您的门店");
-    }
-
-    // 使用订单号获取物流信息
-    logisticsList = logisticsInfoService.getLogisticsInfoByOrderNumber(order.getOrderNumber());
-    System.out.println("通过订单对象获取到物流信息条数: " + (logisticsList != null ? logisticsList.size() : 0));
-
-    // 即使没有物流信息，也返回空列表而不是错误
-    if (logisticsList == null) {
-      logisticsList = List.of();
-    }
-    return Result.success(logisticsList);
+    return Result.success(true);
   }
 
   /**

@@ -197,4 +197,59 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
 
     return list(queryWrapper);
   }
+
+  @Override
+  @Transactional
+  public boolean updatePassword(String username, String oldPassword, String newPassword) {
+    log.info("StaffService: Attempting to update password for username: {}", username);
+
+    // 获取员工信息
+    Staff staff = getByUsername(username);
+    if (staff == null) {
+      log.warn("StaffService: No staff found for username: {}", username);
+      return false;
+    }
+
+    // 验证旧密码
+    String phone = staff.getPhone();
+    // 如果手机号为空，使用默认盐值
+    String salt = "";
+    if (phone != null && !phone.isEmpty()) {
+      salt = phone.substring(Math.max(0, phone.length() - 4));
+    }
+
+    // 使用passwordEncoder.matches方法验证密码
+    String oldPasswordWithSalt = oldPassword + salt;
+    boolean passwordMatches = passwordEncoder.matches(oldPasswordWithSalt, staff.getPassword());
+
+    // 如果带盐验证失败，尝试不带盐验证 (兼容旧的未加盐密码)
+    if (!passwordMatches) {
+        // Try matching without salt
+        passwordMatches = passwordEncoder.matches(oldPassword, staff.getPassword());
+        if (passwordMatches) {
+            log.warn("StaffService: Password verification succeeded WITHOUT salt for username: {}. This indicates a legacy unsalted password. The new password will be stored WITH salt.", username);
+        } else {
+            log.warn("StaffService: Password verification failed WITH and WITHOUT salt for username: {}", username);
+            return false; // Failed both ways
+        }
+    }
+    // 如果密码验证通过 (无论是否带盐)，则继续
+
+    // 更新密码 (ALWAYS store with salt going forward)
+    staff.setPassword(passwordEncoder.encode(newPassword + salt));
+    staff.setUpdateTime(LocalDateTime.now());
+
+    // 保存员工
+    boolean success = updateById(staff);
+
+    // 记录操作日志
+    if (success) {
+      log.info("StaffService: Password updated successfully for username: {}", username);
+      operationLogService.recordLog("修改密码", "员工修改密码：" + username, staff.getId(), staff.getName(), "员工");
+    } else {
+      log.error("StaffService: Failed to update password for username: {}", username);
+    }
+
+    return success;
+  }
 }

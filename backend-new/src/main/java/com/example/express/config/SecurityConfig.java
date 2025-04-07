@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import com.example.express.security.CustomAuthenticationProvider; // Import Custom Provider
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder; // Import for autowiring provider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,7 +40,8 @@ public class SecurityConfig {
   private com.example.express.service.CaptchaService captchaService;
   private com.example.express.util.JwtUtil jwtUtil;
   private JwtAuthorizationFilter jwtAuthorizationFilter;
-  private StaffService staffService; // Add StaffService field
+  private StaffService staffService;
+  private CustomAuthenticationProvider customAuthenticationProvider; // Inject Custom Provider
 
   @Autowired
   public SecurityConfig(
@@ -46,13 +49,25 @@ public class SecurityConfig {
       @Lazy com.example.express.service.CaptchaService captchaService,
       com.example.express.util.JwtUtil jwtUtil,
       JwtAuthorizationFilter jwtAuthorizationFilter,
-      StaffService staffService) { // Add StaffService to constructor
-    this.userDetailsService = userDetailsService;
+      StaffService staffService,
+      CustomAuthenticationProvider customAuthenticationProvider) { // Add Custom Provider to constructor
+    this.userDetailsService = userDetailsService; // Keep for other potential uses if needed, though provider uses it directly
     this.captchaService = captchaService;
     this.jwtUtil = jwtUtil;
     this.jwtAuthorizationFilter = jwtAuthorizationFilter;
-    this.staffService = staffService; // Assign StaffService
+    this.staffService = staffService;
+    this.customAuthenticationProvider = customAuthenticationProvider; // Assign Custom Provider
   }
+
+  // Configure AuthenticationManagerBuilder to use the custom provider
+  @Autowired
+  public void configureAuthenticationManager(AuthenticationManagerBuilder auth) throws Exception {
+      auth.authenticationProvider(customAuthenticationProvider);
+      // Do NOT configure the default UserDetailsService here anymore,
+      // as the custom provider handles loading UserDetails and password checking.
+      // auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); // REMOVED
+  }
+
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager)
@@ -88,16 +103,22 @@ public class SecurityConfig {
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
       throws Exception {
+    // This bean definition might still be needed if AuthenticationManager is explicitly required elsewhere.
+    // Spring Boot 3+ typically manages this automatically when providers are configured.
+    // If you encounter issues where AuthenticationManager isn't found, uncommenting this might help,
+    // but ensure it correctly uses the configured providers (which it should by default).
     return authenticationConfiguration.getAuthenticationManager();
   }
 
-  @org.springframework.beans.factory.annotation.Autowired
-  public void configureGlobal(
-      org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder auth,
-      @Lazy PasswordEncoder passwordEncoder)
-      throws Exception {
-    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-  }
+  // REMOVED configureGlobal - We now configure the provider directly using AuthenticationManagerBuilder injection
+  // @org.springframework.beans.factory.annotation.Autowired
+  // public void configureGlobal(
+  //     org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder auth,
+  //     @Lazy PasswordEncoder passwordEncoder)
+  //     throws Exception {
+  //   // Default provider configuration - replaced by custom provider
+  //   auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+  // }
 
   @Bean
   public PasswordEncoder passwordEncoder() {

@@ -58,4 +58,14 @@ public interface StaffService extends IService<Staff> {
    * @return 员工列表
    */
   List<Staff> listByStoreId(Long storeId);
+
+  /**
+   * 更新员工密码
+   * 
+   * @param username    用户名
+   * @param oldPassword 旧密码
+   * @param newPassword 新密码
+   * @return 是否更新成功
+   */
+  boolean updatePassword(String username, String oldPassword, String newPassword);
 }

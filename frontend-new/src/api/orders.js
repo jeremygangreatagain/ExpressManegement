@@ -76,10 +76,23 @@ export function addOrderLogistics(data) {
   })
 }
 
-// 获取订单物流信息
+// 获取订单物流信息 (管理员)
 export function getOrderLogistics(orderId) {
   return request({
     url: `/admin/orders/${orderId}/logistics`,
     method: 'get'
   })
+}
+
+/**
+ * 用户创建订单
+ * @param {Object} data - 订单数据
+ * @returns {Promise}
+ */
+export function createUserOrder(data) {
+  return request({
+    url: '/user/orders', // 使用普通用户的接口路径
+    method: 'post',
+    data
+  });
 }
