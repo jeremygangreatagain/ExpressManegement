@@ -57,14 +57,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     user.setCreateTime(LocalDateTime.now());
     user.setUpdateTime(LocalDateTime.now());
 
-    // 密码加密 - 使用MD5加盐（盐值为手机号后4位）
-    String phone = user.getPhone();
-    // 如果手机号为空，使用默认盐值
-    String salt = "";
-    if (phone != null && !phone.isEmpty()) {
-      salt = phone.substring(Math.max(0, phone.length() - 4));
-    }
-    user.setPassword(passwordEncoder.encode(user.getPassword() + salt));
+    // 密码加密 - 直接使用MD5加密，不添加盐值
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
 
     // 保存用户
     boolean success = save(user);
@@ -84,14 +78,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     user.setCreateTime(LocalDateTime.now());
     user.setUpdateTime(LocalDateTime.now());
 
-    // 密码加密 - 使用MD5加盐（盐值为手机号后4位）
-    String phone = user.getPhone();
-    // 如果手机号为空，使用默认盐值
-    String salt = "";
-    if (phone != null && !phone.isEmpty()) {
-      salt = phone.substring(Math.max(0, phone.length() - 4));
-    }
-    user.setPassword(passwordEncoder.encode(user.getPassword() + salt));
+    // 密码加密 - 直接使用MD5加密，不添加盐值
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
 
     // 保存用户
     boolean success = save(user);
@@ -164,19 +152,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
       return false;
     }
 
-    // 验证旧密码
-    String phone = user.getPhone();
-    // 如果手机号为空，使用默认盐值
-    String salt = "";
-    if (phone != null && !phone.isEmpty()) {
-      salt = phone.substring(Math.max(0, phone.length() - 4));
-    }
-    if (!passwordEncoder.matches(oldPassword + salt, user.getPassword())) {
+    // 验证旧密码 - 直接使用MD5加密，不添加盐值
+    // 验证旧密码是否正确
+    if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
       return false;
     }
 
-    // 更新密码
-    user.setPassword(passwordEncoder.encode(newPassword + salt));
+    // 更新密码 - 直接使用MD5加密，不添加盐值
+    user.setPassword(passwordEncoder.encode(newPassword));
     user.setUpdateTime(LocalDateTime.now());
 
     // 保存用户

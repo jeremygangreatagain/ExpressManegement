@@ -3,8 +3,13 @@ package com.example.express.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.express.entity.OperationLog;
+import jakarta.servlet.http.HttpServletResponse; // Import for HttpServletResponse
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public interface OperationLogService extends IService<OperationLog> {
@@ -48,4 +53,18 @@ public interface OperationLogService extends IService<OperationLog> {
      */
     boolean addLog(String operationType, String operationContent, Long operatorId, String operatorName,
             String operatorRole);
+
+    /**
+     * 导出日志到Excel
+     *
+     * @param response       HttpServletResponse对象，用于写入Excel文件
+     * @param operationType 操作类型
+     * @param operatorId    操作人ID
+     * @param startTime     开始时间
+     * @param endTime       结束时间
+     * @param keyword       搜索关键字
+     * @throws IOException IO异常
+     */
+    void exportLogs(HttpServletResponse response, String operationType, Long operatorId,
+                    LocalDateTime startTime, LocalDateTime endTime, String keyword) throws IOException;
 }

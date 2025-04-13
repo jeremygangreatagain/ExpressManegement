@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @TableName("`order`")
@@ -55,4 +57,7 @@ public class Order {
 
   @TableLogic
   private Integer deleted; // 0: 未删除, 1: 已删除
+
+  @TableField(exist = false)
+  private List<LogisticsInfo> logistics; // 物流信息列表
 }

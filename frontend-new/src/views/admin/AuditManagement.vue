@@ -405,13 +405,26 @@ export default {
         };
         
         const res = await getAuditList(params);
-        audits.value = (res.data?.records || []).map(audit => ({
-          ...audit,
-          id: String(audit.id) 
-        }));
-        total.value = res.data?.total || 0;
+        // 正确处理分页响应
+        if (res.data && res.data.records) {
+          audits.value = res.data.records.map(audit => ({
+            ...audit,
+            id: String(audit.id) // 保留 ID 转换
+          }));
+          total.value = res.data.total || 0;
+          // 可选：如果后端返回当前页和大小，也进行更新
+          // currentPage.value = res.data.current || currentPage.value;
+          // pageSize.value = res.data.size || pageSize.value;
+        } else {
+          audits.value = [];
+          total.value = 0;
+          console.warn("获取审核列表响应数据结构不正确:", res);
+        }
       } catch (error) {
         console.error('获取审核列表失败:', error);
+        // 出错时也清空数据
+        audits.value = [];
+        total.value = 0;
         ElMessage.error('获取审核列表失败');
       }
     };
@@ -539,12 +552,15 @@ export default {
     // 获取类型样式
     const getTypeClass = (type) => {
       const typeMap = {
-        '订单删除申请': 'bg-red-100 text-red-800',
-        '订单修改申请': 'bg-blue-100 text-blue-800',
-        '退款申请': 'bg-orange-100 text-orange-800',
-        '其他申请': 'bg-gray-100 text-gray-800'
+        '订单删除申请': 'bg-red-500 text-white', // 更明显的红色背景
+        '订单修改申请': 'bg-blue-400 text-white', // 更鲜明的蓝色
+        '退款申请': 'bg-orange-400 text-white', // 更鲜明的橙色
+        '其他申请': 'bg-purple-400 text-white', // 紫色背景
+        '账户申请': 'bg-green-400 text-white', // 绿色背景
+        '物流申请': 'bg-indigo-400 text-white', // 靛蓝色背景
+        '投诉申请': 'bg-yellow-500 text-white' // 黄色背景
       };
-      return typeMap[type] || 'bg-gray-100 text-gray-800';
+      return typeMap[type] || 'bg-gray-400 text-white'; // 默认更深的灰色
     };
     
     // 查看审核详情

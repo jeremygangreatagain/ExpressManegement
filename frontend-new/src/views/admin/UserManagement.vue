@@ -280,9 +280,13 @@ const fetchUsers = async () => {
     
     loading.close();
     
-    if (res.code === 200 && res.data) {
-      users.value = res.data.records || [];
+    // 正确处理分页响应
+    if (res.code === 200 && res.data && res.data.records) {
+      users.value = res.data.records;
       total.value = res.data.total || 0;
+      // 可选：如果后端返回当前页和大小，也进行更新
+      // currentPage.value = res.data.current || currentPage.value;
+      // pageSize.value = res.data.size || pageSize.value;
       // 清空选中
       selectedUsers.value = [];
     } else {

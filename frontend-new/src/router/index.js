@@ -36,6 +36,12 @@ const routes = [
   },
   {
     path: '/user',
+    name: 'UserHome',
+    component: () => import('../views/user/Home.vue'),
+    meta: { requiresAuth: true, role: 'USER' }
+  },
+  {
+    path: '/user/dashboard',
     name: 'UserDashboard',
     component: () => import('../views/user/Dashboard.vue'),
     meta: { requiresAuth: true, role: 'USER' }
@@ -50,6 +56,12 @@ const routes = [
     path: '/user/query-order',
     name: 'QueryOrder',
     component: () => import('../views/user/QueryOrder.vue'),
+    meta: { requiresAuth: true, role: 'USER' }
+  },
+  {
+    path: '/user/order-detail/:orderNumber',
+    name: 'OrderDetail',
+    component: () => import('../views/user/OrderDetail.vue'),
     meta: { requiresAuth: true, role: 'USER' }
   },
   {

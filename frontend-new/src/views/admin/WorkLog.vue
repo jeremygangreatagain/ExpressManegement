@@ -4,12 +4,12 @@
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">工作日志</h1>
       <div class="flex space-x-2">
-        <button 
-          @click="exportToExcel" 
+        <button
+          @click="exportToCsv"
           class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center"
         >
           <span class="material-icons mr-1">download</span>
-          导出Excel
+          导出CSV <!-- Changed button text -->
         </button>
       </div>
     </div>
@@ -229,9 +229,10 @@
 </template>
 
 <script>
-import { ref, onMounted, watch } from 'vue'; // Import watch
+import { ref, onMounted, watch } from 'vue';
 import { ElMessage } from 'element-plus';
-import { getOperationLogs, exportLogsExcel, getLogTypeOptions, getLogDetail } from '@/api/logs';
+// Updated import: exportLogsCsv instead of exportLogsExcel
+import { getOperationLogs, exportLogsCsv, getLogTypeOptions, getLogDetail } from '@/api/logs';
 
 export default {
   name: 'WorkLog',
@@ -368,9 +369,9 @@ export default {
       currentPage.value = page;
       fetchLogs(); // Fetch logs for the new page without resetting filters
     };
-    
-    // 导出Excel
-    const exportToExcel = async () => {
+
+    // 导出CSV
+    const exportToCsv = async () => { // Renamed method
       try {
         const params = {
           keyword: searchKeyword.value,
@@ -378,23 +379,24 @@ export default {
           startDate: dateRange.value && dateRange.value[0] ? dateRange.value[0] : null,
           endDate: dateRange.value && dateRange.value[1] ? dateRange.value[1] : null
         };
-        
-        ElMessage.info('正在生成Excel文件...');
-        const res = await exportLogsExcel(params);
-        
-        const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+        ElMessage.info('正在生成CSV文件...'); // Updated message
+        const res = await exportLogsCsv(params); // Call renamed API function
+
+        // Correctly create Blob from response data with CSV type
+        const blob = new Blob([res.data], { type: 'text/csv;charset=UTF-8' }); // Changed Blob type
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `工作日志_${new Date().toISOString().split('T')[0]}.xlsx`;
-        document.body.appendChild(link); 
+        link.download = `工作日志_${new Date().toISOString().split('T')[0]}.csv`; // Changed file extension
+        document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link); 
+        document.body.removeChild(link);
         URL.revokeObjectURL(link.href); 
         
         ElMessage.success('导出成功');
       } catch (error) {
-        console.error('导出Excel失败:', error);
-        ElMessage.error('导出Excel失败，请检查网络或联系管理员');
+        console.error('导出CSV失败:', error); // Updated error message
+        ElMessage.error('导出CSV失败，请检查网络或联系管理员'); // Updated error message
       }
     };
     
@@ -524,10 +526,10 @@ export default {
       currentLog,
       fetchLogs, 
       resetSearch,
-      changePage, 
-      exportToExcel,
+      changePage,
+      exportToCsv, // Use renamed method
       formatDate,
-      getRelatedInfo, 
+      getRelatedInfo,
       getOperationTags,
       getTagClass,
       viewLogDetail

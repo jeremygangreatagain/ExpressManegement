@@ -58,76 +58,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 
         String storedPassword = userDetails.getPassword();
-        boolean isStaff = false;
-        String salt = "";
 
-        // Check if the user is a staff member to apply salting logic
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-        for (GrantedAuthority authority : authorities) {
-            if ("ROLE_STAFF".equals(authority.getAuthority())) {
-                isStaff = true;
-                break;
-            }
-        }
-
-        boolean passwordMatches;
-
-        if (isStaff) {
-            log.info("User {} identified as STAFF. Proceeding with staff logic.", username);
-            // For staff, retrieve phone number to get the salt
-            Staff staff = null;
-            try {
-                log.info("Fetching Staff entity for {} to get salt.", username);
-                staff = staffService.getByUsername(username); // Assuming getByUsername is efficient
-                if (staff != null) {
-                    log.info("Staff entity found for {}. Phone: {}", username, staff.getPhone());
-                } else {
-                     log.warn("Staff entity NOT found via staffService for {}, although UserDetails has ROLE_STAFF.", username);
-                }
-            } catch (Exception e) {
-                 log.error("Error fetching Staff entity for {}: {}", username, e.getMessage(), e);
-                 // Decide how to handle - fail auth or try without salt? For now, try without.
-                 staff = null; // Ensure staff is null if error occurred
-            }
-
-            if (staff != null && staff.getPhone() != null && !staff.getPhone().isEmpty()) {
-                String phone = staff.getPhone();
-                salt = phone.substring(Math.max(0, phone.length() - 4));
-                log.info("Comparing salted password for {}. Salt: '{}'", username, salt);
-                // Compare submitted+salt with stored hash
-                passwordMatches = passwordEncoder.matches(submittedPassword + salt, storedPassword);
-                log.info("Salted comparison result for {}: {}", username, passwordMatches);
-            } else {
-                 // Staff found but no phone number, or staff not found by service, or error fetching staff
-                 // Fallback to non-salted comparison
-                 log.warn("Staff {} - phone missing, staff not found by service, or error fetching. Attempting non-salted match.", username);
-                 passwordMatches = passwordEncoder.matches(submittedPassword, storedPassword);
-                 log.info("Non-salted fallback comparison result for {}: {}", username, passwordMatches);
-            }
-
-            // Compatibility check for legacy unsalted staff passwords (if primary salted/fallback match failed)
-            // This handles the case where the user logs in with the *old* unsalted password '123456'
-            // after the hash in DB was manually reverted.
-            if (!passwordMatches) {
-                log.info("Primary salted/fallback match failed for staff {}. Trying unsalted match for legacy compatibility.", username);
-                boolean legacyMatch = passwordEncoder.matches(submittedPassword, storedPassword);
-                log.info("Legacy unsalted comparison result for {}: {}", username, legacyMatch);
-                if (legacyMatch) {
-                    log.warn("Staff {} logged in with legacy unsalted password. Consider prompting for password update.", username);
-                    passwordMatches = true; // Allow login with the old unsalted password
-                }
-            }
-
-        } else {
-            // For non-staff users, assume no salt is used
-            log.info("User {} identified as non-staff. Proceeding with direct password comparison.", username);
-            passwordMatches = passwordEncoder.matches(submittedPassword, storedPassword);
-            log.info("Direct comparison result for {}: {}", username, passwordMatches);
-        }
-
+        // 始终使用不加盐的方式比较密码
+        log.info("Performing direct password comparison for user: {}", username);
+        // Log values before matching
+        log.debug("[AUTH] Comparing rawPassword: '{}' with encodedPassword: '{}'", submittedPassword, storedPassword);
+        boolean passwordMatches = passwordEncoder.matches(submittedPassword, storedPassword);
+        log.info("Direct comparison result for {}: {}", username, passwordMatches);
 
         if (!passwordMatches) {
-            log.warn("Authentication failed: Password does not match for username - {}. isStaff={}", username, isStaff);
+            log.warn("Authentication failed: Password does not match for username - {}", username);
             throw new BadCredentialsException("用户名或密码错误");
         }
 

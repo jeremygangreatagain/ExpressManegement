@@ -24,6 +24,16 @@
     <!-- 普通用户界面 -->
     <div v-if="userRole === 'USER'" class="flex-grow overflow-y-auto py-4">
       <div class="px-4 space-y-4">
+        <!-- 首页导航 -->
+        <router-link 
+          to="/user"
+          class="flex items-center px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors"
+          :class="{ 'bg-orange-50 text-orange-500 border-r-4 border-orange-500': isActive('/user') }"
+        >
+          <span class="material-icons mr-3">home</span>
+          <span>首页</span>
+        </router-link>
+        
         <!-- 用户操作按钮 -->
         <button 
           @click="navigateTo('/user/add-order')"

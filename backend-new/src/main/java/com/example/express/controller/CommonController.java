@@ -1,6 +1,9 @@
 package com.example.express.controller;
 
 import com.example.express.common.Result;
+import com.example.express.entity.Store;
+import com.example.express.service.StoreService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +20,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/common")
 public class CommonController {
+
+  @Autowired
+  private StoreService storeService;
 
   /**
    * 创建省份数据
@@ -240,5 +246,96 @@ public class CommonController {
     }));
 
     return provinces;
+  }
+
+  /**
+   * 获取所有门店列表
+   * 该接口允许未登录用户访问，用于前端展示所有可用的门店
+   * 处理地址中的省市区代码，转换为文本形式
+   * 
+   * @return 所有门店列表
+   */
+  @GetMapping("/stores")
+  public Result<List<Store>> getAllStores() {
+    List<Store> stores = storeService.list();
+
+    // 处理地址中的省市区代码，转换为文本形式
+    for (Store store : stores) {
+      String address = store.getAddress();
+      if (address != null && !address.isEmpty()) {
+        // 尝试解析地址中的省市区代码
+        String[] addressParts = address.split(" ");
+        if (addressParts.length >= 3) {
+          // 前三部分可能是省市区代码，尝试在区域数据中查找对应的文本
+          String province = findRegionNameById(addressParts[0]);
+          String city = findRegionNameById(addressParts[1]);
+          String district = findRegionNameById(addressParts[2]);
+
+          // 如果成功找到文本表示，则替换地址中的代码
+          if (province != null && city != null && district != null) {
+            StringBuilder newAddress = new StringBuilder();
+            newAddress.append(province).append(" ")
+                .append(city).append(" ")
+                .append(district);
+
+            // 添加详细地址部分（如果有）
+            if (addressParts.length > 3) {
+              for (int i = 3; i < addressParts.length; i++) {
+                newAddress.append(" ").append(addressParts[i]);
+              }
+            }
+
+            store.setAddress(newAddress.toString());
+          }
+        }
+      }
+    }
+
+    return Result.success(stores);
+  }
+
+  /**
+   * 根据区域ID查找对应的区域名称
+   * 在区域数据中查找匹配的ID，返回对应的名称
+   * 
+   * @param regionId 区域ID
+   * @return 区域名称，如果未找到则返回原ID
+   */
+  private String findRegionNameById(String regionId) {
+    // 遍历所有省份数据
+    List<Map<String, Object>> regions = buildRegionData();
+
+    // 尝试查找匹配的省份
+    for (Map<String, Object> province : regions) {
+      String provinceValue = (String) province.get("value");
+      if (provinceValue.equals(regionId)) {
+        return (String) province.get("label");
+      }
+
+      // 查找城市
+      List<Map<String, Object>> cities = (List<Map<String, Object>>) province.get("children");
+      if (cities != null) {
+        for (Map<String, Object> city : cities) {
+          String cityValue = (String) city.get("value");
+          if (cityValue.equals(regionId)) {
+            return (String) city.get("label");
+          }
+
+          // 查找区县
+          List<Map<String, Object>> districts = (List<Map<String, Object>>) city.get("children");
+          if (districts != null) {
+            for (Map<String, Object> district : districts) {
+              String districtValue = (String) district.get("value");
+              if (districtValue.equals(regionId)) {
+                return (String) district.get("label");
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // 如果未找到匹配的区域，则返回原ID
+    return regionId;
   }
 }

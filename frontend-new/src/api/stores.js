@@ -80,3 +80,14 @@ export function batchDeleteStores(ids) {
 }
 
 // 省市区数据已移至前端静态文件 src/utils/regionData.js
+
+/**
+ * 获取所有门店列表（用户可访问）
+ * @returns {Promise}
+ */
+export function getAllStores() {
+  return request({
+    url: '/common/stores',
+    method: 'get'
+  });
+}

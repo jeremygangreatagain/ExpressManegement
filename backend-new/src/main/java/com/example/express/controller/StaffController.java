@@ -677,8 +677,10 @@ public class StaffController {
       // Ensure storeId isn't accidentally changed if it's part of the request body
       order.setStoreId(staffStoreId);
 
-      boolean success = orderService.updateById(order);
+      // 调用包含状态日志记录的服务方法
+      boolean success = orderService.updateOrderAndLogStatus(order, staff.getId(), staff.getName(), "员工");
       if (!success) {
+        // updateOrderAndLogStatus 内部已经记录了错误日志，这里可以直接返回通用错误信息
         return Result.error("更新订单失败");
       }
 

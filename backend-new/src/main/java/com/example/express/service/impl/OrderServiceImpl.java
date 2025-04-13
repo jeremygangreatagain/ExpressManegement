@@ -490,4 +490,74 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     return Math.toIntExact(count(queryWrapper));
   }
 
+
+  // 添加 Logger 实例
+  private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(OrderServiceImpl.class);
+
+  @Override
+  @Transactional
+  public boolean updateOrderAndLogStatus(Order order, Long operatorId, String operatorName, String operatorRole) {
+      // 1. 获取现有订单信息
+      Order existingOrder = getById(order.getId());
+      if (existingOrder == null) {
+          log.error("Attempted to update non-existent order with ID: {}", order.getId());
+          return false; // 订单不存在
+      }
+
+      Integer oldStatus = existingOrder.getStatus();
+      Integer newStatus = order.getStatus(); // 获取请求中的新状态
+
+      // 2. 检查状态是否发生变化
+      boolean statusChanged = newStatus != null && !newStatus.equals(oldStatus);
+
+      // 3. 如果状态变化，记录日志
+      if (statusChanged) {
+          // 可以在这里添加状态流转校验逻辑 (类似 updateOrderStatus 方法中的)
+          if (oldStatus == STATUS_CANCELLED && newStatus != STATUS_CANCELLED) {
+               log.warn("Attempted to change status of a cancelled order ID: {}", order.getId());
+               return false; // 已取消的订单不能更改为其他状态
+          }
+          if (newStatus == STATUS_COMPLETED && oldStatus != STATUS_DELIVERED) {
+               log.warn("Attempted to mark order ID: {} as completed before delivery.", order.getId());
+               return false; // 只有已送达的订单才能标记为已完成
+          }
+           if (newStatus == STATUS_DELIVERED) {
+               order.setDeliveryTime(LocalDateTime.now()); // 设置送达时间
+           }
+
+
+          OrderStatusLog statusLog = new OrderStatusLog();
+          statusLog.setOrderId(order.getId());
+          statusLog.setOrderNumber(existingOrder.getOrderNumber()); // 使用现有订单号
+          statusLog.setOldStatus(oldStatus);
+          statusLog.setNewStatus(newStatus);
+          // Order 实体没有 remark 字段，使用默认备注
+          statusLog.setRemark("员工更新订单信息"); // 使用默认备注
+          statusLog.setOperatorId(operatorId);
+          statusLog.setOperatorName(operatorName);
+          statusLog.setOperatorRole(operatorRole);
+          statusLog.setCreateTime(LocalDateTime.now());
+          orderStatusLogMapper.insert(statusLog);
+          log.info("Order status log inserted for order ID: {}, new status: {}", order.getId(), newStatus);
+      } else {
+           // 如果状态没变，确保请求中的 status 不会意外覆盖数据库中的值
+           // (如果请求体中没传 status，order.getStatus() 会是 null)
+           if (newStatus == null) {
+               order.setStatus(oldStatus); // 保持原状态
+           }
+           log.debug("Order status not changed for order ID: {}", order.getId());
+      }
+
+      // 4. 设置更新时间
+      order.setUpdateTime(LocalDateTime.now());
+
+      // 5. 更新订单表 (包含所有字段的更改)
+      boolean success = updateById(order);
+      if (success) {
+           log.info("Order updated successfully for order ID: {}", order.getId());
+      } else {
+           log.error("Failed to update order for order ID: {}", order.getId());
+      }
+      return success;
+  }
 }

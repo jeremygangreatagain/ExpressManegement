@@ -91,7 +91,7 @@ export function getOrderLogistics(orderId) {
  */
 export function createUserOrder(data) {
   return request({
-    url: '/user/orders', // 使用普通用户的接口路径
+    url: '/user/order', // 使用普通用户的接口路径
     method: 'post',
     data
   });

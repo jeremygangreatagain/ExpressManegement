@@ -746,6 +746,20 @@ const formatDate = (dateString) => {
 
 // 获取状态文本
 const getStatusText = (status) => {
+  // 处理数字状态值
+  if (typeof status === 'number' || !isNaN(Number(status))) {
+    switch (Number(status)) {
+      case 0: return '待取件';
+      case 1: return '已取件';
+      case 2: return '运输中';
+      case 3: return '已送达';
+      case 4: return '已完成';
+      case 5: return '已取消';
+      default: return '未知状态';
+    }
+  }
+  
+  // 如果不是数字，尝试从选项中查找
   const option = statusOptions.value.find(opt => opt.value === status);
   return option ? option.label : '未知状态';
 };

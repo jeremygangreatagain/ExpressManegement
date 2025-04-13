@@ -130,4 +130,14 @@ public interface OrderService extends IService<Order> {
          */
         boolean updateOrderPaymentStatus(Long orderId, Integer paymentStatus, Long operatorId, String operatorName,
                         String operatorRole, String remark);
+
+        /**
+         * 更新订单信息并记录状态变更日志
+         * @param order 包含更新信息的订单对象
+         * @param operatorId 操作员ID
+         * @param operatorName 操作员姓名
+         * @param operatorRole 操作员角色
+         * @return 是否成功
+         */
+        boolean updateOrderAndLogStatus(Order order, Long operatorId, String operatorName, String operatorRole);
 }

@@ -43,15 +43,14 @@ export function updateCurrentUserInfo(data) {
  * @returns {Promise}
  */
 export function updatePassword(data) {
-  // 从localStorage获取用户信息，判断用户角色
-  const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
-  const role = userInfo.role;
+  // 直接从localStorage获取标准化后的用户角色
+  const role = localStorage.getItem('userRole'); // 使用 'userRole'
 
   // 根据角色选择不同的API端点
   let url = '/user/password';
 
   // 如果是员工角色，使用员工的密码修改接口
-  if (userInfo.storeId) { // 员工有storeId属性
+  if (role === 2 || role === '2' || role === 'STAFF' || role === 'ROLE_STAFF') { // 兼容多种员工角色值格式
     url = '/staff/password';
   }
 

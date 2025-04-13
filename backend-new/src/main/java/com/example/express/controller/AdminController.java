@@ -14,12 +14,18 @@ import com.example.express.service.OperationLogService;
 import com.example.express.service.OrderService;
 import com.example.express.service.StaffService;
 import com.example.express.service.StoreService;
-import com.example.express.service.UserService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.express.common.Result;
+import com.example.express.entity.*; // Import all entities
+import com.example.express.service.*; // Import all services
 import com.example.express.service.impl.OrderServiceImpl;
+import jakarta.servlet.http.HttpServletResponse; // Import HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException; // Import IOException
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -551,6 +557,57 @@ public class AdminController {
     IPage<OperationLog> logPage = operationLogService.pageLogs(page, operationType, operatorId, start, end, keyword);
     return Result.success(logPage);
   }
+
+  /**
+   * 导出系统日志到CSV (管理员或员工)
+   */
+  @GetMapping("/logs/export") // Specific path for export
+  @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')") // Allow STAFF as well
+  public void exportLogsCsv( // Renamed method
+          HttpServletResponse response, // Inject HttpServletResponse
+          @RequestParam(required = false) String operationType,
+          @RequestParam(required = false) Long operatorId,
+          @RequestParam(required = false) String startTime,
+          @RequestParam(required = false) String endTime,
+          @RequestParam(required = false) String keyword) {
+
+      try {
+          // Convert String dates to LocalDateTime if they exist
+          LocalDateTime start = null;
+          LocalDateTime end = null;
+          if (startTime != null && !startTime.isEmpty()) {
+              try {
+                  start = LocalDateTime.parse(startTime + "T00:00:00"); // Assuming format YYYY-MM-DD
+              } catch (Exception e) {
+                  System.err.println("Error parsing start time: " + startTime + ", Error: " + e.getMessage());
+                  // Handle error appropriately, maybe return an error response or ignore
+              }
+          }
+          if (endTime != null && !endTime.isEmpty()) {
+              try {
+                  end = LocalDateTime.parse(endTime + "T23:59:59"); // Assuming format YYYY-MM-DD, include whole day
+              } catch (Exception e) {
+                  System.err.println("Error parsing end time: " + endTime + ", Error: " + e.getMessage());
+                  // Handle error appropriately
+              }
+          }
+
+
+          // Call the service method to handle export
+          operationLogService.exportLogs(response, operationType, operatorId, start, end, keyword);
+
+      } catch (IOException e) {
+          // Handle potential IO exceptions during file writing
+          System.err.println("导出日志CSV失败: " + e.getMessage()); // Updated error message
+          // Optionally set error status on response, though headers might already be sent
+          response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      } catch (Exception e) {
+          // Catch other potential exceptions
+           System.err.println("导出日志CSV时发生意外错误: " + e.getMessage()); // Updated error message
+           response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      }
+  }
+
 
   /**
    * 获取日志类型选项

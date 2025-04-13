@@ -17,10 +17,20 @@ export function getLogDetail(id) {
   })
 }
 
-// 导出日志为Excel
-export function exportLogsExcel(params) {
+// 导出日志为CSV (管理员)
+export function exportLogsCsv(params) { // Renamed function
   return request({
     url: '/admin/logs/export',
+    method: 'get',
+    params,
+    responseType: 'blob' // 指定响应类型为blob，用于文件下载
+  })
+}
+
+// 导出员工工作日志为CSV
+export function exportStaffLogsCsv(params) {
+  return request({
+    url: '/staff/logs/export',
     method: 'get',
     params,
     responseType: 'blob' // 指定响应类型为blob，用于文件下载

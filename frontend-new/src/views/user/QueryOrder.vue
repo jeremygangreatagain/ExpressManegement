@@ -77,7 +77,7 @@
                   查看详情
                 </button>
                 <button 
-                  v-if="order.status === 'DELIVERED'" 
+                  v-if="order.status === 3" 
                   @click="confirmReceipt(order.id)" 
                   class="text-green-500 hover:text-green-700"
                 >
@@ -132,7 +132,7 @@
                   :class="[
                     'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
                     currentPage === page
-                      ? 'z-10 bg-orange-50 border-orange-500 text-orange-600'
+                      ? 'z-10 bg-orange-500 border-orange-500 text-orange-600'
                       : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
                   ]"
                 >
@@ -157,9 +157,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import toast from '../../utils/toast';
+import { getUserRelatedOrders, confirmOrderReceipt } from '../../api/userOrders';
 
 const router = useRouter();
 const searchQuery = ref('');
@@ -190,37 +191,22 @@ const displayedPages = computed(() => {
   return range;
 });
 
-// 模拟数据
-const mockOrders = [
-  {
-    id: 1,
-    orderNumber: 'EX20250325001',
-    receiverName: '张三',
-    receiverPhone: '13800138000',
-    createTime: '2025-03-25 10:30',
-    status: 'PENDING'
-  },
-  {
-    id: 2,
-    orderNumber: 'EX20250324002',
-    receiverName: '李四',
-    receiverPhone: '13900139000',
-    createTime: '2025-03-24 14:20',
-    status: 'SHIPPED'
-  },
-  {
-    id: 3,
-    orderNumber: 'EX20250323003',
-    receiverName: '王五',
-    receiverPhone: '13700137000',
-    createTime: '2025-03-23 09:15',
-    status: 'DELIVERED'
-  }
-];
+// 查询参数
+const queryParams = ref({
+  page: 1,
+  size: 10,
+  keyword: ''
+});
 
 // 获取订单状态文本
 const getStatusText = (status) => {
   const statusMap = {
+    0: '待取件',
+    1: '已取件',
+    2: '运输中',
+    3: '已送达',
+    4: '已完成',
+    5: '已取消',
     'PENDING': '待处理',
     'PROCESSING': '处理中',
     'SHIPPED': '已发货',
@@ -228,12 +214,18 @@ const getStatusText = (status) => {
     'COMPLETED': '已完成',
     'CANCELLED': '已取消'
   };
-  return statusMap[status] || status;
+  return statusMap[status] || `未知状态(${status})`;
 };
 
 // 获取订单状态样式
 const getStatusClass = (status) => {
   const classMap = {
+    0: 'bg-yellow-100 text-yellow-800', // 待取件
+    1: 'bg-blue-100 text-blue-800',     // 已取件
+    2: 'bg-indigo-100 text-indigo-800', // 运输中
+    3: 'bg-green-100 text-green-800',   // 已送达
+    4: 'bg-gray-100 text-gray-800',     // 已完成
+    5: 'bg-red-100 text-red-800',       // 已取消
     'PENDING': 'bg-yellow-100 text-yellow-800',
     'PROCESSING': 'bg-blue-100 text-blue-800',
     'SHIPPED': 'bg-indigo-100 text-indigo-800',
@@ -249,15 +241,33 @@ const loadOrders = async () => {
   try {
     isLoading.value = true;
     
-    // 模拟API调用
-    await new Promise(resolve => setTimeout(resolve, 800));
+    // 设置查询参数
+    queryParams.value.page = currentPage.value;
+    queryParams.value.size = pageSize.value;
+    queryParams.value.keyword = searchQuery.value.trim();
     
-    // 使用模拟数据
-    orders.value = mockOrders;
-    totalItems.value = mockOrders.length;
+    // 调用API获取数据
+    const response = await getUserRelatedOrders(queryParams.value);
+    
+    console.log('API响应数据:', response);
+    
+    if (response.code === 200 && response.data) {
+      // 正确处理后端返回的IPage<Order>数据结构
+      orders.value = response.data.records || [];
+      totalItems.value = response.data.total || 0;
+      
+      console.log('解析后的订单数据:', orders.value);
+      console.log('总记录数:', totalItems.value);
+    } else {
+      orders.value = [];
+      totalItems.value = 0;
+      console.error('API返回错误或数据为空:', response);
+    }
   } catch (error) {
     console.error('加载订单失败:', error);
     toast.error('加载订单失败，请重试');
+    orders.value = [];
+    totalItems.value = 0;
   } finally {
     isLoading.value = false;
   }
@@ -267,17 +277,6 @@ const loadOrders = async () => {
 const searchOrders = async () => {
   currentPage.value = 1;
   await loadOrders();
-  
-  // 如果有搜索关键词，过滤结果
-  if (searchQuery.value.trim()) {
-    const query = searchQuery.value.trim().toLowerCase();
-    orders.value = orders.value.filter(order => 
-      order.orderNumber.toLowerCase().includes(query) ||
-      order.receiverName.toLowerCase().includes(query) ||
-      order.receiverPhone.includes(query)
-    );
-    totalItems.value = orders.value.length;
-  }
 };
 
 // 重置搜索
@@ -289,19 +288,26 @@ const resetSearch = () => {
 
 // 查看订单详情
 const viewOrderDetail = (orderId) => {
-  router.push(`/user/order-detail/${orderId}`);
+  // 获取当前订单对象
+  const order = orders.value.find(o => o.id === orderId);
+  if (order && order.orderNumber) {
+    // 使用订单号而不是ID导航到详情页
+    router.push(`/user/order-detail/${order.orderNumber}`);
+  } else {
+    toast.error('无法获取订单信息');
+  }
 };
 
 // 确认收货
 const confirmReceipt = async (orderId) => {
   try {
-    // 模拟API调用
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // 调用API确认收货
+    await confirmOrderReceipt(orderId);
     
     // 更新本地数据
     const orderIndex = orders.value.findIndex(order => order.id === orderId);
     if (orderIndex !== -1) {
-      orders.value[orderIndex].status = 'COMPLETED';
+      orders.value[orderIndex].status = 4; // 已完成状态为4
     }
     
     toast.success('已确认收货');
@@ -315,18 +321,29 @@ const confirmReceipt = async (orderId) => {
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--;
+    loadOrders();
   }
 };
 
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++;
+    loadOrders();
   }
 };
 
 const goToPage = (page) => {
   currentPage.value = page;
+  loadOrders();
 };
+
+// 监听搜索关键词变化
+watch(searchQuery, (newValue, oldValue) => {
+  if (newValue === '' && oldValue !== '') {
+    // 当搜索框被清空时，重新加载数据
+    resetSearch();
+  }
+});
 
 // 初始加载数据
 onMounted(() => {

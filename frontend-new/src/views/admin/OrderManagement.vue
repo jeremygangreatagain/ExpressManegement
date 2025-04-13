@@ -656,10 +656,23 @@ const fetchOrders = async () => {
     };
     
     const res = await getOrderList(params);
-    orders.value = res.data.records || [];
-    totalItems.value = res.data.total || 0;
+    // 正确处理分页响应
+    if (res.data && res.data.records) {
+      orders.value = res.data.records;
+      totalItems.value = res.data.total || 0;
+      // 可选：如果后端返回当前页和大小，也进行更新
+      // currentPage.value = res.data.current || currentPage.value;
+      // pageSize.value = res.data.size || pageSize.value;
+    } else {
+      orders.value = [];
+      totalItems.value = 0;
+      console.warn("获取订单列表响应数据结构不正确:", res);
+    }
   } catch (error) {
     console.error('获取订单列表失败:', error);
+    // 出错时也清空数据
+    orders.value = [];
+    totalItems.value = 0;
     toast.error('获取订单列表失败');
   } finally {
     isLoading.value = false;
@@ -928,6 +941,27 @@ const formatDate = (dateString) => {
 
 // 获取状态样式类
 const getStatusClass = (status) => {
+  // 处理数字状态值
+  if (typeof status === 'number' || !isNaN(Number(status))) {
+    switch (Number(status)) {
+      case 0: // 待取件/待接单
+        return 'bg-yellow-100 text-yellow-800';
+      case 1: // 已取件/已接单
+        return 'bg-blue-100 text-blue-800';
+      case 2: // 运输中
+        return 'bg-purple-100 text-purple-800';
+      case 3: // 已送达
+        return 'bg-green-100 text-green-800';
+      case 4: // 已完成
+        return 'bg-green-100 text-green-800';
+      case 5: // 已取消
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  }
+  
+  // 处理字符串状态值
   switch (status) {
     case 'PENDING':
       return 'bg-yellow-100 text-yellow-800';
@@ -952,8 +986,22 @@ const getStatusClass = (status) => {
 
 // 获取状态文本
 const getStatusText = (status) => {
+  // 处理数字状态值
+  if (typeof status === 'number' || !isNaN(Number(status))) {
+    switch (Number(status)) {
+      case 0: return '待接单';
+      case 1: return '已接单';
+      case 2: return '运输中';
+      case 3: return '已送达';
+      case 4: return '已完成';
+      case 5: return '已取消';
+      default: return '未知状态';
+    }
+  }
+  
+  // 处理字符串状态值
   const option = statusOptions.value.find(opt => opt.value === status);
-  return option ? option.label : status;
+  return option ? option.label : '未知状态';
 };
 
 // 初始化

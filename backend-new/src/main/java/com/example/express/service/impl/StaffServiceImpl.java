@@ -73,14 +73,12 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
     staff.setId(staffId);
     log.info("Generated 10-digit staff ID: {}", staffId);
 
-    // 密码加密 - 使用MD5加盐（盐值为手机号后4位）
-    String phone = staff.getPhone();
-    // 如果手机号为空，使用默认盐值
-    String salt = "";
-    if (phone != null && !phone.isEmpty()) {
-      salt = phone.substring(Math.max(0, phone.length() - 4));
-    }
-    staff.setPassword(passwordEncoder.encode(staff.getPassword() + salt));
+    // 密码加密 - 直接使用MD5加密，不添加盐值
+    // 注意：这里不再使用手机号后四位作为盐值，以确保与UserServiceImpl中的加密方式一致
+    staff.setPassword(passwordEncoder.encode(staff.getPassword()));
+
+    // 记录日志
+    log.info("Staff password encrypted without salt for username: {}", staff.getUsername());
 
     // Log before saving
     log.info("Attempting to save staff. ID before save: {}", staff.getId());
@@ -119,9 +117,12 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
 
     // 如果密码不为空，则更新密码
     if (StringUtils.hasText(staff.getPassword())) {
-      String phone = staff.getPhone();
-      String salt = phone.substring(Math.max(0, phone.length() - 4));
-      staff.setPassword(passwordEncoder.encode(staff.getPassword() + salt));
+      // 密码加密 - 直接使用MD5加密，不添加盐值
+      // 注意：这里不再使用手机号后四位作为盐值，以确保与UserServiceImpl中的加密方式一致
+      staff.setPassword(passwordEncoder.encode(staff.getPassword()));
+
+      // 记录日志
+      log.info("Staff password encrypted without salt for username: {}", staff.getUsername());
     } else {
       // 如果密码为空，则使用原密码
       staff.setPassword(existingStaff.getPassword());
@@ -210,33 +211,20 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
       return false;
     }
 
-    // 验证旧密码
-    String phone = staff.getPhone();
-    // 如果手机号为空，使用默认盐值
-    String salt = "";
-    if (phone != null && !phone.isEmpty()) {
-      salt = phone.substring(Math.max(0, phone.length() - 4));
-    }
+    // 验证旧密码 (始终不加盐)
+    String storedPassword = staff.getPassword();
+    // Log values before matching
+    log.debug("[UPDATE_PW] Comparing rawPassword: '{}' with encodedPassword: '{}'", oldPassword, storedPassword);
+    boolean passwordMatches = passwordEncoder.matches(oldPassword, storedPassword);
 
-    // 使用passwordEncoder.matches方法验证密码
-    String oldPasswordWithSalt = oldPassword + salt;
-    boolean passwordMatches = passwordEncoder.matches(oldPasswordWithSalt, staff.getPassword());
-
-    // 如果带盐验证失败，尝试不带盐验证 (兼容旧的未加盐密码)
     if (!passwordMatches) {
-        // Try matching without salt
-        passwordMatches = passwordEncoder.matches(oldPassword, staff.getPassword());
-        if (passwordMatches) {
-            log.warn("StaffService: Password verification succeeded WITHOUT salt for username: {}. This indicates a legacy unsalted password. The new password will be stored WITH salt.", username);
-        } else {
-            log.warn("StaffService: Password verification failed WITH and WITHOUT salt for username: {}", username);
-            return false; // Failed both ways
-        }
+      log.warn("StaffService: Password verification failed for username: {}", username);
+      return false; // 密码不匹配
     }
-    // 如果密码验证通过 (无论是否带盐)，则继续
 
-    // 更新密码 (ALWAYS store with salt going forward)
-    staff.setPassword(passwordEncoder.encode(newPassword + salt));
+    // 更新密码 (始终不加盐)
+    log.info("StaffService: Storing new password WITHOUT salt for username: {}", username);
+    staff.setPassword(passwordEncoder.encode(newPassword));
     staff.setUpdateTime(LocalDateTime.now());
 
     // 保存员工

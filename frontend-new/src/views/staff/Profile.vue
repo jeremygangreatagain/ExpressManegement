@@ -286,11 +286,20 @@ const saveProfile = async () => {
       // 调用修改密码的API
       try {
         const { updatePassword } = await import('../../api/profile');
+        // Trim passwords before sending
+        const oldPasswordTrimmed = passwordForm.value.oldPassword.trim();
+        const newPasswordTrimmed = passwordForm.value.newPassword.trim();
+
+        if (!oldPasswordTrimmed || !newPasswordTrimmed) {
+          toast.error('旧密码和新密码不能为空');
+          return;
+        }
+
         const passwordResponse = await updatePassword({
-          oldPassword: passwordForm.value.oldPassword,
-          newPassword: passwordForm.value.newPassword
+          oldPassword: oldPasswordTrimmed,
+          newPassword: newPasswordTrimmed
         });
-        
+
         if (passwordResponse.code !== 200) {
           toast.error(passwordResponse.message || '密码修改失败');
           return;

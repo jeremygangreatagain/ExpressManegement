@@ -385,10 +385,10 @@ export default {
       try {
         const params = {
           keyword: searchKeyword.value,
-          page: currentPage.value,
+          current: currentPage.value, // 将 page 修改为 current
           size: pageSize.value
         }
-        
+
         const res = await getStaffs(params);
 
         // Assuming response structure is { code: 200, data: { records: [...], total: ... } } based on request interceptor

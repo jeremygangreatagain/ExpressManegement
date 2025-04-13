@@ -295,13 +295,19 @@ const fetchStores = async () => {
     
     loading.close();
     
-    if (res.code === 200 && res.data) {
+    // 正确处理分页响应
+    if (res.code === 200 && res.data && res.data.records) {
       stores.value = res.data.records.map(store => {
+        // 保留地址处理逻辑
         if (store.address) {
           const addressParts = store.address.split(' ');
           if (addressParts.length >= 3) {
             const [provinceCode, cityCode, districtCode] = addressParts;
-            store.address = `${codeToText[provinceCode]} ${codeToText[cityCode]} ${codeToText[districtCode]} ${addressParts.slice(3).join(' ')}`;
+            // 添加检查，确保只在codeToText中存在对应代码时才进行转换，否则保留原始代码
+            const provinceName = codeToText[provinceCode] || provinceCode;
+            const cityName = codeToText[cityCode] || cityCode;
+            const districtName = codeToText[districtCode] || districtCode;
+            store.address = `${provinceName} ${cityName} ${districtName} ${addressParts.slice(3).join(' ')}`;
           }
         }
         return store;
@@ -325,16 +331,40 @@ const fetchRegionData = () => {
 // 处理地区选择变化
 const handleRegionChange = (value) => {
   if (value && value.length === 3) {
-    const [province, city, district] = value;
+    const [provinceCode, cityCode, districtCode] = value;
+    // 使用级联选择器选中项的label属性获取文本值
+    // 从regionData中查找对应的文本值
+    const province = findRegionLabel(regionOptions.value, provinceCode);
+    const provinceObj = regionOptions.value.find(item => item.value === provinceCode);
+    const city = provinceObj ? findRegionLabel(provinceObj.children, cityCode) : '';
+    const cityObj = provinceObj?.children.find(item => item.value === cityCode);
+    const district = cityObj ? findRegionLabel(cityObj.children, districtCode) : '';
+    
+    // 保存文本值而非代码
     storeForm.province = province;
     storeForm.city = city;
     storeForm.district = district;
-    // 设置region字段，用于表单验证
+    // 保存原始代码用于表单验证和级联选择器显示
     storeForm.region = value;
   } else {
     // 清空region字段，确保表单验证能正确识别未选择地区的情况
     storeForm.region = [];
+    storeForm.province = '';
+    storeForm.city = '';
+    storeForm.district = '';
   }
+};
+
+// 辅助函数：根据value查找对应的label
+const findRegionLabel = (options, value) => {
+  const option = options.find(item => item.value === value);
+  return option ? option.label : '';
+};
+
+// 辅助函数：根据label查找对应的value
+const findRegionCodeByLabel = (options, label) => {
+  const option = options.find(item => item.label === label);
+  return option ? option.value : '';
 };
 
 // 重置搜索
@@ -388,21 +418,43 @@ const openEditStoreDialog = (store) => {
   // 解析地址
   const addressParts = store.address.split(' ');
   if (addressParts.length >= 4) {
-    // 从地址中提取省市区编码
-    const [provinceCode, cityCode, districtCode] = addressParts;
+    // 从地址中提取省市区文本名称
+    const [province, city, district, ...detailParts] = addressParts;
     
-    // 使用codeToText转换为可读名称
-    storeForm.province = provinceCode;
-    storeForm.city = cityCode;
-    storeForm.district = districtCode;
-    storeForm.detailAddress = addressParts.slice(3).join(' ');
+    storeForm.province = province;
+    storeForm.city = city;
+    storeForm.district = district;
+    storeForm.detailAddress = detailParts.join(' ');
+    
+    // 根据文本名称查找对应的代码值，用于级联选择器
+    const provinceCode = findRegionCodeByLabel(regionOptions.value, province);
+    let cityCode = '';
+    let districtCode = '';
+    
+    if (provinceCode) {
+      const provinceObj = regionOptions.value.find(item => item.value === provinceCode);
+      if (provinceObj && provinceObj.children) {
+        cityCode = findRegionCodeByLabel(provinceObj.children, city);
+        if (cityCode) {
+          const cityObj = provinceObj.children.find(item => item.value === cityCode);
+          if (cityObj && cityObj.children) {
+            districtCode = findRegionCodeByLabel(cityObj.children, district);
+          }
+        }
+      }
+    }
     
     // 设置级联选择器的值
-    selectedRegion.value = [provinceCode, cityCode, districtCode];
-    // 设置region字段，用于表单验证
-    storeForm.region = [provinceCode, cityCode, districtCode];
+    if (provinceCode && cityCode && districtCode) {
+      selectedRegion.value = [provinceCode, cityCode, districtCode];
+      storeForm.region = [provinceCode, cityCode, districtCode];
+    } else {
+      // 如果无法找到对应的代码，则清空级联选择器
+      selectedRegion.value = [];
+      storeForm.region = [];
+    }
   } else if (store.address) {
-    // 处理没有省市区编码的地址
+    // 处理没有省市区的地址
     storeForm.detailAddress = store.address;
     selectedRegion.value = [];
     storeForm.region = [];
@@ -435,7 +487,14 @@ const submitStoreForm = async () => {
           storeForm.address = storeForm.detailAddress;
         }
         
-        const storeData = { ...storeForm };
+        // 只保留后端Store实体支持的字段，避免403错误
+        const storeData = {
+          id: storeForm.id,
+          name: storeForm.name,
+          address: storeForm.address,
+          phone: storeForm.phone,
+          status: storeForm.status
+        };
         
         let res;
         if (isEdit.value) {

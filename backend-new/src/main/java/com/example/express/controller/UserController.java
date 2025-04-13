@@ -135,6 +135,33 @@ public class UserController {
   }
 
   /**
+   * 获取与用户相关的订单列表（作为寄件人或收件人）
+   */
+  @GetMapping("/related-orders")
+  public Result<IPage<Order>> getUserRelatedOrders(
+      @RequestParam(defaultValue = "1") Integer page,
+      @RequestParam(defaultValue = "10") Integer size,
+      @RequestParam(required = false) String keyword) {
+
+    // 获取当前认证用户
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    User user = userService.getByUsername(username);
+
+    if (user == null) {
+      return Result.error("用户不存在");
+    }
+
+    // 创建分页对象
+    Page<Order> pageObj = new Page<>(page, size);
+
+    // 查询订单列表（查询当前用户作为寄件人的订单）
+    IPage<Order> orderPage = orderService.pageOrders(pageObj, user.getId(), null, null, null, keyword, null, null);
+
+    return Result.success(orderPage);
+  }
+
+  /**
    * 获取订单详情
    */
   @GetMapping("/order/{id}")
@@ -296,5 +323,94 @@ public class UserController {
     }
 
     return Result.success(true);
+  }
+
+  /**
+   * 确认收货
+   */
+  @PutMapping("/orders/{orderId}/confirm-receipt")
+  public Result<Boolean> confirmOrderReceipt(@PathVariable Long orderId) {
+    // 获取当前认证用户
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    User user = userService.getByUsername(username);
+
+    if (user == null) {
+      return Result.error("用户不存在");
+    }
+
+    // 获取订单
+    Order order = orderService.getById(orderId);
+    if (order == null) {
+      return Result.error("订单不存在");
+    }
+
+    // 验证订单是否属于当前用户
+    if (!order.getUserId().equals(user.getId())) {
+      return Result.error("无权操作该订单");
+    }
+
+    // 验证订单状态是否为已送达
+    if (order.getStatus() != 3) { // 3 表示已送达状态
+      return Result.error("只有已送达的订单才能确认收货");
+    }
+
+    // 更新订单状态为已完成
+    boolean success = orderService.updateOrderStatus(orderId, 4, user.getId(), user.getName(), "用户", "用户确认收货");
+
+    if (!success) {
+      return Result.error("确认收货失败");
+    }
+
+    return Result.success(true);
+  }
+
+  /**
+   * 通过订单号获取订单详情
+   * 此接口匹配前端调用的 /api/user/orders/{orderNumber} 路径
+   */
+  @GetMapping("/orders/{orderNumber}")
+  public Result<Order> getOrderDetailByOrderNumber(@PathVariable String orderNumber) {
+    // 获取当前认证用户
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    User user = userService.getByUsername(username);
+
+    if (user == null) {
+      return Result.error("用户不存在");
+    }
+
+    try {
+      // 记录请求日志，帮助调试
+      System.out.println("用户请求订单详情，订单号: " + orderNumber);
+
+      // 通过订单号查询
+      Order order = orderService.getByOrderNumber(orderNumber);
+
+      if (order == null) {
+        System.out.println("未找到订单，请求订单号: " + orderNumber);
+        return Result.error("订单不存在");
+      }
+
+      // 验证用户是否有权限查看该订单
+      // 检查用户是否是订单的寄件人（通过userId）
+      boolean isSender = order.getUserId() != null && order.getUserId().equals(user.getId());
+
+      // 检查用户是否是订单的收件人（通过收件人电话）
+      boolean isReceiver = user.getPhone() != null && user.getPhone().equals(order.getReceiverPhone());
+
+      if (!isSender && !isReceiver) {
+        return Result.error("无权查看该订单");
+      }
+
+      // 获取订单的物流信息
+      List<LogisticsInfo> logistics = logisticsInfoService.getLogisticsInfoByOrderId(order.getId());
+      order.setLogistics(logistics);
+
+      return Result.success(order);
+    } catch (Exception e) {
+      System.out.println("查询订单出错: " + orderNumber + ", 错误: " + e.getMessage());
+      return Result.error("查询订单出错");
+    }
   }
 }
