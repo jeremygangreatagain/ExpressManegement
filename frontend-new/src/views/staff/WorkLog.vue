@@ -3,8 +3,8 @@
     <div class="min-h-screen bg-gray-100 p-6">
       <div class="container mx-auto">
         <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">工作日志</h1>
-      </div>
+          <h1 class="text-2xl font-bold text-gray-800">工作日志</h1>
+        </div>
       
       <!-- 搜索和操作区域 -->
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
@@ -273,125 +273,6 @@
             </button>
             <button 
               @click="submitNewLog" 
-              class="px-4 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors"
-              :disabled="isSubmitting"
-            >
-              {{ isSubmitting ? '提交中...' : '提交' }}
-            </button>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
-    <!-- 日志详情对话框 -->
-    <div v-if="showDetailDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <!-- ... dialog content ... -->
-       <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div class="p-6">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold text-gray-800">日志详情</h2>
-            <button @click="showDetailDialog = false" class="text-gray-500 hover:text-gray-700">
-              <span class="material-icons">close</span>
-            </button>
-          </div>
-          <div class="space-y-4">
-            <div>
-              <p class="text-sm text-gray-500">创建时间</p>
-              <p class="text-base">{{ formatDateTime(selectedLog.createTime) }}</p>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500">日志类型</p>
-              <p class="text-base">
-                <span
-                  :class="{
-                    'px-2 py-1 rounded-full text-xs font-medium': true,
-                    'bg-blue-100 text-blue-800': selectedLog.type === 'ORDER',
-                    'bg-green-100 text-green-800': selectedLog.type === 'LOGISTICS',
-                    'bg-purple-100 text-purple-800': selectedLog.type === 'SYSTEM',
-                    'bg-yellow-100 text-yellow-800': selectedLog.type === 'OTHER'
-                  }"
-                >
-                  {{ getLogTypeName(selectedLog.type) }}
-                </span>
-              </p>
-            </div>
-            <div v-if="selectedLog.orderNumber">
-              <p class="text-sm text-gray-500">相关订单</p>
-              <p class="text-base">{{ selectedLog.orderNumber }}</p>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500">操作员</p>
-              <p class="text-base">{{ selectedLog.operatorName || '-' }}</p>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500">日志内容</p>
-              <p class="text-base whitespace-pre-line">{{ formatLogContent(selectedLog.content) }}</p>
-            </div>
-          </div>
-          <div class="mt-6 flex justify-end">
-            <button
-              @click="showDetailDialog = false"
-              class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
-            >
-              关闭
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- 添加日志对话框 -->
-    <div v-if="showAddDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-       <!-- ... dialog content ... -->
-        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full">
-        <div class="p-6">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold text-gray-800">添加工作日志</h2>
-            <button @click="showAddDialog = false" class="text-gray-500 hover:text-gray-700">
-              <span class="material-icons">close</span>
-            </button>
-          </div>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">日志类型</label>
-              <select
-                v-model="newLog.type"
-                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-              >
-                <option value="">请选择日志类型</option>
-                <option value="ORDER">订单操作</option>
-                <option value="LOGISTICS">物流操作</option>
-                <option value="SYSTEM">系统操作</option>
-                <option value="OTHER">其他</option>
-              </select>
-            </div>
-            <div v-if="newLog.type === 'ORDER' || newLog.type === 'LOGISTICS'">
-              <label class="block text-sm font-medium text-gray-700 mb-1">相关订单号</label>
-              <input
-                type="text"
-                v-model="newLog.orderNumber"
-                placeholder="请输入订单号"
-                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-              >
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">日志内容</label>
-              <textarea
-                v-model="newLog.content"
-                rows="5"
-                placeholder="请输入日志内容"
-                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-              ></textarea>
-            </div>
-          </div>
-          <div class="mt-6 flex justify-end space-x-3">
-            <button
-              @click="showAddDialog = false"
-              class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
-            >
-              取消
-            </button>
-            <button
-              @click="submitNewLog"
               class="px-4 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors"
               :disabled="isSubmitting"
             >

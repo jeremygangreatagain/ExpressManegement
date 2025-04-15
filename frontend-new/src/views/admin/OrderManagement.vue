@@ -816,12 +816,16 @@ const saveOrder = async () => {
     if (orderData.isPaid !== undefined) {
       orderData.paymentStatus = orderData.isPaid ? 1 : 0; // 1-已支付, 0-未支付
       console.log('设置支付状态:', orderData.isPaid, '转换为paymentStatus:', orderData.paymentStatus);
+      // 删除isPaid字段，避免后端反序列化错误
+      delete orderData.isPaid;
     }
     
     // 将remark字段映射到description字段
     if (orderData.remark !== undefined) {
       orderData.description = orderData.remark;
       console.log('设置备注:', orderData.remark, '映射到description:', orderData.description);
+      // 如果后端没有remark字段，也需要删除
+      delete orderData.remark;
     }
     
     if (isCreating.value) {

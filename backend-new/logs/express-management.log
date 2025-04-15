@@ -1,4 +1,264 @@
-2025-04-14T00:01:35.533+08:00  INFO 45524 --- [lettuce-eventExecutorLoop-1-8] i.l.core.protocol.ConnectionWatchdog     : Reconnecting, last destination was localhost/127.0.0.1:6379
-2025-04-14T00:01:35.540+08:00  WARN 45524 --- [lettuce-nioEventLoop-4-2] i.l.core.protocol.ConnectionWatchdog     : Cannot reconnect to [localhost/<unresolved>:6379]: Connection refused: no further information: localhost/127.0.0.1:6379
-2025-04-14T00:01:37.619+08:00  INFO 45524 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-04-14T00:01:37.624+08:00  INFO 45524 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-15T14:57:15.814+08:00  INFO 28596 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 28596 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-15T14:57:15.818+08:00 DEBUG 28596 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-15T14:57:15.819+08:00  INFO 28596 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-15T14:57:16.379+08:00  INFO 28596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T14:57:16.381+08:00  INFO 28596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-15T14:57:16.397+08:00  INFO 28596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-15T14:57:16.400+08:00  INFO 28596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T14:57:16.401+08:00  INFO 28596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-15T14:57:16.404+08:00  INFO 28596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-15T14:57:16.413+08:00  INFO 28596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T14:57:16.414+08:00  INFO 28596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-15T14:57:16.422+08:00  INFO 28596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
+2025-04-15T14:57:16.957+08:00  INFO 28596 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-15T14:57:16.959+08:00  INFO 28596 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-15T14:57:16.960+08:00  INFO 28596 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-15T14:57:16.969+08:00  INFO 28596 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-15T14:57:16.976+08:00  INFO 28596 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-15T14:57:16.977+08:00  INFO 28596 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-15T14:57:17.057+08:00  INFO 28596 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-15T14:57:17.058+08:00  INFO 28596 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1207 ms
+2025-04-15T14:57:17.097+08:00 DEBUG 28596 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-15T14:57:17.955+08:00  INFO 28596 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@45dc7be, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2d459bda, org.springframework.security.web.context.SecurityContextHolderFilter@185339ed, org.springframework.security.web.header.HeaderWriterFilter@49bb808f, org.springframework.web.filter.CorsFilter@6ceb11f9, org.springframework.security.web.authentication.logout.LogoutFilter@b339a08, com.example.express.security.JwtAuthorizationFilter@bc09d57, com.example.express.security.JwtAuthenticationFilter@4d664323, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4470106b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@690ed13a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@27ec0d06, org.springframework.security.web.session.SessionManagementFilter@12548f9a, org.springframework.security.web.access.ExceptionTranslationFilter@37f41a81, org.springframework.security.web.access.intercept.AuthorizationFilter@2838eb]
+2025-04-15T14:57:18.458+08:00  INFO 28596 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-15T14:57:18.464+08:00  INFO 28596 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.952 seconds (process running for 3.219)
+2025-04-15T14:57:41.811+08:00  INFO 28596 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-15T14:57:41.811+08:00  INFO 28596 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-15T14:57:41.812+08:00  INFO 28596 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-04-15T16:27:13.548+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Attempting authentication for username: LBJ
+2025-04-15T16:27:13.610+08:00  INFO 28596 --- [http-nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-15T16:27:13.829+08:00  INFO 28596 --- [http-nio-8082-exec-2] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2caf9236
+2025-04-15T16:27:13.830+08:00  INFO 28596 --- [http-nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-15T16:27:13.906+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ
+2025-04-15T16:27:13.921+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ. Staff ID: 2504781935
+2025-04-15T16:27:13.934+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : UserDetails loaded for LBJ. Authorities: [ROLE_STAFF]
+2025-04-15T16:27:13.934+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Performing direct password comparison for user: LBJ
+2025-04-15T16:27:13.934+08:00 DEBUG 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : [AUTH] Comparing rawPassword: '123456' with encodedPassword: 'e10adc3949ba59abbe56e057f20f883e'
+2025-04-15T16:27:13.935+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Direct comparison result for LBJ: true
+2025-04-15T16:27:13.935+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Authentication successful for username: LBJ
+2025-04-15T16:27:14.412+08:00  INFO 28596 --- [http-nio-8082-exec-5] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ
+2025-04-15T16:27:14.416+08:00  INFO 28596 --- [http-nio-8082-exec-5] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ. Staff ID: 2504781935
+2025-04-15T16:27:14.467+08:00  INFO 28596 --- [http-nio-8082-exec-6] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ
+2025-04-15T16:27:14.472+08:00  INFO 28596 --- [http-nio-8082-exec-6] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ. Staff ID: 2504781935
+2025-04-15T16:27:14.497+08:00  INFO 28596 --- [http-nio-8082-exec-8] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ
+2025-04-15T16:27:14.497+08:00  INFO 28596 --- [http-nio-8082-exec-9] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ
+2025-04-15T16:27:14.500+08:00  INFO 28596 --- [http-nio-8082-exec-8] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ. Staff ID: 2504781935
+2025-04-15T16:27:14.500+08:00  INFO 28596 --- [http-nio-8082-exec-9] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ. Staff ID: 2504781935
+2025-04-15T16:27:17.011+08:00  INFO 28596 --- [http-nio-8082-exec-7] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ
+2025-04-15T16:27:17.014+08:00  INFO 28596 --- [http-nio-8082-exec-7] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ. Staff ID: 2504781935
+2025-04-15T16:27:25.541+08:00  INFO 28596 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ
+2025-04-15T16:27:25.544+08:00  INFO 28596 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ. Staff ID: 2504781935
+2025-04-15T16:53:31.383+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Attempting authentication for username: admin
+2025-04-15T16:53:31.388+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : UserDetails loaded for admin. Authorities: [ROLE_ADMIN]
+2025-04-15T16:53:31.389+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Performing direct password comparison for user: admin
+2025-04-15T16:53:31.389+08:00 DEBUG 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : [AUTH] Comparing rawPassword: '123456' with encodedPassword: 'e10adc3949ba59abbe56e057f20f883e'
+2025-04-15T16:53:31.390+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Direct comparison result for admin: true
+2025-04-15T16:53:31.390+08:00  INFO 28596 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Authentication successful for username: admin
+2025-04-15T21:37:40.182+08:00  INFO 28596 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : Attempting authentication for username: admin
+2025-04-15T21:37:40.186+08:00  INFO 28596 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : UserDetails loaded for admin. Authorities: [ROLE_ADMIN]
+2025-04-15T21:37:40.186+08:00  INFO 28596 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : Performing direct password comparison for user: admin
+2025-04-15T21:37:40.186+08:00 DEBUG 28596 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : [AUTH] Comparing rawPassword: '123456' with encodedPassword: 'e10adc3949ba59abbe56e057f20f883e'
+2025-04-15T21:37:40.187+08:00  INFO 28596 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : Direct comparison result for admin: true
+2025-04-15T21:37:40.187+08:00  INFO 28596 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : Authentication successful for username: admin
+2025-04-15T21:38:21.288+08:00  WARN 28596 --- [http-nio-8082-exec-9] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unrecognized field "isPaid" (class com.example.express.entity.Order), not marked as ignorable]
+2025-04-15T21:38:25.087+08:00  WARN 28596 --- [http-nio-8082-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unrecognized field "isPaid" (class com.example.express.entity.Order), not marked as ignorable]
+2025-04-15T21:42:53.332+08:00  INFO 28596 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-15T21:42:53.336+08:00  INFO 28596 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-15T21:43:07.529+08:00  INFO 43436 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 43436 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-15T21:43:07.531+08:00 DEBUG 43436 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-15T21:43:07.531+08:00  INFO 43436 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-15T21:43:08.085+08:00  INFO 43436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T21:43:08.087+08:00  INFO 43436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-15T21:43:08.104+08:00  INFO 43436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-15T21:43:08.109+08:00  INFO 43436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T21:43:08.110+08:00  INFO 43436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-15T21:43:08.115+08:00  INFO 43436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-15T21:43:08.127+08:00  INFO 43436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T21:43:08.128+08:00  INFO 43436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-15T21:43:08.140+08:00  INFO 43436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2025-04-15T21:43:08.725+08:00  INFO 43436 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-15T21:43:08.728+08:00  INFO 43436 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-15T21:43:08.729+08:00  INFO 43436 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-15T21:43:08.731+08:00  INFO 43436 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-15T21:43:08.740+08:00  INFO 43436 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-15T21:43:08.740+08:00  INFO 43436 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-15T21:43:08.790+08:00  INFO 43436 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-15T21:43:08.791+08:00  INFO 43436 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1229 ms
+2025-04-15T21:43:08.839+08:00 DEBUG 43436 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-15T21:43:09.704+08:00  INFO 43436 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@72f35a31, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3b01897f, org.springframework.security.web.context.SecurityContextHolderFilter@2b8cf049, org.springframework.security.web.header.HeaderWriterFilter@71316cd7, org.springframework.web.filter.CorsFilter@6b3b2c34, org.springframework.security.web.authentication.logout.LogoutFilter@2c7375da, com.example.express.security.JwtAuthorizationFilter@79ba0a6f, com.example.express.security.JwtAuthenticationFilter@28b5d5dc, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4a944af9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3593e074, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@407f2029, org.springframework.security.web.session.SessionManagementFilter@14239223, org.springframework.security.web.access.ExceptionTranslationFilter@1cdd31a4, org.springframework.security.web.access.intercept.AuthorizationFilter@3eedd0e3]
+2025-04-15T21:43:10.133+08:00  INFO 43436 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-15T21:43:10.139+08:00  INFO 43436 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.939 seconds (process running for 3.213)
+2025-04-15T21:43:12.779+08:00  INFO 43436 --- [http-nio-8082-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-15T21:43:12.780+08:00  INFO 43436 --- [http-nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-15T21:43:12.781+08:00  INFO 43436 --- [http-nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-04-15T21:43:12.999+08:00  INFO 43436 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-15T21:43:13.213+08:00  INFO 43436 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3aabe645
+2025-04-15T21:43:13.215+08:00  INFO 43436 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-15T21:45:27.244+08:00  INFO 43436 --- [http-nio-8082-exec-9] c.e.e.s.CustomAuthenticationProvider     : Attempting authentication for username: staffTest112
+2025-04-15T21:45:27.249+08:00  INFO 43436 --- [http-nio-8082-exec-9] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: staffTest112
+2025-04-15T21:45:27.252+08:00  WARN 43436 --- [http-nio-8082-exec-9] c.e.e.service.impl.StaffServiceImpl      : StaffService: No staff found for username: staffTest112
+2025-04-15T21:45:27.253+08:00  WARN 43436 --- [http-nio-8082-exec-9] c.e.e.s.CustomAuthenticationProvider     : Authentication failed: Username not found - staffTest112
+2025-04-15T21:45:40.124+08:00  INFO 43436 --- [http-nio-8082-exec-7] c.e.e.s.CustomAuthenticationProvider     : Attempting authentication for username: staffTest123
+2025-04-15T21:45:40.128+08:00  INFO 43436 --- [http-nio-8082-exec-7] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: staffTest123
+2025-04-15T21:45:40.133+08:00  INFO 43436 --- [http-nio-8082-exec-7] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: staffTest123. Staff ID: 2504594214
+2025-04-15T21:45:40.139+08:00  INFO 43436 --- [http-nio-8082-exec-7] c.e.e.s.CustomAuthenticationProvider     : UserDetails loaded for staffTest123. Authorities: [ROLE_STAFF]
+2025-04-15T21:45:40.140+08:00  INFO 43436 --- [http-nio-8082-exec-7] c.e.e.s.CustomAuthenticationProvider     : Performing direct password comparison for user: staffTest123
+2025-04-15T21:45:40.140+08:00 DEBUG 43436 --- [http-nio-8082-exec-7] c.e.e.s.CustomAuthenticationProvider     : [AUTH] Comparing rawPassword: '123456' with encodedPassword: 'e10adc3949ba59abbe56e057f20f883e'
+2025-04-15T21:45:40.141+08:00  INFO 43436 --- [http-nio-8082-exec-7] c.e.e.s.CustomAuthenticationProvider     : Direct comparison result for staffTest123: true
+2025-04-15T21:45:40.142+08:00  INFO 43436 --- [http-nio-8082-exec-7] c.e.e.s.CustomAuthenticationProvider     : Authentication successful for username: staffTest123
+2025-04-15T21:45:40.328+08:00  INFO 43436 --- [http-nio-8082-exec-4] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: staffTest123
+2025-04-15T21:45:40.334+08:00  INFO 43436 --- [http-nio-8082-exec-4] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: staffTest123. Staff ID: 2504594214
+2025-04-15T21:45:40.431+08:00  INFO 43436 --- [http-nio-8082-exec-2] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: staffTest123
+2025-04-15T21:45:40.435+08:00  INFO 43436 --- [http-nio-8082-exec-2] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: staffTest123. Staff ID: 2504594214
+2025-04-15T21:45:40.472+08:00  INFO 43436 --- [http-nio-8082-exec-3] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: staffTest123
+2025-04-15T21:45:40.472+08:00  INFO 43436 --- [http-nio-8082-exec-1] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: staffTest123
+2025-04-15T21:45:40.477+08:00  INFO 43436 --- [http-nio-8082-exec-3] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: staffTest123. Staff ID: 2504594214
+2025-04-15T21:45:40.477+08:00  INFO 43436 --- [http-nio-8082-exec-1] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: staffTest123. Staff ID: 2504594214
+2025-04-15T21:45:43.413+08:00  INFO 43436 --- [http-nio-8082-exec-5] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: staffTest123
+2025-04-15T21:45:43.416+08:00  INFO 43436 --- [http-nio-8082-exec-5] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: staffTest123. Staff ID: 2504594214
+2025-04-15T21:45:46.430+08:00  INFO 43436 --- [http-nio-8082-exec-6] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: staffTest123
+2025-04-15T21:45:46.434+08:00  INFO 43436 --- [http-nio-8082-exec-6] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: staffTest123. Staff ID: 2504594214
+2025-04-15T21:45:56.916+08:00  INFO 43436 --- [http-nio-8082-exec-9] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: staffTest123
+2025-04-15T21:45:56.921+08:00  INFO 43436 --- [http-nio-8082-exec-9] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: staffTest123. Staff ID: 2504594214
+2025-04-15T21:46:28.804+08:00  INFO 43436 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Attempting authentication for username: admin
+2025-04-15T21:46:28.809+08:00  INFO 43436 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : UserDetails loaded for admin. Authorities: [ROLE_ADMIN]
+2025-04-15T21:46:28.810+08:00  INFO 43436 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Performing direct password comparison for user: admin
+2025-04-15T21:46:28.810+08:00 DEBUG 43436 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : [AUTH] Comparing rawPassword: '123456' with encodedPassword: 'e10adc3949ba59abbe56e057f20f883e'
+2025-04-15T21:46:28.810+08:00  INFO 43436 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Direct comparison result for admin: true
+2025-04-15T21:46:28.810+08:00  INFO 43436 --- [http-nio-8082-exec-2] c.e.e.s.CustomAuthenticationProvider     : Authentication successful for username: admin
+2025-04-15T21:46:31.030+08:00  INFO 43436 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T21:46:31.033+08:00  INFO 43436 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T21:46:41.207+08:00  WARN 43436 --- [http-nio-8082-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unrecognized field "statusLoading" (class com.example.express.entity.Staff), not marked as ignorable]
+2025-04-15T21:47:41.621+08:00  INFO 43436 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-15T21:47:41.625+08:00  INFO 43436 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-15T21:49:38.049+08:00  INFO 34356 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 34356 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-15T21:49:38.050+08:00 DEBUG 34356 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-15T21:49:38.052+08:00  INFO 34356 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-15T21:49:38.632+08:00  INFO 34356 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T21:49:38.634+08:00  INFO 34356 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-15T21:49:38.650+08:00  INFO 34356 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-15T21:49:38.655+08:00  INFO 34356 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T21:49:38.656+08:00  INFO 34356 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-15T21:49:38.660+08:00  INFO 34356 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-15T21:49:38.669+08:00  INFO 34356 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T21:49:38.670+08:00  INFO 34356 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-15T21:49:38.681+08:00  INFO 34356 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
+2025-04-15T21:49:39.196+08:00  INFO 34356 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-15T21:49:39.199+08:00  INFO 34356 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-15T21:49:39.200+08:00  INFO 34356 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-15T21:49:39.202+08:00  INFO 34356 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-15T21:49:39.209+08:00  INFO 34356 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-15T21:49:39.209+08:00  INFO 34356 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-15T21:49:39.250+08:00  INFO 34356 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-15T21:49:39.252+08:00  INFO 34356 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1163 ms
+2025-04-15T21:49:39.291+08:00 DEBUG 34356 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-15T21:49:40.109+08:00  INFO 34356 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3b01897f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6b3b2c34, org.springframework.security.web.context.SecurityContextHolderFilter@2336cd91, org.springframework.security.web.header.HeaderWriterFilter@6106dfb6, org.springframework.web.filter.CorsFilter@28b5d5dc, org.springframework.security.web.authentication.logout.LogoutFilter@68c4db77, com.example.express.security.JwtAuthorizationFilter@79ba0a6f, com.example.express.security.JwtAuthenticationFilter@407f2029, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3593e074, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@79d14037, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@77020328, org.springframework.security.web.session.SessionManagementFilter@68df8c6, org.springframework.security.web.access.ExceptionTranslationFilter@7dddfc35, org.springframework.security.web.access.intercept.AuthorizationFilter@478089b6]
+2025-04-15T21:49:40.499+08:00  INFO 34356 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-15T21:49:40.504+08:00  INFO 34356 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 2.79 seconds (process running for 3.051)
+2025-04-15T21:49:43.849+08:00  INFO 34356 --- [http-nio-8082-exec-5] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-15T21:49:43.849+08:00  INFO 34356 --- [http-nio-8082-exec-5] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-15T21:49:43.850+08:00  INFO 34356 --- [http-nio-8082-exec-5] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-04-15T21:49:44.000+08:00  INFO 34356 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-15T21:49:44.204+08:00  INFO 34356 --- [http-nio-8082-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7e76d196
+2025-04-15T21:49:44.205+08:00  INFO 34356 --- [http-nio-8082-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-15T21:49:47.316+08:00  INFO 34356 --- [http-nio-8082-exec-3] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T21:49:47.324+08:00  INFO 34356 --- [http-nio-8082-exec-3] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T21:49:51.515+08:00  WARN 34356 --- [http-nio-8082-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unrecognized field "statusLoading" (class com.example.express.entity.Staff), not marked as ignorable]
+2025-04-15T21:52:35.822+08:00  INFO 34356 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-15T21:52:35.830+08:00  INFO 34356 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-15T21:54:15.358+08:00  INFO 44728 --- [main] c.e.e.ExpressManagementSystemApplication : Starting ExpressManagementSystemApplication using Java 17.0.4.1 with PID 44728 (C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new\target\classes started by gan in C:\Users\gan\Desktop\GraduationProject\Code\ExpressManagementSystem\backend-new)
+2025-04-15T21:54:15.360+08:00 DEBUG 44728 --- [main] c.e.e.ExpressManagementSystemApplication : Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-04-15T21:54:15.360+08:00  INFO 44728 --- [main] c.e.e.ExpressManagementSystemApplication : No active profile set, falling back to 1 default profile: "default"
+2025-04-15T21:54:15.949+08:00  INFO 44728 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T21:54:15.952+08:00  INFO 44728 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-04-15T21:54:15.969+08:00  INFO 44728 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 Elasticsearch repository interfaces.
+2025-04-15T21:54:15.974+08:00  INFO 44728 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T21:54:15.975+08:00  INFO 44728 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-04-15T21:54:15.981+08:00  INFO 44728 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-04-15T21:54:15.991+08:00  INFO 44728 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-04-15T21:54:15.992+08:00  INFO 44728 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-04-15T21:54:16.004+08:00  INFO 44728 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-04-15T21:54:16.596+08:00  INFO 44728 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-04-15T21:54:16.600+08:00  INFO 44728 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+2025-04-15T21:54:16.600+08:00  INFO 44728 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+2025-04-15T21:54:16.603+08:00  INFO 44728 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+2025-04-15T21:54:16.611+08:00  INFO 44728 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-15T21:54:16.611+08:00  INFO 44728 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-04-15T21:54:16.665+08:00  INFO 44728 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-15T21:54:16.666+08:00  INFO 44728 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1278 ms
+2025-04-15T21:54:16.709+08:00 DEBUG 44728 --- [main] c.e.e.security.JwtAuthorizationFilter    : Filter 'jwtAuthorizationFilter' configured for use
+2025-04-15T21:54:17.645+08:00  INFO 44728 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1d556461, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5a583720, org.springframework.security.web.context.SecurityContextHolderFilter@1c3d9e28, org.springframework.security.web.header.HeaderWriterFilter@6f52a229, org.springframework.web.filter.CorsFilter@4ed19b69, org.springframework.security.web.authentication.logout.LogoutFilter@407f2029, com.example.express.security.JwtAuthorizationFilter@678a9516, com.example.express.security.JwtAuthenticationFilter@59a5bb61, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@46d148bd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@37f41a81, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6f65aa58, org.springframework.security.web.session.SessionManagementFilter@5f33e6d, org.springframework.security.web.access.ExceptionTranslationFilter@5dacf18d, org.springframework.security.web.access.intercept.AuthorizationFilter@77cc6a28]
+2025-04-15T21:54:18.078+08:00  INFO 44728 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path ''
+2025-04-15T21:54:18.083+08:00  INFO 44728 --- [main] c.e.e.ExpressManagementSystemApplication : Started ExpressManagementSystemApplication in 3.061 seconds (process running for 3.344)
+2025-04-15T21:54:23.527+08:00  INFO 44728 --- [http-nio-8082-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-15T21:54:23.527+08:00  INFO 44728 --- [http-nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-15T21:54:23.530+08:00  INFO 44728 --- [http-nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2025-04-15T21:54:23.766+08:00  INFO 44728 --- [http-nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-15T21:54:24.032+08:00  INFO 44728 --- [http-nio-8082-exec-2] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@62048196
+2025-04-15T21:54:24.036+08:00  INFO 44728 --- [http-nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-15T21:54:30.044+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T21:54:30.059+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T21:54:30.070+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.service.impl.StaffServiceImpl      : Staff password encrypted without salt for username: LBJ112
+2025-04-15T21:55:01.090+08:00  INFO 44728 --- [http-nio-8082-exec-9] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: user1
+2025-04-15T21:55:14.025+08:00  INFO 44728 --- [http-nio-8082-exec-8] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: user1
+2025-04-15T21:55:23.483+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: user1
+2025-04-15T21:55:27.061+08:00  INFO 44728 --- [http-nio-8082-exec-1] c.e.e.service.impl.UserServiceImpl       : 更新用户，用户名: user1
+2025-04-15T21:55:34.720+08:00  INFO 44728 --- [http-nio-8082-exec-4] c.e.e.service.impl.UserServiceImpl       : 物理删除用户成功，用户名: testUser11223344
+2025-04-15T21:56:39.167+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.s.CustomAuthenticationProvider     : Attempting authentication for username: LBJ112
+2025-04-15T21:56:39.171+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T21:56:39.173+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T21:56:39.179+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.s.CustomAuthenticationProvider     : UserDetails loaded for LBJ112. Authorities: [ROLE_STAFF]
+2025-04-15T21:56:39.179+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.s.CustomAuthenticationProvider     : Performing direct password comparison for user: LBJ112
+2025-04-15T21:56:39.179+08:00 DEBUG 44728 --- [http-nio-8082-exec-10] c.e.e.s.CustomAuthenticationProvider     : [AUTH] Comparing rawPassword: '123456' with encodedPassword: '14e1b600b1fd579f47433b88e8d85291'
+2025-04-15T21:56:39.180+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.s.CustomAuthenticationProvider     : Direct comparison result for LBJ112: false
+2025-04-15T21:56:39.180+08:00  WARN 44728 --- [http-nio-8082-exec-10] c.e.e.s.CustomAuthenticationProvider     : Authentication failed: Password does not match for username - LBJ112
+2025-04-15T21:57:03.435+08:00  INFO 44728 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : Attempting authentication for username: LBJ112
+2025-04-15T21:57:03.439+08:00  INFO 44728 --- [http-nio-8082-exec-1] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T21:57:03.442+08:00  INFO 44728 --- [http-nio-8082-exec-1] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T21:57:03.444+08:00  INFO 44728 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : UserDetails loaded for LBJ112. Authorities: [ROLE_STAFF]
+2025-04-15T21:57:03.444+08:00  INFO 44728 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : Performing direct password comparison for user: LBJ112
+2025-04-15T21:57:03.445+08:00 DEBUG 44728 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : [AUTH] Comparing rawPassword: '123456' with encodedPassword: 'e10adc3949ba59abbe56e057f20f883e'
+2025-04-15T21:57:03.445+08:00  INFO 44728 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : Direct comparison result for LBJ112: true
+2025-04-15T21:57:03.446+08:00  INFO 44728 --- [http-nio-8082-exec-1] c.e.e.s.CustomAuthenticationProvider     : Authentication successful for username: LBJ112
+2025-04-15T21:57:03.628+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T21:57:03.630+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T21:57:03.659+08:00  INFO 44728 --- [http-nio-8082-exec-4] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T21:57:03.662+08:00  INFO 44728 --- [http-nio-8082-exec-4] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T21:57:03.684+08:00  INFO 44728 --- [http-nio-8082-exec-5] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T21:57:03.684+08:00  INFO 44728 --- [http-nio-8082-exec-6] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T21:57:03.687+08:00  INFO 44728 --- [http-nio-8082-exec-5] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T21:57:03.687+08:00  INFO 44728 --- [http-nio-8082-exec-6] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T21:57:06.114+08:00  INFO 44728 --- [http-nio-8082-exec-9] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T21:57:06.116+08:00  INFO 44728 --- [http-nio-8082-exec-9] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T21:57:06.859+08:00  INFO 44728 --- [http-nio-8082-exec-7] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T21:57:06.863+08:00  INFO 44728 --- [http-nio-8082-exec-7] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T22:00:40.129+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T22:00:40.133+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T22:00:40.499+08:00  INFO 44728 --- [http-nio-8082-exec-2] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T22:00:40.503+08:00  INFO 44728 --- [http-nio-8082-exec-2] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T22:16:19.142+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T22:16:19.245+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T22:16:34.508+08:00  INFO 44728 --- [http-nio-8082-exec-6] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T22:16:34.512+08:00  INFO 44728 --- [http-nio-8082-exec-6] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T22:16:37.804+08:00  INFO 44728 --- [http-nio-8082-exec-7] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T22:16:37.808+08:00  INFO 44728 --- [http-nio-8082-exec-7] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T22:16:40.756+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T22:16:40.761+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T22:16:49.330+08:00  INFO 44728 --- [http-nio-8082-exec-2] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: LBJ112
+2025-04-15T22:16:49.333+08:00  INFO 44728 --- [http-nio-8082-exec-2] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: LBJ112. Staff ID: 2504963821
+2025-04-15T22:17:09.095+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.s.CustomAuthenticationProvider     : Attempting authentication for username: admin
+2025-04-15T22:17:09.099+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.s.CustomAuthenticationProvider     : UserDetails loaded for admin. Authorities: [ROLE_ADMIN]
+2025-04-15T22:17:09.100+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.s.CustomAuthenticationProvider     : Performing direct password comparison for user: admin
+2025-04-15T22:17:09.100+08:00 DEBUG 44728 --- [http-nio-8082-exec-3] c.e.e.s.CustomAuthenticationProvider     : [AUTH] Comparing rawPassword: '123456' with encodedPassword: 'e10adc3949ba59abbe56e057f20f883e'
+2025-04-15T22:17:09.101+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.s.CustomAuthenticationProvider     : Direct comparison result for admin: true
+2025-04-15T22:17:09.101+08:00  INFO 44728 --- [http-nio-8082-exec-3] c.e.e.s.CustomAuthenticationProvider     : Authentication successful for username: admin
+2025-04-15T22:27:26.497+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: staff11
+2025-04-15T22:27:26.501+08:00  WARN 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : StaffService: No staff found for username: staff11
+2025-04-15T22:27:26.501+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : Generated 10-digit staff ID: 2504985952
+2025-04-15T22:27:26.501+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : Staff password encrypted without salt for username: staff11
+2025-04-15T22:27:26.501+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : Attempting to save staff. ID before save: 2504985952
+2025-04-15T22:27:26.509+08:00  INFO 44728 --- [http-nio-8082-exec-10] c.e.e.service.impl.StaffServiceImpl      : Save operation completed. Success: true. ID after save: 2504985952
+2025-04-15T22:27:30.059+08:00  INFO 44728 --- [http-nio-8082-exec-2] c.e.e.service.impl.StaffServiceImpl      : StaffService: Attempting to get staff by username: staff11
+2025-04-15T22:27:30.062+08:00  INFO 44728 --- [http-nio-8082-exec-2] c.e.e.service.impl.StaffServiceImpl      : StaffService: Found staff for username: staff11. Staff ID: 2504985952
+2025-04-15T22:27:53.417+08:00  INFO 44728 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-15T22:27:53.420+08:00  INFO 44728 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

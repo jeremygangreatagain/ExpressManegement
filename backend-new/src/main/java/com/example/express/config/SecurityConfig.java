@@ -27,7 +27,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 // Keep ObjectMapper and JavaTimeModule imports if needed elsewhere, or remove if not.
 // For customizer approach, we need Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule; 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.util.Arrays;
 
@@ -51,7 +51,8 @@ public class SecurityConfig {
       JwtAuthorizationFilter jwtAuthorizationFilter,
       StaffService staffService,
       CustomAuthenticationProvider customAuthenticationProvider) { // Add Custom Provider to constructor
-    this.userDetailsService = userDetailsService; // Keep for other potential uses if needed, though provider uses it directly
+    this.userDetailsService = userDetailsService; // Keep for other potential uses if needed, though provider uses it
+                                                  // directly
     this.captchaService = captchaService;
     this.jwtUtil = jwtUtil;
     this.jwtAuthorizationFilter = jwtAuthorizationFilter;
@@ -62,12 +63,12 @@ public class SecurityConfig {
   // Configure AuthenticationManagerBuilder to use the custom provider
   @Autowired
   public void configureAuthenticationManager(AuthenticationManagerBuilder auth) throws Exception {
-      auth.authenticationProvider(customAuthenticationProvider);
-      // Do NOT configure the default UserDetailsService here anymore,
-      // as the custom provider handles loading UserDetails and password checking.
-      // auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); // REMOVED
+    auth.authenticationProvider(customAuthenticationProvider);
+    // Do NOT configure the default UserDetailsService here anymore,
+    // as the custom provider handles loading UserDetails and password checking.
+    // auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    // // REMOVED
   }
-
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager)
@@ -84,10 +85,18 @@ public class SecurityConfig {
             .requestMatchers("/api/common/**").permitAll()
             // -- Specific rules before general /api/admin/** --
             // Allow STAFF and ADMIN to get order details and logistics via admin path
-            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/admin/orders/{id}").hasAnyAuthority("ROLE_ADMIN", "ROLE_STAFF")
-            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/admin/orders/{orderNumber}/logistics").hasAnyAuthority("ROLE_ADMIN", "ROLE_STAFF")
+            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/admin/orders/{id}")
+            .hasAnyAuthority("ROLE_ADMIN", "ROLE_STAFF")
+            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/admin/orders/{orderNumber}/logistics")
+            .hasAnyAuthority("ROLE_ADMIN", "ROLE_STAFF")
             // Allow STAFF and ADMIN to update orders via admin path
-            .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/admin/orders/{idOrOrderNumber}").hasAnyAuthority("ROLE_ADMIN", "ROLE_STAFF")
+            .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/admin/orders/{idOrOrderNumber}")
+            .hasAnyAuthority("ROLE_ADMIN", "ROLE_STAFF")
+            // Allow ADMIN to update staff by username
+            .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/admin/staffs/username/{username}")
+            .hasAuthority("ROLE_ADMIN")
+            // Allow ADMIN to create orders
+            .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/admin/orders").hasAuthority("ROLE_ADMIN")
             // -- General rules --
             .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN") // Other admin paths require ADMIN
             .requestMatchers("/api/staff/**").hasAuthority("ROLE_STAFF")
@@ -95,7 +104,7 @@ public class SecurityConfig {
             .requestMatchers("/api/audit/**").hasAuthority("ROLE_ADMIN")
             .anyRequest().authenticated())
         // Pass staffService to the JwtAuthenticationFilter constructor
-        .addFilter(new JwtAuthenticationFilter(authenticationManager, captchaService, jwtUtil, staffService)) 
+        .addFilter(new JwtAuthenticationFilter(authenticationManager, captchaService, jwtUtil, staffService))
         .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }
@@ -103,21 +112,27 @@ public class SecurityConfig {
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
       throws Exception {
-    // This bean definition might still be needed if AuthenticationManager is explicitly required elsewhere.
-    // Spring Boot 3+ typically manages this automatically when providers are configured.
-    // If you encounter issues where AuthenticationManager isn't found, uncommenting this might help,
-    // but ensure it correctly uses the configured providers (which it should by default).
+    // This bean definition might still be needed if AuthenticationManager is
+    // explicitly required elsewhere.
+    // Spring Boot 3+ typically manages this automatically when providers are
+    // configured.
+    // If you encounter issues where AuthenticationManager isn't found, uncommenting
+    // this might help,
+    // but ensure it correctly uses the configured providers (which it should by
+    // default).
     return authenticationConfiguration.getAuthenticationManager();
   }
 
-  // REMOVED configureGlobal - We now configure the provider directly using AuthenticationManagerBuilder injection
+  // REMOVED configureGlobal - We now configure the provider directly using
+  // AuthenticationManagerBuilder injection
   // @org.springframework.beans.factory.annotation.Autowired
   // public void configureGlobal(
-  //     org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder auth,
-  //     @Lazy PasswordEncoder passwordEncoder)
-  //     throws Exception {
-  //   // Default provider configuration - replaced by custom provider
-  //   auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+  // org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+  // auth,
+  // @Lazy PasswordEncoder passwordEncoder)
+  // throws Exception {
+  // // Default provider configuration - replaced by custom provider
+  // auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
   // }
 
   @Bean
@@ -141,11 +156,12 @@ public class SecurityConfig {
     return source;
   }
 
-  // Removed custom Jackson configuration as annotations are now used on entity fields
+  // Removed custom Jackson configuration as annotations are now used on entity
+  // fields
   // @Bean
   // public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
-  //     return builder -> {
-  //         builder.modules(new JavaTimeModule());
-  //     };
+  // return builder -> {
+  // builder.modules(new JavaTimeModule());
+  // };
   // }
 }

@@ -7,11 +7,13 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 // Removed Jackson annotations for LocalDateTime
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
 
 @Data
 @TableName("staff")
+@JsonIgnoreProperties(ignoreUnknown = true) // 忽略未知字段，如statusLoading
 // @KeySequence("SEQ_STAFF") // Example for Oracle/PostgreSQL, not needed for MySQL AUTO_INCREMENT
 public class Staff {
   // Explicitly stating AUTO, though it should be the default interpretation for AUTO_INCREMENT
