@@ -12,7 +12,7 @@
 
 本项目设计了一个基于Spring Boot和Vue.js的三角色协同快递业务信息管理系统，采用了前后端分离的架构。后端通过Maven构建RESTful API，前端使用Vue3实现基于组件的开发。MySQL8.0数据库和Redis缓存的组合提高了数据处理效率，MD5动态盐加密、JWT令牌和图形验证码的双重身份验证确保了系统安全
 
-![](C:\Users\gan\Desktop\GraduationProject\图\首页图.png)
+![首页图](C:\Users\gan\Desktop\GraduationProject\图\首页图.png)
 
 
 
